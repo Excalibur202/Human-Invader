@@ -22,11 +22,11 @@ public class TerminalController : MonoBehaviour
     string inputString;
     Mutex bufferMutex = new Mutex();
 
-    //public List<RoomInfo> roomInfo = new List<RoomInfo>();
+    public List<RoomInfo> roomInfo = new List<RoomInfo>();
 
     private void Start()
     {
-        //StartCoroutine(ConnectToMap());
+        StartCoroutine(ConnectToMap());
 
         Action HELP = () =>
         {
@@ -67,14 +67,14 @@ public class TerminalController : MonoBehaviour
             {
                 case 1:
                     int lastSector = -1;
-                    //foreach (RoomInfo room in roomInfo)
-                    //{
-                    //    if (room.sector != lastSector)
-                    //    {
-                    //        AddStringToLog(room.sector.ToString());
-                    //        lastSector = room.sector;
-                    //    }
-                    //}
+                    foreach (RoomInfo room in roomInfo)
+                    {
+                        if (room.sector != lastSector)
+                        {
+                            AddStringToLog(room.sector.ToString());
+                            lastSector = room.sector;
+                        }
+                    }
                     break;
                 default:
                     AddStringToLog("INPUT ERROR!");
@@ -192,14 +192,14 @@ public class TerminalController : MonoBehaviour
         bufferMutex.ReleaseMutex();
     }
 
-    //private IEnumerator ConnectToMap()
-    //{
-    //    while (roomInfo.Count < 1)
-    //    {
-    //        roomInfo = GameObject.FindGameObjectWithTag("MapGen").GetComponent<MapGenerator>().spawnedRooms;
+    private IEnumerator ConnectToMap()
+    {
+        while (roomInfo.Count < 1)
+        {
+            roomInfo = GameObject.FindGameObjectWithTag("MapGen").GetComponent<MapGenerator>().spawnedRooms;
 
-    //        yield return new WaitForSeconds(0.25f);
-    //    }
-    //}
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
 
 }
