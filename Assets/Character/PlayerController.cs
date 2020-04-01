@@ -172,9 +172,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Speed",0f);
 
 
-            
-
-
             if (characterController.isGrounded)
                 animator.SetBool("InAir", false);
             else
@@ -214,14 +211,14 @@ public class PlayerController : MonoBehaviour
 
         //Apply final movement
         if (currentSpeed > 0)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime*roationSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime*rotationSpeed);
             //characterYaw = Mathf.Lerp(characterYaw, cameraYaw, Time.deltaTime * 10);
 
         characterController.Move(characterMotion + gravityMotion);
         lastCharacterMotion = characterMotion;
 
        // if (keyboardInput != Vector3.zero)
-        direction =  Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * roationSpeed);
+        direction =  Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * rotationSpeed);
         animator.SetFloat("Direction", -direction);
     }
 
@@ -271,7 +268,6 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
         
-
 
         cameraTransform.position = targetPosition;
 
