@@ -32,6 +32,13 @@ public class PlayerController : MonoBehaviour
     public float characterGravityAcceleration = -9.80665f;
 
 
+    [Header("Shooting")]
+    public Transform gunBarrel;
+    public float damage = 23f;
+    public float shotsPerSec = 5f;
+    private float fireRate = 0.2f;
+    private float nextFire = 0f;
+
     //Camera Rotation Vars
     [Header("Camera")]
     public GameObject cameraPrefab;
@@ -94,6 +101,7 @@ public class PlayerController : MonoBehaviour
             cameraTransform = go.transform;
         }
 
+        fireRate = 1f / shotsPerSec;
 
     }
 
@@ -139,7 +147,8 @@ public class PlayerController : MonoBehaviour
         if (keyboardInput != Vector3.zero)
             characterDir = Vector3.Lerp(characterDir, keyboardInput,Time.deltaTime*5f);
 
-
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+            Shoot();
 
 
         Debug.DrawLine(transform.position, transform.position + characterDir, Color.yellow, Time.deltaTime);
@@ -274,5 +283,65 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(transform.position, targetPosition,Color.green,Time.deltaTime);
     }
 
+
+
+
+    private Vector3 rawShootingPoint = Vector3.zero;
+    private Vector3 barrelShootingDirection = Vector3.zero;
+    private Vector3 lastHitPoint = Vector3.zero;
+    private RaycastHit cameraShootHit;
+    private RaycastHit [] playerShootHits;
+    private HealthController hc;
+    private float currentDamage;
+    
+
+    private void Shoot()
+    {
+        if (Time.time <= nextFire)
+            return;
+
+        if(!gunBarrel)
+        {
+            Debug.Log("Gun barrel transform missing. Please provide it.");
+            return;
+        }
+
+        currentDamage = damage;
+
+        rawShootingPoint = cameraTransform.position + (cameraTransform.forward * 1000f);
+
+        if(Physics.Raycast(cameraTransform.position,cameraTransform.forward,out cameraShootHit, 1000f)){
+            rawShootingPoint = cameraShootHit.point;
+        }
+
+        Debug.DrawLine(cameraTransform.position, rawShootingPoint,Color.red,1f);
+
+        barrelShootingDirection = (rawShootingPoint - gunBarrel.position).normalized;
+
+        playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f);
+
+        lastHitPoint = gunBarrel.position + (barrelShootingDirection * 1000f);
+
+        for (int i = 0; i < playerShootHits.Length; i++)
+        {
+            hc = playerShootHits[i].collider.gameObject.GetComponent<HealthController>() as HealthController;
+            lastHitPoint = playerShootHits[i].point;
+
+            if (hc != null)
+            {
+                hc.Damage(currentDamage);
+                currentDamage -= 10f;
+
+                if (currentDamage <= 0)
+                    break;
+            }
+            else break;
+        }
+
+        Debug.DrawLine(gunBarrel.position, lastHitPoint, Color.green, 1f);
+
+        nextFire = Time.time + fireRate;
+    }
+    
 
 }

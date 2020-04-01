@@ -1134,12 +1134,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &303211159 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4610632900464139950, guid: 6af6267b9d0618e47b4280c6bb819eca,
-    type: 3}
-  m_PrefabInstance: {fileID: 678587917}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &306309039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,12 +2714,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644923743}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!143 &645762071 stripped
-CharacterController:
-  m_CorrespondingSourceObject: {fileID: 1444799230317969555, guid: 6af6267b9d0618e47b4280c6bb819eca,
-    type: 3}
-  m_PrefabInstance: {fileID: 678587917}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &667177003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2880,41 +2868,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: characterController
-      value: 
-      objectReference: {fileID: 645762071}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 303211159}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: cameraBackOffset
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: cameraSideOffset
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: cameraHeight
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: cameraHitOffset
-      value: 0.197
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
-        type: 3}
-      propertyPath: roationSpeed
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1444799230317969557, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}

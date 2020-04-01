@@ -63,8 +63,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e44e2c30f39474b8ad344a777200d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  characterController: {fileID: 0}
+  animator: {fileID: 4610632900464139950}
+  characterController: {fileID: 1444799230317969555}
   maxJogSpeed: 4.5
   jogAcceleration: 7.5
   sprintSpeed: 7
@@ -72,20 +72,24 @@ MonoBehaviour:
   deacceleration: 10
   currentSpeed: 0
   sprinting: 0
+  rotationSpeed: 15
   jumpVelocity: 6.9
   lowJumpMultiplier: 1.5
   fallMultiplier: 2
   characterGravityAcceleration: -9.80665
+  gunBarrel: {fileID: 8469700541842377641}
+  damage: 23
+  shotsPerSec: 5
   cameraPrefab: {fileID: 0}
-  cameraHeight: 1
-  cameraSideOffset: 1
-  cameraBackOffset: 3
+  cameraHeight: 0.5
+  cameraSideOffset: 0.5
+  cameraBackOffset: 2
+  cameraHitOffset: 0.197
   mouseSensibility: 6
   cameraYaw: 0
   cameraPitch: 0
   maxPitch: 90
   minPitch: -90
-  roationSpeed: 7
 --- !u!1001 &1444799231182887118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,6 +282,18 @@ PrefabInstance:
 --- !u!4 &5869951665317114836 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 89dca1f49eb7fd34f9ca79db5ff58d1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1444799231182887118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4610632900464139950 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 89dca1f49eb7fd34f9ca79db5ff58d1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1444799231182887118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8469700541842377641 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7027479066279875431, guid: 89dca1f49eb7fd34f9ca79db5ff58d1a,
     type: 3}
   m_PrefabInstance: {fileID: 1444799231182887118}
   m_PrefabAsset: {fileID: 0}
