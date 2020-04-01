@@ -283,9 +283,6 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(transform.position, targetPosition,Color.green,Time.deltaTime);
     }
 
-
-
-
     private Vector3 rawShootingPoint = Vector3.zero;
     private Vector3 barrelShootingDirection = Vector3.zero;
     private Vector3 lastHitPoint = Vector3.zero;
