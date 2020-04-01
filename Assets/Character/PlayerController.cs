@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float deacceleration = 3f;
     public float currentSpeed = 0;
     public bool sprinting = false;
-
+    public float rotationSpeed = 15f;
 
     //Gravity Vars
     [Header("Jumping/Gravity")]
@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour
     public float cameraHeight = 1f;
     public float cameraSideOffset = 1f;
     public float cameraBackOffset = 1f;
-
+    [Range(0.01f, 0.5f)]
+    public float cameraHitOffset = 0.01f;
 
     public float mouseSensibility = 1f;
     public float cameraYaw = 0;
@@ -224,7 +225,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Direction", -direction);
     }
 
-    public float roationSpeed = 3f;
+    
 
     public void LateUpdate()
     {
@@ -257,14 +258,23 @@ public class PlayerController : MonoBehaviour
     private void UpdateCameraMovement()
     {
         cameraTransform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
+
+
+
         Vector3 targetPosition = transform.position - (cameraTransform.forward * cameraBackOffset) + (Vector3.up*cameraHeight) + (cameraTransform.right*cameraSideOffset);
         Debug.DrawLine(transform.position, targetPosition, Color.red, Time.deltaTime);
+       
+        
         Vector3 cdir = (-(cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset));
         RaycastHit hit;
+
         if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude))
-            targetPosition = transform.position + (cdir.normalized * (hit.distance - 0.1f));
-        else
-            cameraTransform.position = transform.position + cdir;//targetPosition;
+            targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
+        
+
+
+        cameraTransform.position = targetPosition;
+
         Debug.DrawLine(transform.position, targetPosition,Color.green,Time.deltaTime);
     }
 

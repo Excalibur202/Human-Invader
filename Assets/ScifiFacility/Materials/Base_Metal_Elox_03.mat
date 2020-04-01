@@ -118,13 +118,13 @@ Material:
     m_Floats:
     - _BaseDielectricSmoothness: 1
     - _BaseDirtAmount: 0.001
-    - _BaseDirtStrength: 0.05
+    - _BaseDirtStrength: 0.13
     - _BaseMetallic: 1
     - _BaseMetalness: 1
-    - _BaseNormalStrength: 0.102
+    - _BaseNormalStrength: 0.15
     - _BaseRoughness: 0.5
     - _BaseSmoothnes: 1
-    - _BaseSmoothness: 0.761
+    - _BaseSmoothness: 0.22
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailCavityStrength: 0
@@ -132,7 +132,7 @@ Material:
     - _DetailEdgeMetallicSmoothness: 0.74
     - _DetailEdgeSmoothness: 0.347
     - _DetailEdgeStrength: 1
-    - _DetailEdgeWear: 0.079
+    - _DetailEdgeWear: 0.54
     - _DetailMetalSmoothness: 0.33
     - _DetailNormalMapScale: 1
     - _DetailOcclusionStrength: 0.47
