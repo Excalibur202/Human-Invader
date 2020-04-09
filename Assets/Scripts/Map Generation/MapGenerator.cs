@@ -142,7 +142,6 @@ public class MapGenerator : MonoBehaviour
 
         //Guarda o script entrada do selected prefab
         RoomEntrance roomEntrance;
-        int test = 0;
 
         //Gerar Mapa
         while (true)
