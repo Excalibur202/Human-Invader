@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SaveLoad;
 
-public class test : MonoBehaviour
+public class NeuralNetManager : MonoBehaviour
 {
     public float[] inputVec = new float[4];
     NeuralNetwork neuralNetwork;
@@ -10,7 +11,12 @@ public class test : MonoBehaviour
     void Start()
     {
         neuralNetwork = new NeuralNetwork(3, 3, 5, inputVec);
-        DebugNeuralNet();
+
+        //Save
+        //neuralNetwork.SaveBinary();
+
+
+        //DebugNeuralNet();
     }
 
     // Update is called once per frame
@@ -27,16 +33,16 @@ public class test : MonoBehaviour
         }
     }
 
-    void DebugNeuralNet()
-    {
-        foreach(Node neuralNode in neuralNetwork.hidenNodes)
-        {
-            Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-            Debug.Log("Bias: "+ neuralNode.bias);
-            Debug.Log("Weights: ");
-            foreach (float weight in neuralNode.weights)
-            Debug.Log(weight);
-            Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        }
-    }
+    //void DebugNeuralNet()
+    //{
+    //    foreach(Node neuralNode in neuralNetwork.hidenNodes)
+    //    {
+    //        Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+    //        Debug.Log("Bias: "+ neuralNode.bias);
+    //        Debug.Log("Weights: ");
+    //        foreach (float weight in neuralNode.weights)
+    //        Debug.Log(weight);
+    //        Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+    //    }
+    //}
 }
