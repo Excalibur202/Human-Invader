@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class RoomEntrance : MonoBehaviour
 {
-    public GameObject textSector;
-    public List<GameObject> exitsText;
     public bool obstacles;
     public List<Transform> exitPoints;
-    public GameObject room;
+
+    public GameObject roomDimension;
     public Transform rightCorner;
+
+    public List<GameObject> navMeshObjs;
+    public List<Transform> navMeshRightCorners;
+
 }

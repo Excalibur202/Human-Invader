@@ -176,26 +176,26 @@ public class RoomInfo
     }
 
 
-    public void DebugSector()
-    {
-        RoomEntrance roomEntrance = prefab.GetComponent<RoomEntrance>();
+    //public void DebugSector()
+    //{
+    //    RoomEntrance roomEntrance = prefab.GetComponent<RoomEntrance>();
 
-        if (roomEntrance)
-        {
-            if (roomEntrance.textSector)
-                roomEntrance.textSector.GetComponent<TextMesh>().text = sector.ToString() + subSector;
+    //    if (roomEntrance)
+    //    {
+    //        if (roomEntrance.textSector)
+    //            roomEntrance.textSector.GetComponent<TextMesh>().text = sector.ToString() + subSector;
 
-            if (roomEntrance.exitsText != null)
-            {
-                int index = 0;
-                foreach (GameObject textObj in roomEntrance.exitsText)
-                {
-                    textObj.GetComponent<TextMesh>().text = exitPoints[index].exitState.ToString();
-                    index++;
-                }
-            }
-        }
-    }
+    //        if (roomEntrance.exitsText != null)
+    //        {
+    //            int index = 0;
+    //            foreach (GameObject textObj in roomEntrance.exitsText)
+    //            {
+    //                textObj.GetComponent<TextMesh>().text = exitPoints[index].exitState.ToString();
+    //                index++;
+    //            }
+    //        }
+    //    }
+    //}
 
 }
 
