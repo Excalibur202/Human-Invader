@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System;
 
+[Serializable]
 public class NeuralNetwork
 {
-    public Node[,] hidenNodes; // not public 
+    Node[,] hidenNodes; // not public 
     Node[] outputNodes;
     public float[] inputVec;
     public float[] outputVec;
+    float[] weightsZero;
 
     //Constructor
     public NeuralNetwork(int hidenNColumns, int hidenNRows, int nOutputs, float[] inputNodesRef)
@@ -30,12 +32,16 @@ public class NeuralNetwork
         for (int outputNodeIndex = 0; outputNodeIndex < outputNodes.Length; outputNodeIndex++)
             outputNodes[outputNodeIndex] = new Node(0, new float[hidenNodes.GetLength(1)]);
 
-        //Rand NeuralNet
-        RandNeuralNetwork();
+        weightsZero = new float[hidenNodes.GetLength(1)];
+        for (int weight = 0; weight < weightsZero.Length; weight++)
+            weightsZero[weight] = 0;
+
+            //Rand NeuralNet
+            RandNeuralNetwork();
     }
 
     //Evaluate
-    public void Eval()
+    public void Eval()//alterar para eval geral
     {
         Matrix calcMatrix;
         float[] outputVecAux;
@@ -44,6 +50,8 @@ public class NeuralNetwork
         float[] bias = new float[hidenNodes.GetLength(1)];
         outputVecAux = inputVec;//new float[inputVec.Length]; SEE LATER
 
+
+
         for (int column = 0; column < hidenNodes.GetLength(0); column++)
         {
             //calcMatrix = new Matrix(hidenNodes.GetLength(1), outputVecAux.Length);
@@ -51,8 +59,16 @@ public class NeuralNetwork
 
             for (int row = 0; row < hidenNodes.GetLength(1); row++)
             {
-                calcMatrix.AddRow(hidenNodes[column, row].weights);
-                bias[row] = hidenNodes[column, row].bias;
+                if (hidenNodes[column, row].activated)
+                {
+                    calcMatrix.AddRow(hidenNodes[column, row].weights);
+                    bias[row] = hidenNodes[column, row].bias;
+                }
+                else
+                {
+                    calcMatrix.AddRow(weightsZero);
+                    bias[row] = 0;
+                }
             }
 
             outputVecAux = (column > 0) ? (calcMatrix * outputVecAux) : (calcMatrix * inputVec);
@@ -91,10 +107,12 @@ public class NeuralNetwork
 
         foreach (Node neuralNode in hidenNodes)
         {
-            neuralNode.bias = (float)((rand.NextDouble() * 2)-1);
+            neuralNode.bias = (float)((rand.NextDouble() * 2) - 1);
 
             for (int weightIndex = 0; weightIndex < neuralNode.weights.Length; weightIndex++)
                 neuralNode.weights[weightIndex] = (float)((rand.NextDouble() * 2) - 1);
+
+
         }
 
         foreach (Node neuralNode in outputNodes)
@@ -106,12 +124,16 @@ public class NeuralNetwork
         }
     }
 
+   
 }
 
 public class Node
 {
+
     public float bias = 0;
     public float[] weights;
+
+    public bool activated = false;
 
     public Node() { }
     public Node(float bias, float[] weights)
@@ -119,5 +141,4 @@ public class Node
         this.bias = bias;
         this.weights = weights;
     }
-
 }
