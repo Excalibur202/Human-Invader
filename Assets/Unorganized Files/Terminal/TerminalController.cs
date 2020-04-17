@@ -89,9 +89,9 @@ public class TerminalController : MonoBehaviour {
                     else if (input.text.Length > 0)
                         input.text = input.text.Remove (input.text.Length - 1);
                 } else
-                // Remove unwanted characters
-                if (inputtedString[i] < 32 || inputtedString[i] > 126)
-                    inputtedString = inputtedString.Remove (i);
+                    // Remove unwanted characters
+                    if (inputtedString[i] < 32 || inputtedString[i] > 126)
+                        inputtedString = inputtedString.Remove (i);
             }
         }
 
@@ -99,22 +99,24 @@ public class TerminalController : MonoBehaviour {
     }
 
     public void ParseInput () {
-        inputString = input.text.ToUpper ();
+        if (input.text.Length > 0) {
+            inputString = input.text.ToUpper ();
 
-        MoveInputToLog ();
+            MoveInputToLog ();
 
-        // If valid input
-        if (InputDiscrepancyCheck ()) {
-            // Try to match input with a valid command
-            string inputtedCommand = inputString.Split (' ') [0]; // get first word
+            // If valid input
+            if (InputDiscrepancyCheck ()) {
+                // Try to match input with a valid command
+                string inputtedCommand = inputString.Split (' ') [0]; // get first word
 
-            if (commands.ContainsKey (inputtedCommand))
-                commands[inputtedCommand].action.Invoke ();
-            else
-                AddStringToLog ("INPUT ERROR! " + inputtedCommand + " is not a valid command!");
+                if (commands.ContainsKey (inputtedCommand))
+                    commands[inputtedCommand].action.Invoke ();
+                else
+                    AddStringToLog ("INPUT ERROR! " + inputtedCommand + " is not a valid command!");
+            }
+
+            AddStringToLog ("");
         }
-
-        AddStringToLog ("");
     }
 
     // Check inputted string for general input imcompatibilities (true good, false bad)
