@@ -24,8 +24,8 @@ public class TerminalController : MonoBehaviour {
     public List<RoomInfo> roomInfo = new List<RoomInfo> ();
 
     public void Initialize () {
-        if (GameObject.Find ("Map").GetComponentInChildren<MapGenerator> ())
-            StartCoroutine (ConnectToMap ());
+        
+        StartCoroutine (ConnectToMap ());
 
         Action HELP = () => {
             string[] inputArray = inputString.Split (' ');
@@ -201,7 +201,7 @@ public class TerminalController : MonoBehaviour {
 
     private IEnumerator ConnectToMap () {
         while (roomInfo.Count < 1) {
-            roomInfo = GameObject.FindGameObjectWithTag ("MapGen").GetComponent<MapGenerator> ().spawnedRooms;
+            roomInfo = GameObject.FindGameObjectWithTag ("Map").GetComponent<MapGenerator> ().spawnedRooms;
 
             yield return new WaitForSeconds (0.25f);
         }
