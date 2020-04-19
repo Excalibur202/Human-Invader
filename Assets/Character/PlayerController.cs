@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    public bool usingTerminal;
 
     public Animator animator;
     //Player movement
@@ -123,13 +124,15 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Keyboard Camera Relative Direction
+        if(!usingTerminal){
         cameraForward = cameraTransform.transform.forward;
         cameraRight = cameraTransform.transform.right;
-
+        
         cameraForward.y = 0;
         cameraRight.y = 0;
         cameraRight.Normalize();
         cameraForward.Normalize();
+        }
         
         keyboardInput = (cameraForward * verticalInput + cameraRight * horizontalInput).normalized;
         #endregion
@@ -236,7 +239,9 @@ public class PlayerController : MonoBehaviour
     public void LateUpdate()
     {
         UpdateAnimator();
-        UpdateCameraMovement();
+
+        if(!usingTerminal)
+            UpdateCameraMovement();
     }
 
 

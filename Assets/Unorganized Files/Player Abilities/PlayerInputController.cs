@@ -26,7 +26,7 @@ public class PlayerInputController : MonoBehaviour {
 
     void Update () {
         if (!connectedTerminal) {
-            //playerController.enabled = true;
+            playerController.enabled = true;
 
             UpdateInputs ();
 
@@ -43,7 +43,28 @@ public class PlayerInputController : MonoBehaviour {
             }
 
         } else {
-            //playerController.enabled = false;
+            playerController.enabled = false;
+
+            playerController.transform.root.transform.position =
+                connectedTerminal.transform.root.position * 1.0f +
+                connectedTerminal.transform.root.forward * -2f +
+                connectedTerminal.transform.root.right * 0f;
+
+            playerController.transform.root.forward =
+                new Vector3 (transform.root.transform.position.x, playerController.transform.root.position.y, transform.root.transform.position.z) -
+                playerController.transform.root.position;
+
+            cam.transform.position = Vector3.Lerp (
+                cam.transform.position,
+                connectedTerminal.transform.position * 1.0f +
+                connectedTerminal.transform.up * 1.0f +
+                connectedTerminal.transform.right * 0.5f,
+                Time.fixedDeltaTime);
+
+            cam.transform.forward = Vector3.Lerp (
+                cam.transform.forward,
+                (connectedTerminal.transform.position - cam.transform.position).normalized,
+                Time.fixedDeltaTime);
 
             UpdateTerminalInputs ();
         }
@@ -88,6 +109,8 @@ public class PlayerInputController : MonoBehaviour {
         if (Physics.Raycast (cam.transform.position, cam.transform.forward, out raycastHit, 3, LayerMask.GetMask ("Interactable"))) {
             if (raycastHit.transform.tag.Equals ("Terminal"))
                 connectedTerminal = (TerminalController) raycastHit.transform.GetComponentInChildren (typeof (TerminalController));
+            if (connectedTerminal.logStrings.Count == 0)
+                connectedTerminal.Initialize ();
         }
 
         return;

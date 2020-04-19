@@ -23,8 +23,9 @@ public class TerminalController : MonoBehaviour {
 
     public List<RoomInfo> roomInfo = new List<RoomInfo> ();
 
-    private void Start () {
-        //StartCoroutine(ConnectToMap());
+    public void Initialize () {
+        if (GameObject.Find ("Map").GetComponentInChildren<MapGenerator> ())
+            StartCoroutine (ConnectToMap ());
 
         Action HELP = () => {
             string[] inputArray = inputString.Split (' ');
@@ -71,11 +72,14 @@ public class TerminalController : MonoBehaviour {
                     break;
             }
         };
-        commands.Add ("LIST", new TerminalCommand ("Lists stuff", LIST, false,
+        commands.Add ("LIST", new TerminalCommand ("Lists information from the map database", LIST, false,
             "'LIST'",
-            "'LIST [NAME]'"));
+            "'LIST [FILTER STRING]'"));
 
-        AddStringToLog ("Enter 'HELP' to list the available commands.\nEnter 'HELP [COMMAND]' to get more details about a command.\n");
+        AddStringToLog (
+            "Welcome, user [ERROR_NaN_error].",
+            "Enter 'HELP' to list the available commands.",
+            "Enter 'HELP [COMMAND]' to learn more about an existing command.\n");
     }
 
     public void AddStringToInput (string inputtedString) {
@@ -158,10 +162,11 @@ public class TerminalController : MonoBehaviour {
         UpdateLogText ();
     }
 
-    private void AddStringToLog (string input) {
-        logStrings.Add (input + "\n");
-
-        UpdateLogText ();
+    private void AddStringToLog (params string[] input) {
+        for (int i = 0; i < input.Length; i++) {
+            logStrings.Add (input[i] + "\n");
+            UpdateLogText ();
+        }
     }
 
     // Take the latest string in the log strings and add it to the terminal's log text buffer
@@ -182,7 +187,10 @@ public class TerminalController : MonoBehaviour {
         while (logBuffer.Count > 0) {
             log.text += logBuffer.Dequeue ();
 
-            yield return new WaitForSeconds (Random.Range (0.01f, 0.04f));
+            if (log.text.Last () == '\n')
+                yield return new WaitForSeconds (Random.Range (0.4f, 0.9f));
+            else
+                yield return new WaitForSeconds (Random.Range (0.01f, 0.05f));
         }
 
         bufferMutex.WaitOne ();
@@ -197,5 +205,4 @@ public class TerminalController : MonoBehaviour {
             yield return new WaitForSeconds (0.25f);
         }
     }
-
 }

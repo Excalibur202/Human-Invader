@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9042888793663585993}
   - component: {fileID: 9042888793663585994}
   - component: {fileID: 9042888793663585995}
-  m_Layer: 0
-  m_Name: Terminal
-  m_TagString: Untagged
+  m_Layer: 10
+  m_Name: Terminal Monitor
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9042888793663585992}
     m_Modifications:
+    - target: {fileID: 1149163899951457370, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666735487322731, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666735960732995, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666736157820633, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9116666736157820634, guid: 9076bc28a0cb81a41918508d415e699b,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -120,6 +140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666736169439074, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9116666736169439079, guid: 9076bc28a0cb81a41918508d415e699b,
         type: 3}
@@ -190,6 +215,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.083333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666736529403594, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116666736588401676, guid: 9076bc28a0cb81a41918508d415e699b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9076bc28a0cb81a41918508d415e699b, type: 3}
