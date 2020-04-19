@@ -139,9 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e6bac83916deb4199ae55107b6e426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  abilities: {fileID: 0}
-  cam: {fileID: 0}
+  playerController: {fileID: 578253831}
+  abilities: {fileID: 116203281}
+  cam: {fileID: 1134988890}
   connectedTerminal: {fileID: 0}
 --- !u!114 &116203281
 MonoBehaviour:
@@ -156,10 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: []
-  cam: {fileID: 0}
-  mineOrigin: {fileID: 0}
-  minePrefab: {fileID: 0}
-  mineHologramPrefab: {fileID: 0}
+  cam: {fileID: 1134988890}
+  mineOrigin: {fileID: 578253832}
+  minePrefab: {fileID: 4480565736346246234, guid: 897dd6ac7df4b2f48a938e7f71a357ae,
+    type: 3}
+  mineHologramPrefab: {fileID: 8349359112509805072, guid: ea0b37feca9bf2f4abd063a303b56ab9,
+    type: 3}
   mineSpeed: 20
 --- !u!1 &465317478
 GameObject:
@@ -344,6 +346,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
+--- !u!114 &578253831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1444799230317969554, guid: 6af6267b9d0618e47b4280c6bb819eca,
+    type: 3}
+  m_PrefabInstance: {fileID: 578253830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116203279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e44e2c30f39474b8ad344a777200d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &578253832 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1444799230317969552, guid: 6af6267b9d0618e47b4280c6bb819eca,
+    type: 3}
+  m_PrefabInstance: {fileID: 578253830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1134988888
 GameObject:
   m_ObjectHideFlags: 0
