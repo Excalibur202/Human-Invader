@@ -78,6 +78,7 @@ public class TerminalController : MonoBehaviour {
 
         AddStringToLog (
             "Welcome, user [ERROR_NaN_error].",
+            "You may exit this interface at anytime by pressing ESC.\n",
             "Enter 'HELP' to list the available commands.",
             "Enter 'HELP [COMMAND]' to learn more about an existing command.\n");
     }
