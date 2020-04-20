@@ -45,10 +45,13 @@ public class PlayerInputController : MonoBehaviour {
         } else {
             playerController.enabled = false;
 
+
             playerController.transform.root.transform.position =
-                connectedTerminal.transform.root.position * 1.0f +
-                connectedTerminal.transform.root.forward * -2f +
-                connectedTerminal.transform.root.right * 0f;
+                connectedTerminal.transform.root.position;
+            //playerController.transform.root.transform.position =
+            //    connectedTerminal.transform.root.position * 1.0f +
+            //    connectedTerminal.transform.root.forward * -2f +
+            //    connectedTerminal.transform.root.right * 0f;
 
             playerController.transform.root.forward =
                 new Vector3 (transform.root.transform.position.x, playerController.transform.root.position.y, transform.root.transform.position.z) -

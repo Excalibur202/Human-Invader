@@ -201,7 +201,7 @@ public class TerminalController : MonoBehaviour {
 
     private IEnumerator ConnectToMap () {
         while (roomInfo.Count < 1) {
-            roomInfo = GameObject.FindGameObjectWithTag ("Map").GetComponent<MapGenerator> ().spawnedRooms;
+            roomInfo = MapGenerator.instance.spawnedRooms;//GameObject.FindGameObjectWithTag ("Map").GetComponent<MapGenerator> ().spawnedRooms;
 
             yield return new WaitForSeconds (0.25f);
         }

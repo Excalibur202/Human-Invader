@@ -38,29 +38,29 @@ public class AIEnemy : MonoBehaviour
                 
                 mapArea = map.navMesh.GetArea(sizeX, sizeY, this.gameObject.transform.position);
 
-                //while (areaDebug.Count > 0)
-                //{
+                while (areaDebug.Count > 0)
+                {
 
-                //    Destroy(areaDebug[0]);
-                //    areaDebug.RemoveAt(0);
-                //}
+                    Destroy(areaDebug[0]);
+                    areaDebug.RemoveAt(0);
+                }
 
-                //for (int posX = 0; posX < mapArea.GetLength(0); posX++)
-                //    for (int posY = 0; posY < mapArea.GetLength(1); posY++)
-                //    {
-                //        if (mapArea[posX, posY] == 'w')
-                //            areaDebug.Add(Instantiate(cubeTest, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTest.transform.rotation));
-                //        else if (mapArea[posX, posY] == 'a')
-                //        {
-                //            if (cubeTestAI)
-                //                areaDebug.Add(Instantiate(cubeTestAI, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestAI.transform.rotation));
-                //        }
-                //        else if (mapArea[posX, posY] == 'e')
-                //        {
-                //            if (cubeTestEnemy)
-                //                areaDebug.Add(Instantiate(cubeTestEnemy, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestEnemy.transform.rotation));
-                //        }
-                //    }
+                for (int posX = 0; posX < mapArea.GetLength(0); posX++)
+                    for (int posY = 0; posY < mapArea.GetLength(1); posY++)
+                    {
+                        if (mapArea[posX, posY] == 'w')
+                            areaDebug.Add(Instantiate(cubeTest, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTest.transform.rotation));
+                        else if (mapArea[posX, posY] == 'a')
+                        {
+                            if (cubeTestAI)
+                                areaDebug.Add(Instantiate(cubeTestAI, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestAI.transform.rotation));
+                        }
+                        else if (mapArea[posX, posY] == 'e')
+                        {
+                            if (cubeTestEnemy)
+                                areaDebug.Add(Instantiate(cubeTestEnemy, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestEnemy.transform.rotation));
+                        }
+                    }
 
                 last2DPos = pos2D;
                 timer = 0;

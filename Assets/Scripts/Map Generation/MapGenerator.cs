@@ -352,7 +352,7 @@ public class MapGenerator : MonoBehaviour
 
                             //Adiciona a informaçao do prefab a lista de prefabs gerados
                             spawnedRooms.Add(new RoomInfo(spawnedRoom, nextPrefab, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                                roomEntrance.rightCorner.transform.position, roomEntrance.obstacles, thisSector, thisSubSector));
+                                roomEntrance.rightCorner.transform.position,spawnedRoom.transform, roomEntrance.obstacles, thisSector, thisSubSector));
 
                             spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                             spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -388,7 +388,7 @@ public class MapGenerator : MonoBehaviour
 
                             //Adiciona a informaçao do prefab a lista de prefabs gerados
                             spawnedRooms.Add(new RoomInfo(spawnedRoom, nextPrefab, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                                roomEntrance.rightCorner.transform.position, roomEntrance.obstacles, -1, '*'));
+                                roomEntrance.rightCorner.transform.position, spawnedRoom.transform, roomEntrance.obstacles, -1, '*'));
 
                             spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = spawnedRooms[spawnedRooms.Count - 2].exitPoints;
                             spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -548,7 +548,7 @@ public class MapGenerator : MonoBehaviour
 
                         //Adiciona a informaçao do prefab a lista de prefabs gerados
                         spawnedRooms.Add(new RoomInfo(spawnedRoom, nextRoom, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                            roomEntrance.rightCorner.transform.position, roomEntrance.obstacles, -2, '*'));
+                            roomEntrance.rightCorner.transform.position,spawnedRoom.transform, roomEntrance.obstacles, -2, '*'));
 
                         spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                         spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -574,7 +574,7 @@ public class MapGenerator : MonoBehaviour
 
                     //Adiciona a informaçao do prefab a lista de prefabs gerados
                     spawnedRooms.Add(new RoomInfo(spawnedRoom, nextRoom, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                        roomEntrance.rightCorner.transform.position, roomEntrance.obstacles, -2, '*'));
+                        roomEntrance.rightCorner.transform.position,spawnedRoom.transform, roomEntrance.obstacles, -2, '*'));
 
                     spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                     spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
