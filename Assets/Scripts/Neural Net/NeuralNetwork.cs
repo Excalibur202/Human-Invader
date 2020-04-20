@@ -11,6 +11,8 @@ public class NeuralNetwork
     public float[] outputVec;
     float[] weightsZero;
 
+
+
     //Constructor
     public NeuralNetwork(int hidenNColumns, int hidenNRows, int nOutputs, float[] inputNodesRef)
     {

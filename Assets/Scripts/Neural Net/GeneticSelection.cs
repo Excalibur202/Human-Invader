@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SaveLoad;
 
-public class NeuralNetManager : MonoBehaviour
+public class GeneticSelection : MonoBehaviour
 {
     public float[] inputVec = new float[4];
     NeuralNetwork neuralNetwork;
@@ -23,14 +23,14 @@ public class NeuralNetManager : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("///////////////////////////////////////////////////////////////////////////////");
-            neuralNetwork.Eval();
-            Debug.Log("Output Vec:");
-            foreach (float outputValue in neuralNetwork.outputVec)
-                Debug.Log(outputValue);
-        }
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Debug.Log("///////////////////////////////////////////////////////////////////////////////");
+        //    neuralNetwork.Eval();
+        //    Debug.Log("Output Vec:");
+        //    foreach (float outputValue in neuralNetwork.outputVec)
+        //        Debug.Log(outputValue);
+        //}
     }
 
     //void DebugNeuralNet()
