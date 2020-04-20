@@ -242,6 +242,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 116203281, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 116203283, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1444799230317969552, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -342,6 +350,7 @@ MonoBehaviour:
     type: 3}
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
+  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
   spawnRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
