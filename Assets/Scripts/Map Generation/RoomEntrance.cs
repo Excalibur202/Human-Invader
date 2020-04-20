@@ -8,9 +8,10 @@ public class RoomEntrance : MonoBehaviour
     public List<Transform> exitPoints;
 
     public GameObject roomDimension;
-    public Transform rightCorner;
 
+    public Transform consoleTransform;
+    public Transform rightCorner;
+    
     public List<GameObject> navMeshObjs;
     public List<Transform> navMeshRightCorners;
-
 }

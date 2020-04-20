@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerToAI : MonoBehaviour
+public class PlayerToMap : MonoBehaviour
 {
     MapGenerator map;
     Vector2 last2DPos = Vector2.zero;
@@ -26,11 +26,22 @@ public class PlayerToAI : MonoBehaviour
             if (map.navMesh.InMapRange(pos2D) && map.navMesh.GetPosChar(pos2D) == 'g')
                 if (last2DPos != pos2D)
                 {
+                    //player in map
                     map.navMesh.refreshAreas = true;
                     if (map.navMesh.GetPosChar(last2DPos) == 'e')
                         map.navMesh.SetPosChar(last2DPos, 'g');
-
                     map.navMesh.SetPosChar(pos2D, 'e');
+                    
+                    //Room activation
+                    foreach (RoomInfo room in map.spawnedRooms)
+                    {
+                        if (room.entranceTransform != null)
+                            if (Vector3.Distance(this.gameObject.transform.position, room.entranceTransform.position) < 50)
+                                room.prefab.SetActive(true);
+                            else
+                                room.prefab.SetActive(false);
+                    }
+
                     last2DPos = pos2D;
                 }
         }

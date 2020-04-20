@@ -9,6 +9,7 @@ public class RoomInfo
     public GameObject prefab;
     public Vector3 prefabScale;
     public Vector3 rightCornerPos;
+    public Transform entranceTransform;
 
     //Room Exits
     public List<PrefabExit> exitPoints = new List<PrefabExit>();
@@ -34,7 +35,7 @@ public class RoomInfo
     public RoomInfo(
         GameObject prefab, GameObject basePrefab,
         List<Transform> exitPoints, Vector3 prefabScale,
-        Vector3 rightCornerPos, bool obstacles,
+        Vector3 rightCornerPos, Transform entranceTransform, bool obstacles,
         int sector, char subSector)
     {
         this.prefab = prefab;
@@ -43,10 +44,10 @@ public class RoomInfo
             this.exitPoints.Add(new PrefabExit(exit, 'o'));
         this.prefabScale = prefabScale;
         this.rightCornerPos = rightCornerPos;
+        this.entranceTransform = entranceTransform;
         this.obstacles = obstacles;
         this.sector = sector;
         this.subSector = subSector;
-
     }
 
     public bool OpenExits

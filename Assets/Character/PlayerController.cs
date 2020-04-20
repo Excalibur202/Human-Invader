@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-
     public Animator animator;
     //Player movement
     [Header("Movement")]
@@ -125,7 +124,7 @@ public class PlayerController : MonoBehaviour
         #region Keyboard Camera Relative Direction
         cameraForward = cameraTransform.transform.forward;
         cameraRight = cameraTransform.transform.right;
-
+        
         cameraForward.y = 0;
         cameraRight.y = 0;
         cameraRight.Normalize();
@@ -264,17 +263,14 @@ public class PlayerController : MonoBehaviour
     private void UpdateCameraMovement()
     {
         cameraTransform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
-
-
-
+        
         Vector3 targetPosition = transform.position - (cameraTransform.forward * cameraBackOffset) + (Vector3.up*cameraHeight) + (cameraTransform.right*cameraSideOffset);
         Debug.DrawLine(transform.position, targetPosition, Color.red, Time.deltaTime);
        
-        
         Vector3 cdir = (-(cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset));
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude))
+        if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude,LayerMask.GetMask("Obstacle")))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
         
 

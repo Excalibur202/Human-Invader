@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 311960202564247728}
   - component: {fileID: 2460092424522665196}
   - component: {fileID: 4848307223751322578}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Input Mask
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 9116666735487322732}
   - component: {fileID: 9116666735487322734}
   - component: {fileID: 9116666735487322733}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Log
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,9 +261,9 @@ GameObject:
   - component: {fileID: 8348568968189656031}
   - component: {fileID: 2358266199502547831}
   - component: {fileID: 2358266199502547830}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -451,9 +451,9 @@ GameObject:
   - component: {fileID: 9116666736157820634}
   - component: {fileID: 9116666736157820636}
   - component: {fileID: 9116666736157820635}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Title
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -609,9 +609,9 @@ GameObject:
   - component: {fileID: 9116666736169439077}
   - component: {fileID: 9116666736169439076}
   - component: {fileID: 9116666736169439075}
-  m_Layer: 0
-  m_Name: Terminal Prefab
-  m_TagString: Untagged
+  m_Layer: 10
+  m_Name: Terminal Screen
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -719,9 +719,9 @@ GameObject:
   - component: {fileID: 9116666736529403598}
   - component: {fileID: 9116666736529403597}
   - component: {fileID: 9116666736529403596}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Log Mask
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -806,9 +806,9 @@ GameObject:
   - component: {fileID: 9116666736588401677}
   - component: {fileID: 9116666736588401679}
   - component: {fileID: 9116666736588401678}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Input
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
