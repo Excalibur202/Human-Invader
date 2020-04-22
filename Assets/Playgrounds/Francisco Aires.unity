@@ -350,7 +350,6 @@ MonoBehaviour:
     type: 3}
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
-  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
   spawnRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
