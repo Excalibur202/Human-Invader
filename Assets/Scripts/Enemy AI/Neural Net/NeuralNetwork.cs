@@ -5,8 +5,8 @@ using System;
 [Serializable]
 public class NeuralNetwork
 {
-    Node[,] hidenNodes; // not public 
-    Node[] outputNodes;
+    NeuralNode[,] hidenNodes; // not public 
+    NeuralNode[] outputNodes;
     //public float[] inputVec;
     //public float[] outputVec;
     float[] weightsZero;
@@ -17,23 +17,23 @@ public class NeuralNetwork
     //Constructor
     public NeuralNetwork(int hidenNColumns, int hidenNRows, int nInputs, int nOutputs/*, float[] inputNodesRef*/)
     {
-        hidenNodes = new Node[hidenNColumns, hidenNRows];
+        hidenNodes = new NeuralNode[hidenNColumns, hidenNRows];
 
-        outputNodes = new Node[nOutputs];
+        outputNodes = new NeuralNode[nOutputs];
         //inputVec = inputNodesRef;
 
         //Input weights
         for (int rowIndex = 0; rowIndex < hidenNodes.GetLength(1); rowIndex++)
-            hidenNodes[0, rowIndex] = new Node(0, new float[nInputs/*inputVec.Length*/]);
+            hidenNodes[0, rowIndex] = new NeuralNode(0, new float[nInputs/*inputVec.Length*/]);
 
         //HidenNodes weights
         for (int columnIndex = 1; columnIndex < hidenNodes.GetLength(0); columnIndex++)
             for (int rowIndex = 0; rowIndex < hidenNodes.GetLength(1); rowIndex++)
-                hidenNodes[columnIndex, rowIndex] = new Node(0, new float[hidenNodes.GetLength(1)]);
+                hidenNodes[columnIndex, rowIndex] = new NeuralNode(0, new float[hidenNodes.GetLength(1)]);
 
         //Output weithrs
         for (int outputNodeIndex = 0; outputNodeIndex < outputNodes.Length; outputNodeIndex++)
-            outputNodes[outputNodeIndex] = new Node(0, new float[hidenNodes.GetLength(1)]);
+            outputNodes[outputNodeIndex] = new NeuralNode(0, new float[hidenNodes.GetLength(1)]);
 
         weightsZero = new float[hidenNodes.GetLength(1)];
         for (int weight = 0; weight < weightsZero.Length; weight++)
@@ -108,7 +108,7 @@ public class NeuralNetwork
     {
         var rand = new Random();
 
-        foreach (Node neuralNode in hidenNodes)
+        foreach (NeuralNode neuralNode in hidenNodes)
         {
             if(neuralNode.activated)
             {
@@ -119,7 +119,7 @@ public class NeuralNetwork
             }
         }
 
-        foreach (Node neuralNode in outputNodes)
+        foreach (NeuralNode neuralNode in outputNodes)
         {
             if (neuralNode.activated)
             {
@@ -134,7 +134,7 @@ public class NeuralNetwork
 
 }
 
-public class Node
+public class NeuralNode
 {
 
     public float bias = 0;
@@ -142,8 +142,8 @@ public class Node
 
     public bool activated = false;
 
-    public Node() { }
-    public Node(float bias, float[] weights)
+    public NeuralNode() { }
+    public NeuralNode(float bias, float[] weights)
     {
         this.bias = bias;
         this.weights = weights;
