@@ -29,7 +29,7 @@ public class GeneticSelection : MonoBehaviour
             for (int neuralNetIndex = 0; neuralNetIndex < population.Length; neuralNetIndex++)
                 population[neuralNetIndex] = new NeuralNetwork(hidenLayerMaxColumns, hidenLayerMaxRows, inputVecLength, outputVecLength);
         }
-        else population = population.LoadBinary("Assets\\NeuralData", "NeuralNetworkPopulation");
+        else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
 
         
         //DebugNeuralNet();
@@ -50,10 +50,10 @@ public class GeneticSelection : MonoBehaviour
     }
 
 
-    private void OnDestroy() //stoping the program
+    private void OnApplicationQuit() //stoping the program
     {
         //save population
-        population.SaveBinary("Assets\\NeuralData", "NeuralNetworkPopulation");
+        population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
     }
 
     //void DebugNeuralNet()

@@ -1,49 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerStates;
+
+
 
 public class LDTV2Manager : MonoBehaviour
 {
-    public static LDTV2Manager singleton;
+    public static LDTV2Manager instance;
     public LDTV2 lDT = new LDTV2();
-
-    private string[] realTimeStates = new string[3];
+    private int[] realTimeStates = new int[3];
+    private int lastAction = (int)PlayerAction.Nothing;
 
     public bool recreateDecisionTree;
     public bool learning;
+    public bool reset;
+    public bool debugTable;
 
-    public bool state;
-    public bool state2;
+
+    //public bool state;
+    //public bool state2;
 
 
 
     private void Awake()
     {
-        if (singleton)
-            Destroy(gameObject);
+        if (instance)
+            Destroy(this);
 
-        singleton = this;
+        instance = this;
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        lDT.LoadTable("LDTreeData", "TableData");
-        lDT.LoadDecisionTree("LDTreeData", "DTree");
+        if (reset)
+        {
+            lDT.AddColumn("Health");
+            lDT.AddColumn("Ability");
+            /*__________________________*/
 
-        lDT.AddColumn("Health");
-        lDT.AddColumn("Ability");
+            lDT.AddColumn("Actions");
+            lDT.AddColumn("Duplicates");
 
+            recreateDecisionTree = true;
+        }
+        else
+        {
+            lDT.LoadTable("Assets\\AIData\\LDTreeData", "TableData");
+            lDT.LoadDecisionTree("Assets\\AIData\\LDTreeData", "DTree");
+        }
 
-        lDT.AddColumn("Actions");//Actions
-        lDT.AddColumn("Duplicates");//Dups
-
-        lDT.AddRow(0, 0, 0);
-        lDT.AddRow(0, 1, 1);
-        lDT.AddRow(1, 0, 2);
-        lDT.AddRow(1, 1, 3);
-
-        lDT.DebugTable();
+        if (debugTable)
+            lDT.DebugTable();
 
         if (recreateDecisionTree)
             lDT.CreateDecisionTree();
@@ -53,28 +62,29 @@ public class LDTV2Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int actions = 0;
-        int s1, s2;
-        if (state)
-            s1 = 1;
-        else s1 = 0;
+        lDT.RefreshStates(realTimeStates);
 
-        if (state2)
-            s2 = 1;
-        else s2 = 0;
-
-        lDT.RefreshStates(s1, s2, actions);
-
-
-
-        if (learning)
-            lDT.AddRow(s1, s2, actions);
-
+        //Learning
+        if (learning && lastAction != realTimeStates[(int)StateIndex.Action])
+        {
+            lDT.AddRow(realTimeStates);
+            lastAction = realTimeStates[(int)StateIndex.Action];
+        }
     }
 
     private void OnApplicationQuit()
     {
-        lDT.SaveTable("LDTreeData", "TableData");
-        lDT.SaveDecisionTree("LDTreeData", "DTree");
+        lDT.SaveTable("Assets\\AIData\\LDTreeData", "TableData");
+        lDT.SaveDecisionTree("Assets\\AIData\\LDTreeData", "DTree");
     }
+
+    /*______________________________________________________________________________________*/
+
+    public void SetState(StateIndex state, int value)
+    {
+        realTimeStates[(int)state] = value;
+    }
+
+
+
 }
