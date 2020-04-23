@@ -5,6 +5,7 @@ using SaveLoad;
 
 public class GeneticSelection : MonoBehaviour
 {
+    
     NeuralNetwork[] population = new NeuralNetwork[20];
     
     [SerializeField]
@@ -30,8 +31,6 @@ public class GeneticSelection : MonoBehaviour
                 population[neuralNetIndex] = new NeuralNetwork(hidenLayerMaxColumns, hidenLayerMaxRows, inputVecLength, outputVecLength);
         }
         else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
-
-        
         //DebugNeuralNet();
     }
 
@@ -56,16 +55,4 @@ public class GeneticSelection : MonoBehaviour
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
     }
 
-    //void DebugNeuralNet()
-    //{
-    //    foreach(Node neuralNode in neuralNetwork.hidenNodes)
-    //    {
-    //        Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-    //        Debug.Log("Bias: "+ neuralNode.bias);
-    //        Debug.Log("Weights: ");
-    //        foreach (float weight in neuralNode.weights)
-    //        Debug.Log(weight);
-    //        Debug.Log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-    //    }
-    //}
 }
