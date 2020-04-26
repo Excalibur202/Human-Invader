@@ -21,11 +21,16 @@ public class NeuralNetManager : MonoBehaviour
     {
         //Get prime neural net
         primeNeuralNet = primeNeuralNet.LoadBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
+
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
