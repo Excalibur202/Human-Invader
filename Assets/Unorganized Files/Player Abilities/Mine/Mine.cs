@@ -40,6 +40,7 @@ public class Mine : MonoBehaviour {
                 triggerSphereMat.SetVector ("_UpVector", transform.up);
                 triggerSphereMat.SetFloat ("_Invert", 1);
                 triggerLaserMat = triggerLaser.GetComponent<MeshRenderer> ().material;
+                triggerLaserMat.SetFloat("_EdgeWidth", 0);
                 triggerLaserMat.SetFloat("_Range", 1);
                 triggerLaserMat.SetFloat("_Offset", 10);
 
