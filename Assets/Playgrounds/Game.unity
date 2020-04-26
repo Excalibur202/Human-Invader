@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &165949540
 Transform:
   m_ObjectHideFlags: 0
@@ -166,13 +166,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
+  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
   spawnRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRoomsProb: 01000000
-  doors: []
+  doors:
+  - {fileID: 5710531307696797603, guid: 852845e752d51a340a2c82cc7f602cb5, type: 3}
   consolePrefab: {fileID: 8437206097387826756, guid: cff3afe52ced53248860ce4ead25d544,
+    type: 3}
+  sectorDoor: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
     type: 3}
   randSeed: 0
   seedOnOff: 0
@@ -188,6 +192,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 116203283, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
+      propertyPath: renderDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1444799230317969552, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -251,7 +259,7 @@ PrefabInstance:
     - target: {fileID: 1444799230317969557, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
@@ -272,7 +280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &506285964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1283621868
 Light:
   m_ObjectHideFlags: 0

@@ -11,8 +11,8 @@ public class NeuralNetwork
     //public float[] outputVec;
     float[] weightsZero;
 
-
-
+    public NeuralNetwork()
+    { }
 
     //Constructor
     public NeuralNetwork(int hidenNColumns, int hidenNRows, int nInputs, int nOutputs/*, float[] inputNodesRef*/)
@@ -113,12 +113,10 @@ public class NeuralNetwork
         return outputVecAux;
     }
 
-    //Randomize NeuralNetwork
+    //Mutate NeuralNetwork
     void MutateNeuralNetwork(float weightMutationRate, float biasMutationRate, float activationProb)
     {
         var rand = new Random();
-
-
         foreach (NeuralNode neuralNode in hidenNodes)
         {
             if (!neuralNode.activated)
@@ -127,7 +125,6 @@ public class NeuralNetwork
                     neuralNode.activated = true;
             }
         }
-
 
         foreach (NeuralNode neuralNode in hidenNodes)
         {
@@ -151,13 +148,10 @@ public class NeuralNetwork
             }
         }
     }
-
-
 }
 
 public class NeuralNode
 {
-
     public float bias = 0;
     public float[] weights;
 
@@ -169,6 +163,7 @@ public class NeuralNode
         this.bias = bias;
         this.weights = weights;
 
+        //for (int weightIndex = 0; weightIndex < weights.Length; weightIndex++)
+        //    weights[weightIndex] = 0;
     }
-
 }

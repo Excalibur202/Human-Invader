@@ -58,9 +58,9 @@ public class PlayerInputController : MonoBehaviour
             playerController.enabled = false;
 
             playerController.transform.root.transform.position =
-              new Vector3(connectedTerminal.transform.root.position.x + connectedTerminal.transform.root.forward.x * 0.5f + connectedTerminal.transform.root.right.x * 0.5f,
+              new Vector3(connectedTerminal.transform.parent.position.x + connectedTerminal.transform.parent.forward.x * 0.5f + connectedTerminal.transform.parent.right.x * 0.5f,
               playerController.transform.root.transform.position.y,
-              connectedTerminal.transform.root.position.z + connectedTerminal.transform.root.forward.z * 0.5f + connectedTerminal.transform.root.right.z * 0.5f) * 1.0f; /*+*/
+              connectedTerminal.transform.parent.position.z + connectedTerminal.transform.parent.forward.z * 0.5f + connectedTerminal.transform.parent.right.z * 0.5f) * 1.0f; /*+*/
                              
             //playerController.transform.root.transform.position =
             //    /*connectedTerminal.transform.root.position*/
@@ -68,7 +68,7 @@ public class PlayerInputController : MonoBehaviour
             //    connectedTerminal.transform.root.forward * 0.5f +
             //    connectedTerminal.transform.root.right * 0.5f;
 
-            Vector3 vectorLookAtTerminal = (connectedTerminal.transform.root.position - playerController.transform.root.position).normalized;
+            Vector3 vectorLookAtTerminal = (connectedTerminal.transform.parent.position - playerController.transform.root.position).normalized;
             vectorLookAtTerminal.y = 0;
 
             playerController.transform.root.forward = vectorLookAtTerminal;

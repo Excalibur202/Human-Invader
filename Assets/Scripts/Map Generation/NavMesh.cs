@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NavMesh
 {
-    char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'e'-enemy;
+    char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'p'-player;
     int mapSizeX;
     int mapSizeY;
     public bool refreshAreas = false;// so pode ser usado se so existir um enimigo
@@ -73,8 +73,7 @@ public class NavMesh
 
         int deltaX;
         int deltaY;
-
-        /*  */
+        
         foreach (RoomInfo room in rooms)
         {
             roomObj = room.prefab;

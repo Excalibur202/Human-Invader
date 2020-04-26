@@ -5,7 +5,7 @@ using SaveLoad;
 
 public class GeneticSelection : MonoBehaviour
 {
-    
+    NeuralNetwork primeNeuralNet = new NeuralNetwork();
     NeuralNetwork[] population = new NeuralNetwork[20];
     
     [SerializeField]
@@ -31,21 +31,12 @@ public class GeneticSelection : MonoBehaviour
                 population[neuralNetIndex] = new NeuralNetwork(hidenLayerMaxColumns, hidenLayerMaxRows, inputVecLength, outputVecLength);
         }
         else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
-        //DebugNeuralNet();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //if (Input.GetKeyDown(KeyCode.Space)) 
-        //{
-        //    Debug.Log("///////////////////////////////////////////////////////////////////////////////");
-        //    neuralNetwork.Eval();
-        //    Debug.Log("Output Vec:");
-        //    foreach (float outputValue in neuralNetwork.outputVec)
-        //        Debug.Log(outputValue);
-        //}
     }
 
 
@@ -53,6 +44,8 @@ public class GeneticSelection : MonoBehaviour
     {
         //save population
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
+        primeNeuralNet.SaveBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
+
     }
 
 }

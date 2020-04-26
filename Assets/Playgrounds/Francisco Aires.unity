@@ -250,6 +250,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 116203283, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
+      propertyPath: renderDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1444799230317969552, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -346,8 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffc893db98dd2846b90a4c51889f8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeTest: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
-    type: 3}
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   spawnRooms:
@@ -355,9 +357,11 @@ MonoBehaviour:
   cmdRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRoomsProb: 01000000
-  halls: []
-  doors: []
+  doors:
+  - {fileID: 5710531307696797603, guid: 852845e752d51a340a2c82cc7f602cb5, type: 3}
   consolePrefab: {fileID: 8437206097387826756, guid: cff3afe52ced53248860ce4ead25d544,
+    type: 3}
+  sectorDoor: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
     type: 3}
   randSeed: 0
   seedOnOff: 0

@@ -680,6 +680,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3214387872755346101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3445806980398263597}
+  m_Layer: 0
+  m_Name: Terminal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3445806980398263597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3214387872755346101}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.515, y: 1.307, z: 1.155}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7539364398083314642}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3676039410731163738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,6 +1274,7 @@ Transform:
   - {fileID: 3963711118313188915}
   - {fileID: 5735451408535432202}
   - {fileID: 9066081300060644008}
+  - {fileID: 3445806980398263597}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1265,7 +1296,7 @@ MonoBehaviour:
   - {fileID: 8391023964847604219}
   - {fileID: 3037914761553091590}
   roomDimension: {fileID: 7539364399490235984}
-  consoleTransform: {fileID: 0}
+  consoleTransform: {fileID: 3445806980398263597}
   rightCorner: {fileID: 8913516180310466913}
   navMeshObjs:
   - {fileID: 1607572366004667704}
