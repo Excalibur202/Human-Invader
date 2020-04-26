@@ -62,11 +62,11 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeltaY: 1
+    - _DeltaY: 0.98
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Emissive: 0.97
-    - _EmissiveAnimation: 0.8
+    - _Emissive: 0.68
+    - _EmissiveAnimation: 3.74
     - _EmissiveMax: 1.21
     - _EmissiveMin: 0.38
     - _GlossMapScale: 1
@@ -79,14 +79,14 @@ Material:
     - _OffsetY: 0
     - _Parallax: 0.02
     - _ScaleX: 1.67
-    - _ScaleY: 0.26
+    - _ScaleY: 0.34
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.1
-    - _SpeedY: 0.3
+    - _Speed: 0.51
+    - _SpeedY: 5.56
     - _SrcBlend: 1
     - _Strengh: 0
-    - _TiltX: -1
+    - _TiltX: -0.194
     - _TiltY: -0.791
     - _UVSec: 0
     - _ZWrite: 1
@@ -95,5 +95,5 @@ Material:
     - tiltX: 0
     - tiltY: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.010784901, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.08363296, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
