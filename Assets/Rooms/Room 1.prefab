@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6564221468106796401}
   - component: {fileID: 7534919125520619312}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Reflection Probe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4682597291078624220}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 6816565524537801830}
   - component: {fileID: 2234697176737669922}
   - component: {fileID: 2087440995012380595}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Dimension
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 6387829668914548339}
   - component: {fileID: 103082564733645822}
   - component: {fileID: 881097652330870663}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 3102797832824056091}
   - component: {fileID: 6198131608176278218}
   - component: {fileID: 1835400664990878123}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1027045263956533202}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2822476824863403494}
   - component: {fileID: 6726727732376186687}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Light Probe Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5873574306036045684}
   - component: {fileID: 5730674950442115846}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9054183267545445129}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: navMeshRightCorner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9005115970915246899}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RightCorner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -684,7 +684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3409979067300189171}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: navMeshRightCorner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

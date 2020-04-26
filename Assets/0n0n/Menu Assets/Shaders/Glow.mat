@@ -64,11 +64,11 @@ Material:
     - _Cutoff: 9.63
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Emissive: 7.88
+    - _Emissive: 10
     - _GlossMapScale: 1
-    - _Glossiness: 0.797
+    - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Metallic: 0.511
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Outline: 0.033
