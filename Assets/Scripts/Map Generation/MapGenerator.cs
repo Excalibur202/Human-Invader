@@ -13,6 +13,8 @@ public class MapGenerator : MonoBehaviour
     public List<RoomInfo> spawnedRooms = new List<RoomInfo>();
 
     public NavMesh navMesh;
+    
+    public GameObject cubeTest;
 
     //Available Prefabs
     [SerializeField]
@@ -23,6 +25,7 @@ public class MapGenerator : MonoBehaviour
     private List<GameObject> cmdRooms = new List<GameObject>();
     [SerializeField]
     private List<int> cmdRoomsProb = new List<int>();
+    
     [SerializeField]
     private List<GameObject> doors = new List<GameObject>();
     [SerializeField]
@@ -65,7 +68,7 @@ public class MapGenerator : MonoBehaviour
         //Generate map
         GenerateMap(mapSizeX, mapSizeY, minRoomsPSector, maxRoomsPSector, nSectors,
         basicRooms, spawnRooms,
-        cmdRooms, cmdRoomsProb/*, halls*/,
+        cmdRooms, cmdRoomsProb, halls,
          doors, spawnedRooms, randSeed);
         
         //Rearrange SubSectors
@@ -112,7 +115,7 @@ public class MapGenerator : MonoBehaviour
     private bool GenerateMap
         (int mapSizeX, int mapSizeY, int minRoomsPSector, int maxRoomsPSector, int nSectors,
          List<GameObject> basicRooms, List<GameObject> spawnRooms,
-         List<GameObject> cmdRooms, List<int> cmdRoomsProb/*, List<GameObject> halls*/,
+         List<GameObject> cmdRooms, List<int> cmdRoomsProb, List<GameObject> halls,
          List<GameObject> doors, List<RoomInfo> spawnedRooms, int randSeed = 69)
     {
 
@@ -223,7 +226,7 @@ public class MapGenerator : MonoBehaviour
                     spawnCommandRoom = false;
                 }
                 else
-                    nextPrefab = NextPrefab(basicRooms/*, halls*/, ref canSpawnHall, ref thisSubSector);
+                    nextPrefab = NextPrefab(basicRooms, halls, ref canSpawnHall, ref thisSubSector);
 
                 //O prefab tem saidas?
                 if ((spawnedRooms.Count == 1) || sectorPath[sectorPath.Count - 1].OpenExits)
@@ -395,7 +398,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private GameObject NextPrefab(List<GameObject> availableRooms/*, List<GameObject> availableHalls*/, ref bool canSpawnHall, ref char thisSubSector)
+    private GameObject NextPrefab(List<GameObject> availableRooms, List<GameObject> availableHalls, ref bool canSpawnHall, ref char thisSubSector)
     {
         return availableRooms[Random.Range(0, availableRooms.Count)];
     }

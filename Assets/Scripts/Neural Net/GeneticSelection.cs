@@ -40,12 +40,11 @@ public class GeneticSelection : MonoBehaviour
     }
 
 
-    private void OnApplicationQuit() //stoping the program
+    private void OnDestroy() //stoping the program
     {
         //save population
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
         primeNeuralNet.SaveBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
 
     }
-
 }

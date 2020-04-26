@@ -23,7 +23,6 @@ public class Mine : MonoBehaviour {
 
         if (!landed) {
             float distance = Vector3.Distance (finalPosition, transform.position);
-
             if (distance < 1f) {
                 lifetime = 0;
                 landed = true;
@@ -41,7 +40,6 @@ public class Mine : MonoBehaviour {
                 triggerSphereMat.SetVector ("_UpVector", transform.up);
                 triggerSphereMat.SetFloat ("_Invert", 1);
                 triggerLaserMat = triggerLaser.GetComponent<MeshRenderer> ().material;
-                triggerLaserMat.SetFloat("_EdgeWidth", 0);
                 triggerLaserMat.SetFloat("_Range", 1);
                 triggerLaserMat.SetFloat("_Offset", 10);
 
@@ -53,14 +51,13 @@ public class Mine : MonoBehaviour {
                 if (lifetime > 15)
                     Destroy (transform.root.gameObject);
             }
-        }
-        else {
+        } else {
             float currentRange = triggerSphereMat.GetFloat ("_Range");
             float currentWidth = triggerSphereMat.GetFloat ("_EdgeWidth");
 
             // Continue trigger sphere fade-in animation if hasnt completed yet
             if (currentRange < 1) {
-                currentRange += 0.5f * Time.fixedDeltaTime;
+                currentRange += 1f * Time.fixedDeltaTime;
 
                 // On completing the sphere animation
                 if (currentRange >= 1) {

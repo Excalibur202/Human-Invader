@@ -65,7 +65,7 @@ Material:
     - _DeltaY: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Emissive: 0.62
+    - _Emissive: 0.97
     - _EmissiveAnimation: 0.8
     - _EmissiveMax: 1.21
     - _EmissiveMin: 0.38
@@ -82,7 +82,7 @@ Material:
     - _ScaleY: 0.26
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.26
+    - _Speed: 0.1
     - _SpeedY: 0.3
     - _SrcBlend: 1
     - _Strengh: 0

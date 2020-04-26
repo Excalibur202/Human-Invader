@@ -49,14 +49,14 @@ public class PlayerAbilities : MonoBehaviour {
             mineHologram = Instantiate (mineHologramPrefab);
 
         while (Input.GetKey (KeyCode.F)) {
-            DrawMineTracer (mineOrigin.position, cam.transform.forward, mineSpeed);
+            DrawMineTracer (mineOrigin.position + Vector3.up, cam.transform.forward, mineSpeed);
 
             yield return new WaitForSeconds (Time.smoothDeltaTime);
         }
 
         GameObject mine = Instantiate (minePrefab);
         mine.GetComponent<Mine> ().SetDestination (mineRaycastHit.rigidbody, mineHologram.transform.position, mineHologram.transform.rotation);
-        mine.transform.position = mineOrigin.position;
+        mine.transform.position = mineOrigin.position + Vector3.up;
         Rigidbody mineRigidbody = (Rigidbody) mine.GetComponent (typeof (Rigidbody));
         mineRigidbody.velocity = cam.transform.forward * mineSpeed;
 
