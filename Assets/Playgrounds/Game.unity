@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &165949540
 Transform:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ PrefabInstance:
     - target: {fileID: 1444799230317969557, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
@@ -280,7 +280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &506285964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,12 +293,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2867af78555f4014a8a657408c1b4ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  populationCount: 20
   RestartPopulation: 0
-  mutationRate: 0
-  inputVecLength: 0
-  outputVecLength: 0
-  hidenLayerMaxColumns: 0
-  hidenLayerMaxRows: 0
+  weightMutationRate: 1
+  biasMutationRate: 1
+  neuronActivationProb: 1
+  inputVecLength: 2
+  outputVecLength: 2
+  hidenLayerMaxColumns: 10
+  hidenLayerMaxRows: 10
 --- !u!4 &506285965
 Transform:
   m_ObjectHideFlags: 0
@@ -345,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1283621868
 Light:
   m_ObjectHideFlags: 0

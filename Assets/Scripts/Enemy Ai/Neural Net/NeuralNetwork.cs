@@ -114,7 +114,7 @@ public class NeuralNetwork
     }
 
     //Mutate NeuralNetwork
-    void MutateNeuralNetwork(float weightMutationRate, float biasMutationRate, float activationProb)
+    public void MutateNeuralNetwork(float weightMutationRate, float biasMutationRate, float activationProb)
     {
         var rand = new Random();
         foreach (NeuralNode neuralNode in hidenNodes)
@@ -149,7 +149,7 @@ public class NeuralNetwork
         }
     }
 }
-
+[Serializable]
 public class NeuralNode
 {
     public float bias = 0;
