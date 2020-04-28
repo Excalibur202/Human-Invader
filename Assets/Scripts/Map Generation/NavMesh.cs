@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NavMesh
 {
-    char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'p'-player; 'o'-obstacle; // Private
+    public char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'p'-player; 'o'-obstacle; // Private
     int mapSizeX;
     int mapSizeY;
     public bool refreshAreas = false;// so pode ser usado se so existir um player
@@ -21,12 +21,6 @@ public class NavMesh
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
     }
-
-    public char[,] GetNavMesh
-    {
-        get { return navMeshMap.DeepClone(); }
-    }
-
 
     public bool InMapRange(int x, int y)
     {
