@@ -12,7 +12,17 @@ public class GeneticSelection : MonoBehaviour
     int populationCount = 0;
     [SerializeField]
     bool RestartPopulation = false;
-    
+    [SerializeField]
+    float simulationTime;
+
+
+    [SerializeField]
+    float startWeightMutationRate = 0f;
+    [SerializeField]
+    float startBiasMutationRate = 0f;
+    [SerializeField]
+    float startNeuronActivationProb = 0f;
+
 
     [SerializeField]
     float weightMutationRate = 0f;
@@ -29,7 +39,7 @@ public class GeneticSelection : MonoBehaviour
     int hidenLayerMaxColumns = 0;
     [SerializeField]
     int hidenLayerMaxRows = 0;
-    
+
 
     void Start()
     {
@@ -43,19 +53,31 @@ public class GeneticSelection : MonoBehaviour
         else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
 
         foreach (NeuralNetwork neuralNet in population)
-            neuralNet.MutateNeuralNetwork(weightMutationRate, biasMutationRate, neuronActivationProb);
+            neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-
-
-
-
     }
 
+
+    private float RunSimulation(NeuralNetwork nNet, float simulationTime)
+    {
+        //Start Simulation
+        float timer = 0;
+        
+        
+        //Update simulation
+        while (timer < simulationTime)
+        {
+            timer += Time.deltaTime;//Start timer
+
+            
+        }
+        return 0;
+    }
 
     private void OnApplicationQuit() //stoping the program
     {

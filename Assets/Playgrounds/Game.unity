@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &165949540
 Transform:
   m_ObjectHideFlags: 0
@@ -185,6 +185,13 @@ MonoBehaviour:
   nSectors: 10
   minRoomsPSector: 2
   maxRoomsPSector: 3
+  playerTransform: {fileID: 1907521644}
+  cubeTestObstacles: {fileID: 672395017111101435, guid: 324894f29650f9242ad2f94a8adcdf0f,
+    type: 3}
+  cubeTestWalls: {fileID: 5710531307696797603, guid: 852845e752d51a340a2c82cc7f602cb5,
+    type: 3}
+  cubeTestGround: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
+    type: 3}
 --- !u!1001 &449771824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -259,7 +266,7 @@ PrefabInstance:
     - target: {fileID: 1444799230317969557, guid: 6af6267b9d0618e47b4280c6bb819eca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6af6267b9d0618e47b4280c6bb819eca, type: 3}
@@ -273,35 +280,13 @@ GameObject:
   m_Component:
   - component: {fileID: 506285965}
   - component: {fileID: 506285966}
-  - component: {fileID: 506285964}
   m_Layer: 0
   m_Name: AIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &506285964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506285963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2867af78555f4014a8a657408c1b4ae9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  populationCount: 20
-  RestartPopulation: 0
-  weightMutationRate: 1
-  biasMutationRate: 1
-  neuronActivationProb: 1
-  inputVecLength: 2
-  outputVecLength: 2
-  hidenLayerMaxColumns: 10
-  hidenLayerMaxRows: 10
+  m_IsActive: 0
 --- !u!4 &506285965
 Transform:
   m_ObjectHideFlags: 0
@@ -348,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1283621868
 Light:
   m_ObjectHideFlags: 0
@@ -424,3 +409,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1907521644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1444799230317969552, guid: 6af6267b9d0618e47b4280c6bb819eca,
+    type: 3}
+  m_PrefabInstance: {fileID: 449771824}
+  m_PrefabAsset: {fileID: 0}

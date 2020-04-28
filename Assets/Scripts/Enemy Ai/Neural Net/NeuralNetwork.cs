@@ -9,6 +9,7 @@ public class NeuralNetwork
     NeuralNode[] outputNodes;
     //public float[] inputVec;
     //public float[] outputVec;
+    public float fitness;
     float[] weightsZero;
 
     public NeuralNetwork()
@@ -41,7 +42,7 @@ public class NeuralNetwork
     }
 
     //Evaluate
-    public float[] Eval(float[] inputVec)//alterar para eval geral
+    public float[] Eval(float[] inputVec)
     {
         Matrix calcMatrix;
         float[] outputVecAux;
