@@ -16,6 +16,7 @@ public class HealthController : MonoBehaviour
     public bool dieDebug = false;
     [SerializeField]
     public float healthPoints;
+    [HideInInspector]
     public float healthPointsMax;
 
     private void Awake()

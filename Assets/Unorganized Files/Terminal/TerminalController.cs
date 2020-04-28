@@ -24,9 +24,9 @@ public class TerminalController : MonoBehaviour {
     public List<RoomInfo> roomInfo = new List<RoomInfo> ();
 
     public void Initialize () {
+        if(GameObject.FindGameObjectWithTag("MapGen"))
+            StartCoroutine (ConnectToMap ());
         
-        StartCoroutine (ConnectToMap ());
-
         Action HELP = () => {
             string[] inputArray = inputString.Split (' ');
 
