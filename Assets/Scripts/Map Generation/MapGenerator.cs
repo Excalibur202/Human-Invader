@@ -63,6 +63,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
+        transform.tag = "MapGen";
         navMesh = new NavMesh(mapSizeX, mapSizeY);
         int lastSector = -1;
 
@@ -92,12 +93,12 @@ public class MapGenerator : MonoBehaviour
         //    for (int y = 0; y < mapSizeY; y++)
         //    {
 
-        //        if (navMesh.GetPosChar(x, y) == 'o')
+        //        if (navMesh.GetPosChar(x, y) == 'p')
         //            Instantiate(cubeTestObstacles, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
         //        else if (navMesh.GetPosChar(x, y) == 'w')
         //            Instantiate(cubeTestWalls, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
         //        else if (navMesh.GetPosChar(x, y) == 'g')
-        //            Instantiate(cubeTestGround, new Vector3(x-0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
+        //            Instantiate(cubeTestGround, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
         //    }
 
 
