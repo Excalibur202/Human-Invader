@@ -11,23 +11,23 @@ public class BaseEnemy : MonoBehaviour {
         returning
     }
 
-    [SerializeField] Behavior currentBehavior;
-    [SerializeField] float ground_Y;
-    [SerializeField] float aboveGround_Y;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float aggroRange;
-    [SerializeField] float health;
+    public Behavior currentBehavior;
+    public float ground_Y;
+    public float aboveGround_Y;
+    public float moveSpeed;
+    public float aggroRange;
+    public float health;
 
-    CharacterController charCtrl;
-    GameObject player;
-    float defaultMoveSpeed;
+    [HideInInspector] public CharacterController charCtrl;
+    [HideInInspector] public GameObject player;
+    [HideInInspector] public float defaultMoveSpeed;
 
     // Movement and navigation
-    [SerializeField] bool canSeePlayer;
-    Vector3 playerLastSightedAt;
-    float playerSqrDistance;
-    List<Vector3> recentPositions = new List<Vector3> ();
-    List<Vector3> waypoints = new List<Vector3> ();
+    [HideInInspector] public bool canSeePlayer;
+    [HideInInspector] public Vector3 playerLastSightedAt;
+    [HideInInspector] public float playerSqrDistance;
+    [HideInInspector] public List<Vector3> recentPositions = new List<Vector3> ();
+    [HideInInspector] public List<Vector3> waypoints = new List<Vector3> ();
 
     // Strafing behavior
     float timerStrafe;
@@ -35,10 +35,10 @@ public class BaseEnemy : MonoBehaviour {
 
     // Damage effect
     Material damageEffectMaterial;
-    bool beingDamaged;
+    bool damageEffectActive;
     bool damagedRecently;
 
-    void Start () {
+    public void Start () {
         player = GameObject.FindGameObjectWithTag ("Player");
         charCtrl = transform.GetComponentInChildren<CharacterController> ();
 
@@ -52,11 +52,7 @@ public class BaseEnemy : MonoBehaviour {
         StartCoroutine (AggroScanner ());
     }
 
-    void Update () {
-        // Always stick to same Y position above ground
-        if (transform.position.y != ground_Y + aboveGround_Y)
-            transform.position = UtilF.V3setY (transform.position, ground_Y + aboveGround_Y);
-
+    public void Update () {
         playerSqrDistance = Vector3.SqrMagnitude (transform.position - player.transform.position);
         canSeePlayer = false;
 
@@ -144,7 +140,7 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     // Move and rotate towards a direction with options for strafing and distance limit
-    void MoveTowards (Vector3 moveTarget, float forwardMovementAngleLimit = 30, bool strafing = false, int limitDistance = 0) {
+    public void MoveTowards (Vector3 moveTarget, float forwardMovementAngleLimit = 30, bool strafing = false, int limitDistance = 0) {
         if (moveSpeed > 0) {
             Vector3 movementVector = new Vector3 ();
             Quaternion targetRotation = new Quaternion ();
@@ -196,10 +192,14 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     // Move towards a direction with out rotation
-    void Move (Vector3 moveVector) {
+    public void Move (Vector3 moveVector) {
         moveVector = UtilF.V3setY (moveVector, 0).normalized;
         moveVector *= moveSpeed * Time.deltaTime;
         charCtrl.Move (moveVector);
+        
+        // Always stick to same Y position above ground
+        if (transform.position.y != ground_Y + aboveGround_Y)
+            transform.position = UtilF.V3setY (transform.position, ground_Y + aboveGround_Y);
     }
 
     // Scan for the player with line of sight
@@ -330,8 +330,8 @@ public class BaseEnemy : MonoBehaviour {
 
     // Manages the visual indication of damage
     IEnumerator DamageEffect () {
-        if (!beingDamaged && damageEffectMaterial) {
-            beingDamaged = true;
+        if (!damageEffectActive && damageEffectMaterial) {
+            damageEffectActive = true;
 
             var mr = GetComponentsInChildren<MeshRenderer> ();
             List<MeshRenderer> meshRenderers = new List<MeshRenderer> ();
@@ -352,7 +352,7 @@ public class BaseEnemy : MonoBehaviour {
                 oldMaterials.RemoveAt (0);
             }
 
-            beingDamaged = false;
+            damageEffectActive = false;
         }
     }
 
