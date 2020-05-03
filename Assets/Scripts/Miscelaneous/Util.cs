@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class UtilF {
+public static class Util {
     // Convert a 3D vector to 2D, dropping the Y value
     public static Vector2 V3toV2 (Vector3 vector3) {
         return (new Vector2 (vector3.x, vector3.z));

@@ -53,8 +53,20 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     public void Update () {
+
         playerSqrDistance = Vector3.SqrMagnitude (transform.position - player.transform.position);
-        canSeePlayer = false;
+
+        // AI is only able to see the player at double the aggro range
+        if (playerSqrDistance <= Util.SquareOf (aggroRange * 2)) {
+            RaycastHit raycastHit;
+            Physics.Raycast (new Ray (transform.position, player.transform.position - transform.position), out raycastHit, Util.SquareOf (aggroRange), LayerMask.GetMask ("Default", "Player"));
+
+            if (raycastHit.collider && raycastHit.collider.CompareTag ("Player")) {
+                canSeePlayer = true;
+                playerLastSightedAt = player.transform.position;
+            }
+        } else
+            canSeePlayer = false;
 
         // Different updates depending on behavior
         switch (currentBehavior) {
@@ -62,7 +74,7 @@ public class BaseEnemy : MonoBehaviour {
                 break;
 
             case (Behavior.aggro):
-                AggroAI ();
+                ChaseAI ();
                 break;
 
             case (Behavior.returning):
@@ -75,26 +87,22 @@ public class BaseEnemy : MonoBehaviour {
 
     }
 
-    void AggroAI () {
-        // Get player info if within the double of aggro range
-        if (playerSqrDistance < UtilF.SquareOf (aggroRange * 2)) {
-            RaycastHit raycastHit;
-            Physics.Raycast (new Ray (transform.position, player.transform.position - transform.position), out raycastHit, UtilF.SquareOf (aggroRange), LayerMask.GetMask ("Default", "Player"));
-
-            if (raycastHit.collider && raycastHit.collider.CompareTag ("Player")) {
-                canSeePlayer = true;
-                playerLastSightedAt = player.transform.position;
-            }
-        } else
-            // If further than double of aggro range
-            if (!damagedRecently) {
-                StartCoroutine (ReturnToSpawn (playerLastSightedAt));
-                return;
-            }
-
+    void ChaseAI () {
         timerStrafe += Time.deltaTime;
 
-        MoveTowards (playerLastSightedAt);
+        if (canSeePlayer) {
+            MoveTowards (playerLastSightedAt);
+        }
+        // Move to the last place player was seen
+        else if (Vector2.SqrMagnitude (Util.V3toV2 (transform.position - playerLastSightedAt)) > Util.SquareOf (0.1f)) {
+            if (!damagedRecently && playerSqrDistance > Util.SquareOf (aggroRange * 2)) {
+                StartCoroutine (ReturnToSpawn (playerLastSightedAt));
+            }
+        }
+        // If already standing where the player was last seen
+        else {
+            StartCoroutine (ReturnToSpawn (playerLastSightedAt));
+        }
     }
 
     // Iterates through the waypoints vector list in the direction lastIndex -> 0
@@ -103,7 +111,7 @@ public class BaseEnemy : MonoBehaviour {
         // If there are still waypoints beyond the home base
         if (waypoints.Count > 1) {
             // Approach next waypoint
-            if (Vector2.Distance (UtilF.V3toV2 (waypoints[waypoints.Count - 1]), UtilF.V3toV2 (transform.position)) > 0.1f)
+            if (Vector2.Distance (Util.V3toV2 (waypoints[waypoints.Count - 1]), Util.V3toV2 (transform.position)) > 0.1f)
                 MoveTowards (waypoints[waypoints.Count - 1], 10);
 
             // Delete waypoint on arrival
@@ -112,7 +120,7 @@ public class BaseEnemy : MonoBehaviour {
         }
 
         // If haven't arrived at the home base yet
-        else if (Vector2.Distance (UtilF.V3toV2 (waypoints[0]), UtilF.V3toV2 (transform.position)) > 1f) {
+        else if (Vector2.Distance (Util.V3toV2 (waypoints[0]), Util.V3toV2 (transform.position)) > 1f) {
             MoveTowards (waypoints[0], 10);
         }
 
@@ -155,10 +163,10 @@ public class BaseEnemy : MonoBehaviour {
             );
 
             // Rotate faster as get closer to target
-            float smooth = Mathf.Clamp (1000 / Vector2.Distance (UtilF.V3toV2 (moveTarget), UtilF.V3toV2 (transform.position)), 150, 800);
+            float smooth = Mathf.Clamp (1000 / Vector2.Distance (Util.V3toV2 (moveTarget), Util.V3toV2 (transform.position)), 150, 800);
             transform.rotation = (Quaternion.RotateTowards (transform.rotation, targetRotation, smooth * Time.deltaTime));
 
-            float angleToTarget = Vector2.Angle (UtilF.V3toV2 (transform.forward), UtilF.V3toV2 (moveTarget - transform.position));
+            float angleToTarget = Vector2.Angle (Util.V3toV2 (transform.forward), Util.V3toV2 (moveTarget - transform.position));
 
             if (angleToTarget <= forwardMovementAngleLimit) {
                 if (limitDistance <= 0) {
@@ -193,13 +201,9 @@ public class BaseEnemy : MonoBehaviour {
 
     // Move towards a direction with out rotation
     public void Move (Vector3 moveVector) {
-        moveVector = UtilF.V3setY (moveVector, 0).normalized;
+        moveVector = Util.V3setY (moveVector, 0).normalized;
         moveVector *= moveSpeed * Time.deltaTime;
         charCtrl.Move (moveVector);
-        
-        // Always stick to same Y position above ground
-        if (transform.position.y != ground_Y + aboveGround_Y)
-            transform.position = UtilF.V3setY (transform.position, ground_Y + aboveGround_Y);
     }
 
     // Scan for the player with line of sight
@@ -211,7 +215,7 @@ public class BaseEnemy : MonoBehaviour {
             }
 
             // If player is within aggro range
-            else if (playerSqrDistance < UtilF.SquareOf (aggroRange)) {
+            else if (playerSqrDistance < Util.SquareOf (aggroRange)) {
                 RaycastHit raycastHit;
 
                 // Cast a ray from the enemy to the player
@@ -255,7 +259,7 @@ public class BaseEnemy : MonoBehaviour {
     // Lays down a series of waypoints that the enemy can follow to return to spawn
     IEnumerator WaypointPathMaker () {
         // Add spawn location as the first travel waypoint
-        waypoints.Add (UtilF.V3setY (transform.position, ground_Y + aboveGround_Y));
+        waypoints.Add (Util.V3setY (transform.position, ground_Y + aboveGround_Y));
 
         while (true) {
             int lastWaypoint = waypoints.Count - 1;

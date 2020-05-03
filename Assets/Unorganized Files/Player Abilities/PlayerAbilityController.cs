@@ -53,7 +53,7 @@ public class PlayerAbilityController : MonoBehaviour {
                     connectedTerminal.transform.parent.position.z + connectedTerminal.transform.parent.forward.z * 0.5f + connectedTerminal.transform.parent.right.z * 0.5f) * 1.0f; /*+*/
 
                 // Rotate the player to face the terminal
-                playerController.transform.root.forward = UtilF.V3setY (connectedTerminal.transform.parent.position - playerController.transform.root.position, 0).normalized;
+                playerController.transform.root.forward = Util.V3setY (connectedTerminal.transform.parent.position - playerController.transform.root.position, 0).normalized;
             }
 
             // Smoothly move the camera to be diagonal to the right of the terminal
