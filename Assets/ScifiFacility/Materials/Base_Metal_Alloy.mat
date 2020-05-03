@@ -118,7 +118,7 @@ Material:
     m_Floats:
     - _BaseDielectricSmoothness: 1
     - _BaseDirtAmount: 0.001
-    - _BaseDirtStrength: 0.05
+    - _BaseDirtStrength: 0.25
     - _BaseMetallic: 1
     - _BaseMetalness: 1
     - _BaseNormalStrength: 0.114

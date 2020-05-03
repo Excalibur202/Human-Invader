@@ -128,6 +128,7 @@ public class MapGenerator : MonoBehaviour
                 //Spawn Sector Doors
                 GameObject auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
                 auxDoor.transform.SetParent(room.prefab.transform);
+                room.sectorDoor = auxDoor;
 
                 lastSector = room.sector;
             }
@@ -157,7 +158,7 @@ public class MapGenerator : MonoBehaviour
         char thisSubSector = (char)64;
         int sectorRoomCount = 0;
         int canRemoveSector = 0;
-        int lastSector = 0;
+        //int lastSector = 0;
 
         //Pode gerar um corredor?
         bool canSpawnHall = false;

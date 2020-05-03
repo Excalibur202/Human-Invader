@@ -17,16 +17,17 @@ public class RoomInfo
     //Entrance
     public List<PrefabExit> lastExitPoints = new List<PrefabExit>();
     public int thisEntranceIndex;
-
-
+    
     //Spawn enemies?
-    public bool spawnEnemies; 
+    public bool spawnEnemies;
     //public <EnemyClass> enemies
-
-
+    
     //Sector Info
     public int sector;
     public char subSector;
+    public GameObject sectorDoor;
+
+    //______________________________________________________________________________
 
     public RoomInfo() { }
 
@@ -104,7 +105,6 @@ public class RoomInfo
 
         }
     }
-
     public bool OpenSubSectors
     {
         get
@@ -143,7 +143,6 @@ public class RoomInfo
 
         }
     }
-
     public int LinkedExitsCount
     {
         get
@@ -160,8 +159,6 @@ public class RoomInfo
             return count;
         }
     }
-
-
     public int Cross
     {
         get
@@ -213,7 +210,6 @@ public class PrefabExit
         exitTransform = exit;
         exitState = state;
     }
-
     public PrefabExit()
     { }
 

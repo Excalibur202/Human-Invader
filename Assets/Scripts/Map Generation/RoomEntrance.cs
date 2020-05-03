@@ -20,5 +20,5 @@ public class RoomEntrance : MonoBehaviour
     public List<Transform> obstaclesRightCorners;
 
     public bool spawnEnemies;
-    public Transform[] enemies;
+    public List<Transform> enemies;
 }

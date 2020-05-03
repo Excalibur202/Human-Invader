@@ -109,7 +109,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BaseDirtAmount: 0.001
-    - _BaseDirtStrength: 0.05
+    - _BaseDirtStrength: 0.25
     - _BaseMetallic: 0
     - _BaseMetalness: 1
     - _BaseNormalStrength: 0.318
