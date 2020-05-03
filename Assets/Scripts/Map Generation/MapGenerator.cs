@@ -29,6 +29,9 @@ public class MapGenerator : MonoBehaviour
     private GameObject consolePrefab;
     [SerializeField]
     private GameObject sectorDoor;
+    [SerializeField]
+    private GameObject sectorRoomEntrance;
+
 
     //Random Seed
     [SerializeField]
@@ -105,6 +108,7 @@ public class MapGenerator : MonoBehaviour
 
         Transform roomConsoleTransform;
         GameObject auxTerminal;
+        GameObject auxDoor;
         foreach (RoomInfo room in spawnedRooms)
         {
             //Close doors
@@ -126,11 +130,16 @@ public class MapGenerator : MonoBehaviour
                 }
 
                 //Spawn Sector Doors
-                GameObject auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
+                auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
                 auxDoor.transform.SetParent(room.prefab.transform);
                 room.sectorDoor = auxDoor;
 
                 lastSector = room.sector;
+            }
+            else
+            {
+                auxDoor = Instantiate(sectorRoomEntrance, room.prefab.transform.position, room.prefab.transform.rotation);
+                auxDoor.transform.SetParent(room.prefab.transform);
             }
         }
         playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;

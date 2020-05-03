@@ -225,9 +225,11 @@ MonoBehaviour:
   cmdRoomsProb: 01000000
   doors:
   - {fileID: 5710531307696797603, guid: 852845e752d51a340a2c82cc7f602cb5, type: 3}
-  consolePrefab: {fileID: 8437206097387826756, guid: cff3afe52ced53248860ce4ead25d544,
+  consolePrefab: {fileID: 4364675133816101361, guid: a40bbf3f742b80d4eb9663f2dca98f45,
     type: 3}
   sectorDoor: {fileID: 1048543418951750808, guid: 123813d0fd8505f4d9642426b853de8b,
+    type: 3}
+  sectorRoomEntrance: {fileID: 1184715463556000, guid: 53cf773e020411e49bd73fd08cc0d929,
     type: 3}
   randSeed: 0
   seedOnOff: 0
