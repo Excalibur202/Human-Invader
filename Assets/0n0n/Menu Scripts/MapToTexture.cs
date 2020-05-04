@@ -71,7 +71,7 @@ public class MapToTexture : MonoBehaviour
                 for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
                 {
                     if (map.navMesh.InMapRange(x, y))
-                        if (Vector2.SqrMagnitude(new Vector2(x, y) - playerPos2D) < Util.SquareOf(radius))
+                        if (Vector2.SqrMagnitude(new Vector2(x, y) - playerPos2D) < Util.Square(radius))
                             fogTexture.SetPixel(x, y, Color.white);
                 }
             fogTexture.Apply();
