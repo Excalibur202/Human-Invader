@@ -21,4 +21,6 @@ public class RoomEntrance : MonoBehaviour
 
     public bool spawnEnemies;
     public List<Transform> enemies;
+
+    public TextMesh textMesh;
 }

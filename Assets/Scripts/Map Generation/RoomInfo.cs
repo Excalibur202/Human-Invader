@@ -176,6 +176,15 @@ public class RoomInfo
         }
     }
 
+    public RoomEntrance GetBaseRoomEntrance()
+    {
+        return basePrefab.GetComponent<RoomEntrance>();
+    }
+
+    public RoomEntrance GetRoomEntrance()
+    {
+        return prefab.GetComponent<RoomEntrance>();
+    }
 
     //public void DebugSector()
     //{

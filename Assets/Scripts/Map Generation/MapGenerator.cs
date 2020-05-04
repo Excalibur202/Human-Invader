@@ -106,8 +106,8 @@ public class MapGenerator : MonoBehaviour
 
 
 
-        Transform roomConsoleTransform;
-        GameObject auxTerminal;
+        //Transform roomConsoleTransform;
+        //GameObject auxTerminal;
         GameObject auxDoor;
         foreach (RoomInfo room in spawnedRooms)
         {
@@ -124,23 +124,28 @@ public class MapGenerator : MonoBehaviour
                 //Spawn Sector Terminals
                 if (room.basePrefab != null)
                 {
-                    roomConsoleTransform = room.prefab.GetComponent<RoomEntrance>().consoleTransform;
-                    auxTerminal = Instantiate(consolePrefab, roomConsoleTransform.position, roomConsoleTransform.rotation);
-                    auxTerminal.transform.SetParent(room.prefab.transform);
+                    //roomConsoleTransform = room.prefab.GetComponent<RoomEntrance>().consoleTransform;
+                    //auxTerminal = Instantiate(consolePrefab, roomConsoleTransform.position, roomConsoleTransform.rotation);
+                    //auxTerminal.transform.SetParent(room.prefab.transform);
+
+                    //Spawn Sector Doors
+                    auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
+                    auxDoor.transform.SetParent(room.prefab.transform);
+                    room.sectorDoor = auxDoor;
+
+                    lastSector = room.sector;
                 }
-
-                //Spawn Sector Doors
-                auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
-                auxDoor.transform.SetParent(room.prefab.transform);
-                room.sectorDoor = auxDoor;
-
-                lastSector = room.sector;
             }
             else
             {
-                auxDoor = Instantiate(sectorRoomEntrance, room.prefab.transform.position, room.prefab.transform.rotation);
-                auxDoor.transform.SetParent(room.prefab.transform);
+                if (room.basePrefab != null)
+                {
+                    auxDoor = Instantiate(sectorRoomEntrance, room.prefab.transform.position, room.prefab.transform.rotation);
+                    auxDoor.transform.SetParent(room.prefab.transform);
+                }
             }
+            if (room.basePrefab != null)
+                room.GetRoomEntrance().textMesh.text = "" + room.sector + room.subSector;
         }
         playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
     }

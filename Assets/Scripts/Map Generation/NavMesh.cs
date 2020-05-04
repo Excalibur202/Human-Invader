@@ -24,11 +24,11 @@ public class NavMesh
 
     public bool InMapRange(int x, int y)
     {
-        return (x >= 0 && x < mapSizeX && y >= 0 && x < mapSizeY) ? true : false;
+        return ((x >= 0 && x < mapSizeX) && (y >= 0 && y < mapSizeY));
     }
     public bool InMapRange(Vector2 vec)
     {
-        return ((int)vec.x >= 0 && (int)vec.x < mapSizeX && (int)vec.y >= 0 && (int)vec.y < mapSizeY) ? true : false;
+        return (((int)vec.x >= 0 && (int)vec.x < mapSizeX) && ((int)vec.y >= 0 && (int)vec.y < mapSizeY));
     }
 
     public char GetPosChar(int x, int y)
@@ -191,6 +191,8 @@ public class NavMesh
                 for (int y = boxRightCorner2DPosY; y > deltaY; y--)
                     if (InMapRange(x, y))
                         navMeshMap[x, y] = setToChar;
+                    
+                        
         }
         else if (entrance2DForward == down)//Exit Down
         {
