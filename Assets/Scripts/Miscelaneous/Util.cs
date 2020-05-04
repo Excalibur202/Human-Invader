@@ -17,6 +17,10 @@ public static class Util {
     }
 
     // Because its nicer to the eye than arbitrary multiplications
-    public static float SquareOf (float a) { return (a * a); }
+    public static float Square (float a) { return (a * a); }
     public static int SquareOf (int a) { return (a * a); }
+
+    // Makes the objective of getting the SqrMagnitude from the subtraction of two vectors more clear
+    public static float SqrDistance (Vector2 v1, Vector2 v2) { return Vector2.SqrMagnitude (v1 - v2); }
+    public static float SqrDistance (Vector3 v1, Vector3 v2, bool ignoreY = false) { return ignoreY ? Vector2.SqrMagnitude (Util.V3toV2 (v1 - v2)) : Vector3.SqrMagnitude (v1 - v2); }
 }
