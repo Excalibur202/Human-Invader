@@ -38,7 +38,7 @@ public class PlayerToMap : MonoBehaviour
                     foreach (RoomInfo room in map.spawnedRooms)
                     {
                         if (room.entranceTransform != null)
-                            if (Vector3.Distance(this.gameObject.transform.position, room.entranceTransform.position) < renderDistance)
+                            if (Util.SqrDistance(this.gameObject.transform.position, room.entranceTransform.position,true) < Util.Square(renderDistance))
                                 room.prefab.SetActive(true);
                             else
                                 room.prefab.SetActive(false);

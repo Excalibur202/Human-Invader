@@ -2,42 +2,35 @@
 using System.Collections.Generic;
 //using UnityEngine;
 
-namespace PlayerStates
-{
+namespace PlayerStates {
 
-    public enum StateIndex : int 
-    {
+    public enum StateIndex : int {
         Health,
         Ability,
         Action
     }
     //_____________________________________________________________________________________
 
-    public enum PlayerHealth : int
-    {
+    public enum PlayerHealth : int {
         Low,
         Medium,
         High
     }
 
-    public enum PlayerAbility : int
-    {
+    public enum PlayerAbility : int {
         Ready,
         OnCooldown
     }
 
-    public enum PlayerClass : int
-    {
+    public enum PlayerClass : int {
         Ranger,
         Melee
     }
 
-    public enum PlayerAction : int
-    {
+    public enum PlayerAction : int {
         Nothing,
         Attack,
-        UsingAbility // change later
+        UsingAbility1,
+        UsingAbility2
     }
 }
-
-

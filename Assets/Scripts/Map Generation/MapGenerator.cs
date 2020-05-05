@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private List<int> cmdRoomsProb = new List<int>();
     [SerializeField]
-    private List<GameObject> doors = new List<GameObject>();
+    private List<GameObject> closedDoors = new List<GameObject>();
     [SerializeField]
     private GameObject consolePrefab;
     [SerializeField]
@@ -78,31 +78,20 @@ public class MapGenerator : MonoBehaviour
         GenerateMap(mapSizeX, mapSizeY, minRoomsPSector, maxRoomsPSector, nSectors,
         basicRooms, spawnRooms,
         cmdRooms, cmdRoomsProb/*, halls*/,
-         doors, spawnedRooms, randSeed);
+         closedDoors, spawnedRooms, randSeed);
 
         //Rearrange SubSectors
         RearrangeSubSectors();
 
         //Get map geometry
-        navMesh.BuildNavMeshMap(spawnedRooms);
+        navMesh.RoomsToNavMesh(spawnedRooms);
 
         //Get map border
         navMesh.GetMapBorder(true, true);
 
 
 
-        ////Debug navMesh
-        //for (int x = 0; x < mapSizeX; x++)
-        //    for (int y = 0; y < mapSizeY; y++)
-        //    {
-
-        //        if (navMesh.GetPosChar(x, y) == 'p')
-        //            Instantiate(cubeTestObstacles, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //        else if (navMesh.GetPosChar(x, y) == 'w')
-        //            Instantiate(cubeTestWalls, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //        else if (navMesh.GetPosChar(x, y) == 'g')
-        //            Instantiate(cubeTestGround, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //    }
+       
 
 
 
@@ -115,7 +104,7 @@ public class MapGenerator : MonoBehaviour
             foreach (PrefabExit exit in room.exitPoints)
             {
                 if (exit.exitState == 'c' || exit.exitState == 'o')
-                    CloseExit(exit.exitTransform, doors);
+                    CloseExit(exit.exitTransform, closedDoors);
             }
 
             //Sector
@@ -148,6 +137,21 @@ public class MapGenerator : MonoBehaviour
                 room.GetRoomEntrance().textMesh.text = "" + room.sector + room.subSector;
         }
         playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+
+
+
+        ////Debug navMesh
+        //for (int x = 0; x < mapSizeX; x++)
+        //    for (int y = 0; y < mapSizeY; y++)
+        //    {
+
+        //        if (navMesh.GetPosChar(x, y) == 'p')
+        //            Instantiate(cubeTestObstacles, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
+        //        else if (navMesh.GetPosChar(x, y) == 'w')
+        //            Instantiate(cubeTestWalls, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
+        //        else if (navMesh.GetPosChar(x, y) == 'g')
+        //            Instantiate(cubeTestGround, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
+        //    }
     }
 
     private bool GenerateMap
@@ -471,6 +475,8 @@ public class MapGenerator : MonoBehaviour
 
             GameObject auxDoor = Instantiate(doors[randDoor], exit.position + doors[randDoor].transform.position, exit.rotation);
             auxDoor.transform.SetParent(exit);
+            navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>());
+
         }
     }
 

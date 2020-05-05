@@ -59,61 +59,6 @@ public class NavMesh
         return false;
     }
 
-    public int GetDimentionLength(int dimention)
-    {
-        return navMeshMap.GetLength(dimention);
-    }
-
-    public void BuildNavMeshMap(List<RoomInfo> rooms)
-    {
-        RoomEntrance roomInfo;
-        GameObject roomObj;
-
-        Vector2 entrance2DForward;
-
-        foreach (RoomInfo room in rooms)
-        {
-            roomObj = room.prefab;
-            roomInfo = roomObj.GetComponent<RoomEntrance>();
-
-            if (roomInfo)
-            {
-                entrance2DForward = new Vector2((int)roomObj.transform.forward.normalized.x, (int)roomObj.transform.forward.normalized.z);
-
-                for (int navMeshBoxIndex = 0; navMeshBoxIndex < roomInfo.navMeshObjs.Count; navMeshBoxIndex++)
-                {
-                    Transform navMeshBox = roomInfo.navMeshObjs[navMeshBoxIndex];
-                    int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
-                    int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
-
-                    Transform boxRightCorner = roomInfo.navMeshRightCorners[navMeshBoxIndex];
-                    int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
-                    int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
-
-                    //Ground
-                    setMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, 'g');
-                }
-
-                if (roomInfo.obstaclesActivation)
-                {
-                    for (int obstacleIndex = 0; obstacleIndex < roomInfo.obstacles.Count; obstacleIndex++)
-                    {
-                        Transform navMeshBox = roomInfo.obstacles[obstacleIndex];
-                        int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
-                        int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
-
-                        Transform boxRightCorner = roomInfo.obstaclesRightCorners[obstacleIndex];
-                        int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
-                        int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
-
-                        //Obstacles
-                        setMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, 'o');
-                    }
-                }
-            }
-        }
-    }
-
     public char[,] GetMapBorder(bool changeOriginalMap, bool maintainGroundInfo)
     {
         char[,] wallMap = new char[mapSizeX, mapSizeY];
@@ -178,7 +123,7 @@ public class NavMesh
         return mapArea;
     }
 
-    private void setMapChars(int box2DScaleX, int box2DScaleY, int boxRightCorner2DPosX, int boxRightCorner2DPosY, Vector2 entrance2DForward, char setToChar)
+    private void SetMapChars(int box2DScaleX, int box2DScaleY, int boxRightCorner2DPosX, int boxRightCorner2DPosY, Vector2 entrance2DForward, char setToChar)
     {
         int deltaX;
         int deltaY;
@@ -191,8 +136,6 @@ public class NavMesh
                 for (int y = boxRightCorner2DPosY; y > deltaY; y--)
                     if (InMapRange(x, y))
                         navMeshMap[x, y] = setToChar;
-                    
-                        
         }
         else if (entrance2DForward == down)//Exit Down
         {
@@ -232,4 +175,82 @@ public class NavMesh
         }
     }
 
+    public int GetDimentionLength(int dimention)
+    {
+        return navMeshMap.GetLength(dimention);
+    }
+
+    public void RoomsToNavMesh(List<RoomInfo> rooms)
+    {
+        RoomEntrance roomInfo;
+        GameObject roomObj;
+
+        Vector2 entrance2DForward;
+
+        foreach (RoomInfo room in rooms)
+        {
+            roomObj = room.prefab;
+            roomInfo = roomObj.GetComponent<RoomEntrance>();
+
+            if (roomInfo)
+            {
+                entrance2DForward = new Vector2((int)roomObj.transform.forward.normalized.x, (int)roomObj.transform.forward.normalized.z);
+
+                for (int navMeshBoxIndex = 0; navMeshBoxIndex < roomInfo.navMeshObjs.Count; navMeshBoxIndex++)
+                {
+                    Transform navMeshBox = roomInfo.navMeshObjs[navMeshBoxIndex];
+                    int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
+                    int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
+
+                    Transform boxRightCorner = roomInfo.navMeshRightCorners[navMeshBoxIndex];
+                    int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
+                    int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
+
+                    //Ground
+                    SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, 'g');
+                }
+
+                if (roomInfo.obstaclesActivation)
+                {
+                    for (int obstacleIndex = 0; obstacleIndex < roomInfo.obstacles.Count; obstacleIndex++)
+                    {
+                        Transform navMeshBox = roomInfo.obstacles[obstacleIndex];
+                        int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
+                        int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
+                        
+                        Transform boxRightCorner = roomInfo.obstaclesRightCorners[obstacleIndex];
+                        int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
+                        int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
+                        
+                        //Obstacles
+                        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, 'o');
+                    }
+                }
+            }
+        }
+    }
+    
+    public void ObstacleToNavMesh(NavMeshObstacle obstacle)
+    {
+        Vector2 obstacleForward = new Vector2((int)obstacle.obstacleTransform.forward.normalized.x, (int)obstacle.obstacleTransform.forward.normalized.z);
+        int box2DScaleX = Mathf.RoundToInt(obstacle.obstacleTransform.lossyScale.x);
+        int box2DScaleY = Mathf.RoundToInt(obstacle.obstacleTransform.lossyScale.z);
+
+        int boxRightCorner2DPosX = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.x);
+        int boxRightCorner2DPosY = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.z);
+
+        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
+    }
+    public void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner)
+    {
+        Vector2 obstacleForward = new Vector2((int)obstacleTransform.forward.normalized.x, (int)obstacleTransform.forward.normalized.z);
+
+        int box2DScaleX = Mathf.RoundToInt(obstacleTransform.lossyScale.x);
+        int box2DScaleY = Mathf.RoundToInt(obstacleTransform.lossyScale.z);
+
+        int boxRightCorner2DPosX = Mathf.RoundToInt(obstacleRightCorner.position.x);
+        int boxRightCorner2DPosY = Mathf.RoundToInt(obstacleRightCorner.position.z);
+
+        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
+    }
 }
