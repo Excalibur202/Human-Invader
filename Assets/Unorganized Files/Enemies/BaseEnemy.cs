@@ -57,9 +57,9 @@ public class BaseEnemy : MonoBehaviour {
         playerSqrDistance = Vector3.SqrMagnitude (transform.position - player.transform.position);
 
         // AI is only able to see the player at double the aggro range
-        if (playerSqrDistance <= Util.SquareOf (aggroRange * 2)) {
+        if (playerSqrDistance <= Util.Square(aggroRange * 2)) {
             RaycastHit raycastHit;
-            Physics.Raycast (new Ray (transform.position, player.transform.position - transform.position), out raycastHit, Util.SquareOf (aggroRange), LayerMask.GetMask ("Default", "Player"));
+            Physics.Raycast (new Ray (transform.position, player.transform.position - transform.position), out raycastHit, Util.Square(aggroRange), LayerMask.GetMask ("Default", "Player"));
 
             if (raycastHit.collider && raycastHit.collider.CompareTag ("Player")) {
                 canSeePlayer = true;
@@ -94,8 +94,8 @@ public class BaseEnemy : MonoBehaviour {
             MoveTowards (playerLastSightedAt);
         }
         // Move to the last place player was seen
-        else if (Vector2.SqrMagnitude (Util.V3toV2 (transform.position - playerLastSightedAt)) > Util.SquareOf (0.1f)) {
-            if (!damagedRecently && playerSqrDistance > Util.SquareOf (aggroRange * 2)) {
+        else if (Vector2.SqrMagnitude (Util.V3toV2 (transform.position - playerLastSightedAt)) > Util.Square(0.1f)) {
+            if (!damagedRecently && playerSqrDistance > Util.Square(aggroRange * 2)) {
                 StartCoroutine (ReturnToSpawn (playerLastSightedAt));
             }
         }
@@ -215,7 +215,7 @@ public class BaseEnemy : MonoBehaviour {
             }
 
             // If player is within aggro range
-            else if (playerSqrDistance < Util.SquareOf (aggroRange)) {
+            else if (playerSqrDistance < Util.Square(aggroRange)) {
                 RaycastHit raycastHit;
 
                 // Cast a ray from the enemy to the player

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MapToTexture : MonoBehaviour
 {
+    //public Texture2D texture2D;
+    //public RenderTexture mapRender;
     public bool openMap = false;
     public Transform playerTransform;
     private Vector3 playerPos;
@@ -13,6 +15,7 @@ public class MapToTexture : MonoBehaviour
     MapGenerator map;
     public Material mapMaterial;
     public Material matTest;
+    //public Material blitMat;
     Color pixelColor;
     public Color wallColor;
     public Color playerColor;
@@ -45,17 +48,23 @@ public class MapToTexture : MonoBehaviour
 
                 mapTexture = new Texture2D(sizeX, sizeY);
                 fogTexture = new Texture2D(sizeX, sizeY);
+                //texture2D = new Texture2D(sizeX,sizeY);
 
                 for (int x = 0; x < sizeX; x++)
                     for (int y = 0; y < sizeY; y++)
+                    {
                         fogTexture.SetPixel(x, y, Color.black);
-
+                        //texture2D.SetPixel(x, y, Color.white);
+                    }
                 mapMaterial.mainTexture = mapTexture;
                 //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
+                mapTexture.wrapMode = TextureWrapMode.Clamp;
+                fogTexture.wrapMode = TextureWrapMode.Clamp;
                 matTest.SetTexture("_MainTex", mapTexture);
                 matTest.SetTexture("_SecondaryTex", fogTexture);
                 //matTest.SetVector("_PlayerPos", playerPos);
                 fogTexture.Apply();
+                //texture2D.Apply();
                 navMeshReady = true;
                 openMap = true;
             }
@@ -64,14 +73,18 @@ public class MapToTexture : MonoBehaviour
         {
             //playerPos = new Vector3(playerTransform.position.x,playerTransform.position.z,0);
             //matTest.SetVector("_PlayerPos", playerPos);
-
+            
+            //Graphics.Blit(mapTexture, mapRender, blitMat);
+            
+            //blitMat.mainTexture = mapRender;
+            
             playerPos2D = Util.V3toV2(playerTransform.position);
 
             for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
                 for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
                 {
                     if (map.navMesh.InMapRange(x, y))
-                        if (Vector2.SqrMagnitude(new Vector2(x, y) - playerPos2D) < Util.SquareOf(radius))
+                        if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
                             fogTexture.SetPixel(x, y, Color.white);
                 }
             fogTexture.Apply();

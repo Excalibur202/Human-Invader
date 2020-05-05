@@ -150,10 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 988a673349b34c04eb4970918f8f6c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  texture2D: {fileID: 0}
+  mapRender: {fileID: 0}
   openMap: 0
   playerTransform: {fileID: 1907521644}
   mapMaterial: {fileID: 2100000, guid: 5d5c16512f59e6a429493acd63389ac7, type: 2}
   matTest: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
+  blitMat: {fileID: 2100000, guid: 7e403327f8deb0e489898955d2a0d624, type: 2}
   wallColor: {r: 1, g: 0, b: 0, a: 0}
   playerColor: {r: 0, g: 0.26723528, b: 1, a: 0}
   obstacleColor: {r: 1, g: 0.86989117, b: 0, a: 0}
@@ -363,8 +366,8 @@ RectTransform:
   m_Father: {fileID: 374221637}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.64, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.0007324219, y: 0}
   m_SizeDelta: {x: 0.44999695, y: 0.8199997}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1056,7 +1059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &969937346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2063,7 +2066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1324878622
 RectTransform:
   m_ObjectHideFlags: 0

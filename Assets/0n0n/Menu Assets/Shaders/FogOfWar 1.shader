@@ -1,11 +1,14 @@
 ﻿Shader "Unlit/FogOfWar 1"
 {
     Properties
-    {
+	{
 		/*_PlayerPos("Player Position", Vector) = (0,0,0)*/
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_SecondaryTex("Second Albedo", 2D) = "black" {}
-    }
+		_TiltX("offset X", Range(-2,2)) = 0
+		_TiltY("offset Y", Range(-2,2)) = 0
+		_Scale("Scale", Range(-1,2)) = 1
+	}
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -36,6 +39,10 @@
 			sampler2D _SecondaryTex;
             float4 _MainTex_ST;
 			float4 _SecondaryTex_ST;
+			half _TiltX;
+			half _TiltY;
+			half _Scale;
+			
 			/*float3 _PlayerPos;*/
 			
 
@@ -50,14 +57,12 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_SecondaryTex, i.uv) * tex2D(_MainTex, i.uv);
+                
+				float2 uv = float2(( (i.uv.x + _TiltX)), ( (i.uv.y +  _TiltY)));
+				uv = uv * (1 + _Scale) - (_Scale * 0.5);
 				
-				/*if (distance(i.uv.xy * 200, _PlayerPos.xy) < 10)
-				{
-					col = tex2D(_MainTex, i.uv);
-					
-				}*/
+
+				fixed4 col = tex2D(_SecondaryTex, uv) * tex2D(_MainTex, uv);
                 return col;
             }
             ENDCG
