@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,8 +31,9 @@ public class BaseEnemy : MonoBehaviour {
     protected List<Vector2> waypoints = new List<Vector2> ();
 
     // Strafing behavior
-    float timerStrafe;
+    protected bool strafing;
     bool strafeRight;
+    float timerStrafe;
 
     // Damage effect
     Material damageEffectMaterial;
@@ -44,6 +46,8 @@ public class BaseEnemy : MonoBehaviour {
 
         currentBehavior = Behavior.passive;
         defaultMoveSpeed = moveSpeed;
+
+        transform.position = Util.V3setY (transform.position, ground_Y + aboveGround_Y);
 
         // Waypoint pathing system
         StartCoroutine (PositionLibrarian ());
@@ -63,24 +67,20 @@ public class BaseEnemy : MonoBehaviour {
             if (raycastHit.collider && raycastHit.collider.CompareTag ("Player")) {
                 canSeePlayer = true;
                 playerLastSightedAt = player.transform.position;
+            } else {
+                canSeePlayer = false;
             }
         } else
             canSeePlayer = false;
 
         // Different updates depending on behavior
         switch (currentBehavior) {
-            case (Behavior.passive):
-                break;
-
             case (Behavior.aggro):
                 ChaseAI ();
                 break;
 
             case (Behavior.returning):
                 ReturnAI ();
-                break;
-
-            case (Behavior.waiting):
                 break;
         }
     }
@@ -91,8 +91,11 @@ public class BaseEnemy : MonoBehaviour {
         if (canSeePlayer) {
             MoveTowards (playerLastSightedAt);
         }
+
         // Move to the last place player was seen
-        else if (Util.SqrDistance (transform.position, playerLastSightedAt, true) > Util.Square (0.1f)) {
+        else if (Util.SqrDistance (transform.position, playerLastSightedAt, true) > Util.Square (0.25f)) {
+            MoveTowards (playerLastSightedAt);
+
             if (!damagedRecently && playerSqrDistance > Util.Square (aggroRange * 2)) {
                 StartCoroutine (ReturnToSpawn ());
             }
@@ -134,20 +137,6 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
-    // Used when the enemy loses track of the player
-    // Restarts the aggro checker, and after a few seconds swaps to return behavior
-    IEnumerator ReturnToSpawn () {
-        currentBehavior = Behavior.waiting;
-
-        StartCoroutine (AggroScanner ());
-
-        yield return new WaitForSeconds (3);
-
-        if (currentBehavior == Behavior.waiting) {
-            currentBehavior = Behavior.returning;
-        }
-    }
-
     // Move and rotate towards a direction with options for strafing and distance limit
     protected void MoveTowards (Vector3 moveTarget, float forwardMovementAngleLimit = 30, bool strafing = false, int limitDistance = 0) {
         if (moveSpeed > 0) {
@@ -177,6 +166,24 @@ public class BaseEnemy : MonoBehaviour {
                 }
             }
 
+            /////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////
+            // EXPERIMENTAL ARMS
+            Ray leftArm = new Ray (transform.position, transform.forward - transform.right);
+            Ray rightArm = new Ray (transform.position, transform.forward + transform.right);
+            if (Physics.Raycast (leftArm, 2, LayerMask.GetMask ("Obstacle"))) {
+                strafing = true;
+                strafeRight = true;
+                timerStrafe = 0;
+            } else if (Physics.Raycast (rightArm, 2, LayerMask.GetMask ("Obstacle"))) {
+                strafing = true;
+                strafeRight = false;
+                timerStrafe = 0;
+            } else
+                strafing = false;
+            /////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////
+
             if (strafing) {
                 if (timerStrafe >= 0.8f) {
                     if (UnityEngine.Random.Range (0, 2) == 0)
@@ -201,11 +208,36 @@ public class BaseEnemy : MonoBehaviour {
         moveVector = Util.V3setY (moveVector, 0).normalized;
         moveVector *= moveSpeed * Time.deltaTime;
         charCtrl.Move (moveVector);
+        transform.position = Util.V3setY (transform.position, ground_Y + aboveGround_Y);
+    }
+
+    protected void EvalLDT (Dictionary<int, Action> aiActions) {
+        LDTV2Manager.instance.lDT.Eval (aiActions);
+    }
+
+    // Used when the enemy loses track of the player
+    // Restarts the aggro checker, and after a few seconds swaps to return behavior
+    IEnumerator ReturnToSpawn () {
+        currentBehavior = Behavior.waiting;
+
+        StartCoroutine (AggroScanner ());
+
+        yield return new WaitForSeconds (3);
+
+        // Make sure the way back is as efficient as possible
+        for (int i = waypoints.Count - 1; i > 0; i--)
+            if (i == waypoints.Count - 1)
+                WaypointPathMinimizer (i);
+
+        if (currentBehavior == Behavior.waiting) {
+            currentBehavior = Behavior.returning;
+        }
     }
 
     // Scan for the player with line of sight
     IEnumerator AggroScanner () {
         while (true) {
+
             if (damagedRecently) {
                 currentBehavior = Behavior.aggro;
                 break;
@@ -226,10 +258,10 @@ public class BaseEnemy : MonoBehaviour {
                     break;
                 }
             }
-        }
 
-        // Retry aggro scan after X seconds
-        yield return new WaitForSeconds (0.25f);
+            // Retry aggro scan after X seconds
+            yield return new WaitForSeconds (0.25f);
+        }
     }
 
     // Keeps recent enemy positions, used when deciding where to set a new waypoint
@@ -306,7 +338,7 @@ public class BaseEnemy : MonoBehaviour {
 
     // Find and delete redundant waypoints inbetween home and a given waypoint
     void WaypointPathMinimizer (int indexWP) {
-        if (waypoints.Count > 2) {
+        if (waypoints.Count > 1) {
             RaycastHit raycastHit;
 
             for (int i = 0; i < indexWP - 1; i++) {

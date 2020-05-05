@@ -18,7 +18,7 @@ public static class Util {
 
     // Because its nicer to the eye than arbitrary multiplications
     public static float Square (float a) { return (a * a); }
-    public static int SquareOf (int a) { return (a * a); }
+    public static int Square (int a) { return (a * a); }
 
     // Makes the objective of getting the SqrMagnitude from the subtraction of two vectors more clear
     public static float SqrDistance (Vector2 v1, Vector2 v2) { return Vector2.SqrMagnitude (v1 - v2); }
@@ -26,7 +26,7 @@ public static class Util {
 
     // Cleaner physics raycast between two vectors
     public static RaycastHit RayFromTo (Vector3 from, Vector3 to, LayerMask layerMask, float rayLength = 0) {
-        Ray ray = new Ray (from, to);
+        Ray ray = new Ray (from, to - from);
 
         if (rayLength == 0)
             rayLength = Vector3.Distance (from, to);
