@@ -7,7 +7,7 @@
 		_SecondaryTex("Second Albedo", 2D) = "black" {}
 		_TiltX("offset X", Range(-2,2)) = 0
 		_TiltY("offset Y", Range(-2,2)) = 0
-		_Scale("Scale", Range(-1,2)) = 1
+		_Scale("Scale", Range(0,2)) = 1
 	}
     SubShader
     {
