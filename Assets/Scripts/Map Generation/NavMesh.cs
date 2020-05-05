@@ -229,33 +229,7 @@ public class NavMesh
             }
         }
     }
-
-    public void ObstacleToNavMesh(List<ObstacleInfo> obstacles)
-    {
-        Vector2 obstacleForward;
-        foreach (ObstacleInfo obstacle in obstacles)
-        {
-            obstacleForward = new Vector2((int)obstacle.GetObstacleTransform.forward.normalized.x, (int)obstacle.GetObstacleTransform.forward.normalized.z);
-            int box2DScaleX = Mathf.RoundToInt(obstacle.GetObstacleTransform.lossyScale.x);
-            int box2DScaleY = Mathf.RoundToInt(obstacle.GetObstacleTransform.lossyScale.z);
-
-            int boxRightCorner2DPosX = Mathf.RoundToInt(obstacle.GetRightCornerTransform.position.x);
-            int boxRightCorner2DPosY = Mathf.RoundToInt(obstacle.GetRightCornerTransform.position.z);
-
-            SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
-        }
-    }
-    public void ObstacleToNavMesh(ObstacleInfo obstacle)
-    {
-        Vector2 obstacleForward = new Vector2((int)obstacle.GetObstacleTransform.forward.normalized.x, (int)obstacle.GetObstacleTransform.forward.normalized.z);
-        int box2DScaleX = Mathf.RoundToInt(obstacle.GetObstacleTransform.lossyScale.x);
-        int box2DScaleY = Mathf.RoundToInt(obstacle.GetObstacleTransform.lossyScale.z);
-
-        int boxRightCorner2DPosX = Mathf.RoundToInt(obstacle.GetRightCornerTransform.position.x);
-        int boxRightCorner2DPosY = Mathf.RoundToInt(obstacle.GetRightCornerTransform.position.z);
-
-        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
-    }
+    
     public void ObstacleToNavMesh(NavMeshObstacle obstacle)
     {
         Vector2 obstacleForward = new Vector2((int)obstacle.obstacleTransform.forward.normalized.x, (int)obstacle.obstacleTransform.forward.normalized.z);
