@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture2D: {fileID: 0}
-  size: 20
+  size: 10
+  border: 100
   openMap: 0
   playerTransform: {fileID: 1907521644}
   mapMaterial: {fileID: 2100000, guid: 5d5c16512f59e6a429493acd63389ac7, type: 2}
@@ -162,6 +163,7 @@ MonoBehaviour:
   groundColor: {r: 0, g: 1, b: 0.055066347, a: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
   sectorDoorColor: {r: 0, g: 0, b: 0, a: 0}
+  borderColor: {r: 0.051886797, g: 0.13513455, b: 1, a: 0}
   area2D: 10
   radius: 10
 --- !u!4 &73955749
