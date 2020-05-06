@@ -72,9 +72,14 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Scale: 0
+    - _ScaleX: 1.47
+    - _ScaleY: 1.37
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TiltX: 0
+    - _TiltY: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
