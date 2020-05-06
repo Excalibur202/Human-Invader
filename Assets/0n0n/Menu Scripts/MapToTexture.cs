@@ -87,7 +87,7 @@ public class MapToTexture : MonoBehaviour
                         if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
                             fogTexture.SetPixel(x, y, Color.white);
                 }
-            fogTexture.Apply();
+            
             if (openMap)
             {
                 for (int x = 0; x < sizeX; x++)
@@ -116,7 +116,7 @@ public class MapToTexture : MonoBehaviour
                     }
 
                 mapTexture.Apply();
-                
+                fogTexture.Apply();
                 openMap = false;
             }
 
