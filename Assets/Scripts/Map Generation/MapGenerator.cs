@@ -87,7 +87,7 @@ public class MapGenerator : MonoBehaviour
         navMesh.RoomsToNavMesh(spawnedRooms);
 
         //Get map border
-        navMesh.GetMapBorder(true, true);
+        navMesh.navMeshMap = navMesh.GetMapBorder(true, true, navMesh.navMeshMap);
 
 
 

@@ -10,7 +10,7 @@ public class RoomInfo
     public Vector3 prefabScale;
     public Vector3 rightCornerPos;
     public Transform entranceTransform;
-
+    public bool drawed = false;
     //Room Exits
     public List<PrefabExit> exitPoints = new List<PrefabExit>();
 

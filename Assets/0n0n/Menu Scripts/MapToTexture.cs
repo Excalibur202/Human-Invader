@@ -17,10 +17,10 @@ public class MapToTexture : MonoBehaviour
     MapGenerator map;
     public Material mapMaterial;
     public Material matTest;
+    public Material matTest2;
     //public Material blitMat;
     Color pixelColor;
     public Color wallColor;
-    public Color playerColor;
     public Color obstacleColor;
     public Color groundColor;
     public Color backgroundColor;
@@ -32,6 +32,8 @@ public class MapToTexture : MonoBehaviour
     public float radius;
     char[,] navMap;
     bool navMeshReady = false;
+    ////////////////////////////////////////////////////////////
+    public char[,] mapChar;
 
     // Start is called before the first frame update
     void Start()
@@ -51,54 +53,35 @@ public class MapToTexture : MonoBehaviour
                 sizeY = navMap.GetLength(1);
 
                 mapTexture = new Texture2D(sizeX, sizeY);
-                fogTexture = new Texture2D(sizeX, sizeY);
-                texture2D = new Texture2D((border * 2) + (sizeX * size),(border * 2) + (sizeY * size));
+                fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
+                texture2D = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
 
-                for (int x = 0; x < sizeX; x++)
-                    for (int y = 0; y < sizeY; y++)
-                    {
-                        fogTexture.SetPixel(x, y, Color.white);
-                        //texture2D.SetPixel(x, y, Color.white);
-                    }
+                mapChar = new char[sizeX, sizeY];
+
+                //for (int x = 0; x < sizeX; x++)
+                //    for (int y = 0; y < sizeY; y++)
+                //    {
+                //        //fogTexture.SetPixel(x, y, Color.black);
+                //        mapTexture.SetPixel(x, y, Color.black);
+                //        //texture2D.SetPixel(x, y, Color.white);
+                //    }
                 mapMaterial.mainTexture = texture2D;
+                matTest2.mainTexture = fogTexture;
                 //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
                 mapTexture.wrapMode = TextureWrapMode.Clamp;
                 fogTexture.wrapMode = TextureWrapMode.Clamp;
                 texture2D.wrapMode = TextureWrapMode.Clamp;
                 SetTextureColor(texture2D, borderColor);
+                SetTextureColor(fogTexture, Color.white);
                 //matTest.SetTexture("_MainTex", mapTexture);
                 matTest.SetTexture("_MainTex", texture2D);
                 matTest.SetTexture("_SecondaryTex", fogTexture);
                 //matTest.SetVector("_PlayerPos", playerPos);
+                CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
                 fogTexture.Apply();
                 //texture2D.Apply();
                 navMeshReady = true;
-                openMap = true;
-            }
-        }
-        else
-        {
-            //playerPos = new Vector3(playerTransform.position.x,playerTransform.position.z,0);
-            //matTest.SetVector("_PlayerPos", playerPos);
-            
-            //Graphics.Blit(mapTexture, mapRender, blitMat);
-            
-            //blitMat.mainTexture = mapRender;
-            
-            playerPos2D = Util.V3toV2(playerTransform.position);
 
-            for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
-                for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
-                {
-                    if (map.navMesh.InMapRange(x, y))
-                        if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
-                            fogTexture.SetPixel(x, y, Color.white);
-                }
-
-            fogTexture.Apply();
-
-            if (openMap)
-            {
                 for (int x = 0; x < sizeX; x++)
                     for (int y = 0; y < sizeY; y++)
                     {
@@ -114,7 +97,7 @@ public class MapToTexture : MonoBehaviour
                                 pixelColor = obstacleColor;
                                 break;
                             case 'p':
-                                pixelColor = playerColor;
+                                pixelColor = groundColor;
                                 break;
                             case 's':
                                 pixelColor = sectorDoorColor;
@@ -124,26 +107,66 @@ public class MapToTexture : MonoBehaviour
                                 break;
                         }
 
-                        mapTexture.SetPixel(x, y, pixelColor);
-                        QuimdaLage(border, size, x, y, pixelColor, texture2D);
+                        //mapTexture.SetPixel(x, y, pixelColor);
+                        SetTextureColor(border, size, x, y, pixelColor, texture2D);
                     }
 
                 //mapTexture.Apply();
                 texture2D.Apply();
-                
+
+                openMap = true;
+            }
+        }
+        else
+        {
+            //playerPos = new Vector3(playerTransform.position.x,playerTransform.position.z,0);
+            //matTest.SetVector("_PlayerPos", playerPos);
+
+            //Graphics.Blit(mapTexture, mapRender, blitMat);
+
+            //blitMat.mainTexture = mapRender;
+
+            playerPos2D = Util.V3toV2(playerTransform.position);
+
+            //for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
+            //    for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
+            //    {
+            //        if (map.navMesh.InMapRange(x, y))
+            //            if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
+            //                fogTexture.SetPixel(x, y, Color.white);
+
+            //    }
+
+            //fogTexture.Apply();
+
+            foreach (RoomInfo roomInfo in map.spawnedRooms)
+                if (!roomInfo.drawed)
+                    if (Util.SqrDistance(playerPos2D, Util.V3toV2(roomInfo.prefab.transform.position)) < Util.Square(17f))
+                    {
+
+
+                        map.navMesh.RoomToTexture(fogTexture, roomInfo, size, border);
+                        roomInfo.drawed = true;
+
+                    }
+
+            if (openMap)
+            {
+
+
                 openMap = false;
             }
 
         }
     }
 
-    private void QuimdaLage(int border,int size, int x, int y, Color pxColor, Texture2D texture)
+    public static void SetTextureColor(int border, int size, int x, int y, Color pxColor, Texture2D texture)
     {
-        
+
         Vector2 modiefiedPos = new Vector2(border + (x * size), border + (y * size));
 
-        for(int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
-            for(int deltaY = (int)modiefiedPos.y; deltaY < modiefiedPos.y + size; deltaY++)
+        for (int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
+            for (int deltaY = (int)modiefiedPos.y; deltaY < modiefiedPos.y + size; deltaY++)
             {
                 texture.SetPixel(deltaX, deltaY, pxColor);
             }
@@ -156,6 +179,15 @@ public class MapToTexture : MonoBehaviour
             for (int y = 0; y < texture.height; y++)
             {
                 texture.SetPixel(x, y, borderColor);
+            }
+    }
+
+    public void CenterOfTexture(Texture2D texture, Color color, int sizeX,int sizeY,int size, int border)
+    {
+        for(int x = 0; x < sizeX; x++)
+            for(int y = 0; y < sizeY; y++)
+            {
+                SetTextureColor(border, size, x, y, color, texture);
             }
     }
 }

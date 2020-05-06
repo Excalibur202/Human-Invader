@@ -151,14 +151,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture2D: {fileID: 0}
-  size: 10
-  border: 100
+  size: 3
+  border: 1
   openMap: 0
   playerTransform: {fileID: 1907521644}
   mapMaterial: {fileID: 2100000, guid: 5d5c16512f59e6a429493acd63389ac7, type: 2}
   matTest: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
+  matTest2: {fileID: 2100000, guid: 22a3ccd4bbce43546ac5d6e20a0e61e3, type: 2}
   wallColor: {r: 1, g: 0, b: 0, a: 0}
-  playerColor: {r: 0, g: 0.26723528, b: 1, a: 0}
   obstacleColor: {r: 0.5188679, g: 0.40481818, b: 0.26188144, a: 0}
   groundColor: {r: 0, g: 1, b: 0.055066347, a: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
@@ -475,7 +475,7 @@ MonoBehaviour:
   seedOnOff: 0
   mapSizeX: 200
   mapSizeY: 200
-  nSectors: 10
+  nSectors: 300
   minRoomsPSector: 3
   maxRoomsPSector: 10
   playerTransform: {fileID: 1907521644}
@@ -2085,8 +2085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12.5, y: 25.78299}
-  m_SizeDelta: {x: -124.24585, y: -105.80618}
+  m_AnchoredPosition: {x: -291.40002, y: 132.4}
+  m_SizeDelta: {x: -583.3058, y: -264.76196}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1324878623
 MonoBehaviour:
