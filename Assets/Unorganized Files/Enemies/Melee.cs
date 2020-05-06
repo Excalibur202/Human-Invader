@@ -11,9 +11,19 @@ public class Melee : BaseEnemy {
 	}
 	AggroAction aggroAction = AggroAction.none;
 
+	// Serialized Options
 	[SerializeField] float ability1CooldownMax;
+	[SerializeField] GameObject stick;
+
+	// General attack variables
+	Vector2 attackDirection;
+	float attackStopwatch;
+	int attackStage;
+
+	// Unique variables
 	float ability1Cooldown;
-	float attackTimer;
+	Vector3 stickDefaultPosition;
+	Quaternion stickDefaultRotation;
 
 	// AI Variables
 	Dictionary<int, Action> aiActions = new Dictionary<int, Action> ();
@@ -21,6 +31,9 @@ public class Melee : BaseEnemy {
 	// Start is called before the first frame update
 	void Start () {
 		base.Start ();
+
+		stickDefaultPosition = stick.transform.localPosition;
+		stickDefaultRotation = stick.transform.localRotation;
 
 		Action chaseAttack = () => {
 			strafing = false;
@@ -70,35 +83,53 @@ public class Melee : BaseEnemy {
 		EvalLDT (aiActions);
 
 		if (canSeePlayer) {
-
-			if (ability1Cooldown == 0 && playerSqrDistance < Util.Square (2f)) {
-				ability1Cooldown = ability1CooldownMax;
-				attackTimer = 2;
-				aggroAction = AggroAction.ability1;
-
-			} else if (playerSqrDistance < Util.Square (1f)) {
+			/*
+			if (ability1Cooldown == 0 && playerSqrDistance < Util.Square (4f)) {
 				aggroAction = AggroAction.attack;
-				attackTimer = 1;
+				attackStage = 0;
+			}
+			*/
+			if (playerSqrDistance < Util.Square (2f)) {
+				aggroAction = AggroAction.attack;
+				attackStage = 0;
 			}
 		}
 	}
 
 	void Ability1 () {
-
+		switch (attackStage) {
+			case 0:
+				break;
+		}
 	}
 
 	void MeleeAttack () {
+		switch (attackStage) {
+			case 0:
+				stick.transform.localPosition += new Vector3 (0, 0, 4 * Time.deltaTime);
 
+				if (stick.transform.localPosition.z >= 2)
+					attackStage = 1;
+				break;
+
+			case 1:
+
+				stick.transform.localPosition -= new Vector3 (0, 0, 4 * Time.deltaTime);
+
+				if (stick.transform.localPosition.z <= 0)
+					attackStage = 2;
+				break;
+
+			case 2:
+				stick.transform.localPosition = Vector3.zero;
+				aggroAction = AggroAction.none;
+				break;
+		}
 	}
 
 	void UpdateTimers () {
-		if (attackTimer > 0) {
-			attackTimer -= Time.deltaTime;
-
-			if (attackTimer <= 0) {
-				attackTimer = 0;
-				aggroAction = AggroAction.none;
-			}
+		if (aggroAction == AggroAction.ability1) {
+			attackStopwatch += Time.deltaTime;
 		}
 
 		if (ability1Cooldown > 0) {

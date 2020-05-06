@@ -64,7 +64,6 @@ public class BaseEnemy : MonoBehaviour {
         if (playerSqrDistance <= Util.Square (aggroRange * 2)) {
             RaycastHit raycastHit = Util.RayFromTo (transform.position, player.transform.position, LayerMask.GetMask ("Obstacle", "Player"), aggroRange * 2);
 
-
             if (raycastHit.collider && raycastHit.collider.CompareTag ("Player")) {
                 canSeePlayer = true;
                 playerLastSightedAt = player.transform.position;
@@ -213,7 +212,7 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     protected void EvalLDT (Dictionary<int, Action> aiActions) {
-        LDTV2Manager.instance.lDT.Eval (aiActions);
+        //LDTV2Manager.instance.lDT.Eval (aiActions);
     }
 
     // Used when the enemy loses track of the player
