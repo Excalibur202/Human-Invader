@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MapToTexture : MonoBehaviour
 {
-    //public Texture2D texture2D;
+    public Texture2D texture2D;
+    public int size;
+    public int border;
     //public RenderTexture mapRender;
     public bool openMap = false;
     public Transform playerTransform;
@@ -22,6 +24,8 @@ public class MapToTexture : MonoBehaviour
     public Color obstacleColor;
     public Color groundColor;
     public Color backgroundColor;
+    public Color sectorDoorColor;
+    public Color borderColor;
     int sizeX;
     int sizeY;
     public int area2D;
@@ -48,19 +52,22 @@ public class MapToTexture : MonoBehaviour
 
                 mapTexture = new Texture2D(sizeX, sizeY);
                 fogTexture = new Texture2D(sizeX, sizeY);
-                //texture2D = new Texture2D(sizeX,sizeY);
+                texture2D = new Texture2D((border * 2) + (sizeX * size),(border * 2) + (sizeY * size));
 
                 for (int x = 0; x < sizeX; x++)
                     for (int y = 0; y < sizeY; y++)
                     {
-                        fogTexture.SetPixel(x, y, Color.black);
+                        fogTexture.SetPixel(x, y, Color.white);
                         //texture2D.SetPixel(x, y, Color.white);
                     }
-                mapMaterial.mainTexture = mapTexture;
+                mapMaterial.mainTexture = texture2D;
                 //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
                 mapTexture.wrapMode = TextureWrapMode.Clamp;
                 fogTexture.wrapMode = TextureWrapMode.Clamp;
-                matTest.SetTexture("_MainTex", mapTexture);
+                texture2D.wrapMode = TextureWrapMode.Clamp;
+                SetTextureColor(texture2D, borderColor);
+                //matTest.SetTexture("_MainTex", mapTexture);
+                matTest.SetTexture("_MainTex", texture2D);
                 matTest.SetTexture("_SecondaryTex", fogTexture);
                 //matTest.SetVector("_PlayerPos", playerPos);
                 fogTexture.Apply();
@@ -87,7 +94,9 @@ public class MapToTexture : MonoBehaviour
                         if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
                             fogTexture.SetPixel(x, y, Color.white);
                 }
-            
+
+            fogTexture.Apply();
+
             if (openMap)
             {
                 for (int x = 0; x < sizeX; x++)
@@ -107,19 +116,46 @@ public class MapToTexture : MonoBehaviour
                             case 'p':
                                 pixelColor = playerColor;
                                 break;
+                            case 's':
+                                pixelColor = sectorDoorColor;
+                                break;
                             default:
                                 pixelColor = backgroundColor;
                                 break;
                         }
 
                         mapTexture.SetPixel(x, y, pixelColor);
+                        QuimdaLage(border, size, x, y, pixelColor, texture2D);
                     }
 
-                mapTexture.Apply();
-                fogTexture.Apply();
+                //mapTexture.Apply();
+                texture2D.Apply();
+                
                 openMap = false;
             }
 
         }
+    }
+
+    private void QuimdaLage(int border,int size, int x, int y, Color pxColor, Texture2D texture)
+    {
+        
+        Vector2 modiefiedPos = new Vector2(border + (x * size), border + (y * size));
+
+        for(int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
+            for(int deltaY = (int)modiefiedPos.y; deltaY < modiefiedPos.y + size; deltaY++)
+            {
+                texture.SetPixel(deltaX, deltaY, pxColor);
+            }
+    }
+
+    private void SetTextureColor(Texture2D texture, Color borderColor)
+    {
+
+        for (int x = 0; x < texture.width; x++)
+            for (int y = 0; y < texture.height; y++)
+            {
+                texture.SetPixel(x, y, borderColor);
+            }
     }
 }
