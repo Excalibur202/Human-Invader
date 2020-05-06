@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -47,6 +48,10 @@ public class PlayerController : MonoBehaviour
     public float cameraBackOffset = 1f;
     [Range(0.01f, 0.5f)]
     public float cameraHitOffset = 0.01f;
+    public float defaultFov = 70f;
+    public float aimFov = 55f;
+    public float fovSwitchSpeed = 30f;
+
 
     public float mouseSensibility = 1f;
     public float cameraYaw = 0;
@@ -73,6 +78,8 @@ public class PlayerController : MonoBehaviour
     private float direction = 0;
     private Vector3 characterDir = Vector3.zero;
     private Transform cameraTransform;
+    private bool aiming = false;
+    private Camera camComp;
 
 
     private void Awake()
@@ -92,7 +99,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogWarning("No camera prefab found. Please add one if the default doesn't suit.");
             GameObject go = new GameObject("Default Camera");
-            go.AddComponent<Camera>();
+            camComp = go.AddComponent<Camera>();
             cameraTransform = go.transform;
         }
         else
@@ -147,8 +154,16 @@ public class PlayerController : MonoBehaviour
         if (keyboardInput != Vector3.zero)
             characterDir = Vector3.Lerp(characterDir, keyboardInput,Time.deltaTime*5f);
 
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (Input.GetMouseButton(1))
+            aiming = true;
+        else
+            aiming = false;
+
+        if (Input.GetMouseButtonDown(0) && aiming)
             Shoot();
+
+        //if (aiming)
+        //    characterDir = new Vector3(cameraTransform.forward.x, cameraTransform.forward.y, cameraTransform.forward.z);
 
 
         Debug.DrawLine(transform.position, transform.position + characterDir, Color.yellow, Time.deltaTime);
@@ -168,24 +183,6 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         
-
-        if (animator)
-        {
-            if (keyboardInput.magnitude > 0)
-                animator.SetBool("IsAccelerating", true);
-            else
-                animator.SetBool("IsAccelerating", false);
-            if (currentSpeed > 0)
-                animator.SetFloat("Speed", 90f);
-            else
-                animator.SetFloat("Speed",0f);
-
-
-            if (characterController.isGrounded)
-                animator.SetBool("InAir", false);
-            else
-                animator.SetBool("InAir", true);
-        }
 
         //Stop from controlling motion while on air
         if (characterController.isGrounded)
@@ -217,10 +214,16 @@ public class PlayerController : MonoBehaviour
         gravityMotion = Vector3.up * gravityVelocity * Time.deltaTime;
 
         #endregion
-
         //Apply final movement
-        if (currentSpeed > 0)
+
+        if (aiming)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(new Vector3(cameraTransform.forward.x, cameraTransform.forward.y * 0, cameraTransform.forward.z), Vector3.up), Time.deltaTime * rotationSpeed);
+
+        else if (currentSpeed > 0 )
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime*rotationSpeed);
+
+        
+
             //characterYaw = Mathf.Lerp(characterYaw, cameraYaw, Time.deltaTime * 10);
 
         characterController.Move(characterMotion + gravityMotion);
@@ -228,7 +231,28 @@ public class PlayerController : MonoBehaviour
 
        // if (keyboardInput != Vector3.zero)
         direction =  Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * rotationSpeed);
-        animator.SetFloat("Direction", -direction);
+        
+        if (animator)
+        {
+
+            animator.SetFloat("Direction", -direction);
+
+            if (keyboardInput.magnitude > 0)
+                animator.SetBool("IsAccelerating", true);
+            else
+                animator.SetBool("IsAccelerating", false);
+            if (currentSpeed > 0)
+                animator.SetFloat("Speed", 90f);
+            else
+                animator.SetFloat("Speed", 0f);
+
+
+            if (characterController.isGrounded)
+                animator.SetBool("InAir", false);
+            else
+                animator.SetBool("InAir", true);
+        }
+
     }
 
     
@@ -237,6 +261,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateAnimator();
         UpdateCameraMovement();
+        UpdateFov();
     }
 
 
@@ -259,6 +284,8 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Pitch", animationPitch);
         animator.SetFloat("Yaw", animationYaw);
+
+        animator.SetBool("Combat", aiming);
     }
 
     private void UpdateCameraMovement()
@@ -335,5 +362,23 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(gunBarrel.position, lastHitPoint, Color.green, 1f);
 
         nextFire = Time.time + fireRate;
+    }
+
+    private float rawFov = 0;
+    private float currentFov = 90;
+
+    private void UpdateFov()
+    {
+        rawFov = Mathf.Clamp(rawFov, aimFov, defaultFov);
+        if (!aiming)
+            rawFov += fovSwitchSpeed * Time.deltaTime;
+        else
+            rawFov -= fovSwitchSpeed * Time.deltaTime;
+
+        rawFov = Mathf.Clamp(rawFov, aimFov, defaultFov );
+
+
+        currentFov = Mathf.Lerp(currentFov,rawFov,Time.deltaTime*10);
+        camComp.fieldOfView = currentFov;
     }
 }
