@@ -6,5 +6,4 @@ public class NavMeshObstacle : MonoBehaviour
 {
     public Transform obstacleTransform;
     public Transform obstacleRightCorner;
-
 }
