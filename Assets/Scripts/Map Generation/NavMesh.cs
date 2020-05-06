@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NavMesh
 {
-    public char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'p'-player; 'o'-obstacle; // Private
+    public char[,] navMeshMap;// 'g'-ground; 'w'-wall; 'p'-player; 'o'-obstacle; 's'-sector door;
     int mapSizeX;
     int mapSizeY;
     public bool refreshAreas = false;// so pode ser usado se so existir um player
@@ -217,11 +217,11 @@ public class NavMesh
                         Transform navMeshBox = roomInfo.obstacles[obstacleIndex];
                         int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
                         int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
-                        
+
                         Transform boxRightCorner = roomInfo.obstaclesRightCorners[obstacleIndex];
                         int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
                         int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
-                        
+
                         //Obstacles
                         SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, 'o');
                     }
@@ -229,8 +229,8 @@ public class NavMesh
             }
         }
     }
-    
-    public void ObstacleToNavMesh(NavMeshObstacle obstacle)
+
+    public void ObstacleToNavMesh(NavMeshObstacle obstacle, char mapChar)
     {
         Vector2 obstacleForward = new Vector2((int)obstacle.obstacleTransform.forward.normalized.x, (int)obstacle.obstacleTransform.forward.normalized.z);
         int box2DScaleX = Mathf.RoundToInt(obstacle.obstacleTransform.lossyScale.x);
@@ -239,9 +239,9 @@ public class NavMesh
         int boxRightCorner2DPosX = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.x);
         int boxRightCorner2DPosY = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.z);
 
-        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
+        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, mapChar);
     }
-    public void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner)
+    public void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner, char mapChar)
     {
         Vector2 obstacleForward = new Vector2((int)obstacleTransform.forward.normalized.x, (int)obstacleTransform.forward.normalized.z);
 
@@ -251,6 +251,6 @@ public class NavMesh
         int boxRightCorner2DPosX = Mathf.RoundToInt(obstacleRightCorner.position.x);
         int boxRightCorner2DPosY = Mathf.RoundToInt(obstacleRightCorner.position.z);
 
-        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, 'w');
+        SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, mapChar);
     }
 }

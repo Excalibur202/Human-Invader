@@ -120,6 +120,7 @@ public class MapGenerator : MonoBehaviour
                     //Spawn Sector Doors
                     auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
                     auxDoor.transform.SetParent(room.prefab.transform);
+                    navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(),'s');
                     room.sectorDoor = auxDoor;
 
                     lastSector = room.sector;
@@ -475,7 +476,7 @@ public class MapGenerator : MonoBehaviour
 
             GameObject auxDoor = Instantiate(doors[randDoor], exit.position + doors[randDoor].transform.position, exit.rotation);
             auxDoor.transform.SetParent(exit);
-            navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>());
+            navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(),'w');
 
         }
     }
