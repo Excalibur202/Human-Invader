@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     //Camera Rotation Vars
     [Header("Camera")]
+    public bool useCamera = true;
     public GameObject cameraPrefab;
     public float cameraHeight = 1f;
     public float cameraSideOffset = 1f;
@@ -335,6 +336,4 @@ public class PlayerController : MonoBehaviour
 
         nextFire = Time.time + fireRate;
     }
-    
-
 }
