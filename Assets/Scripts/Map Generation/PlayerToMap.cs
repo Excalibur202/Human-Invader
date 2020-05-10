@@ -19,13 +19,14 @@ public class PlayerToMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (!map)
             map = MapGenerator.instance;
         else
         {
             map.navMesh.refreshAreas = false; // so pode ser usado se so existir um enimigo
             pos2D = new Vector2((int)this.gameObject.transform.position.x + 1, (int)this.gameObject.transform.position.z + 1);
-            if (map.navMesh.InMapRange(pos2D) && map.navMesh.GetPosChar(pos2D) == 'g')
+            if (map.navMesh.InMapRange(pos2D) && (map.navMesh.GetPosChar(pos2D) == 'g' || (map.navMesh.GetPosChar(pos2D) == 's')))
                 if (last2DPos != pos2D)
                 {
                     //player in map
@@ -47,5 +48,6 @@ public class PlayerToMap : MonoBehaviour
                     last2DPos = pos2D;
                 }
         }
+        
     }
 }

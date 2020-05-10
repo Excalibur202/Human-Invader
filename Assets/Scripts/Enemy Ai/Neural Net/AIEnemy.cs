@@ -9,14 +9,15 @@ public class AIEnemy : MonoBehaviour
     int sizeX;
     int sizeY;
     char[,] mapArea;
-
+    
     float[] nNInput;
     public float[] nNOutput;
-
-    float timer = 0;
+    
 
     Vector2 last2DPos = Vector2.zero;
     Vector2 pos2D;
+
+    public Vector2 outputAxis = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +38,8 @@ public class AIEnemy : MonoBehaviour
         {
             //Vision
             UpdateNNVision();
-
             nNOutput = nNet.Eval(nNInput);
-            
-
+            outputAxis = GetAIAxis(nNOutput);
         }
     }
 
@@ -50,7 +49,6 @@ public class AIEnemy : MonoBehaviour
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         nNInput = new float[sizeX * sizeY];
-
     }
 
     private void UpdateNNVision()
@@ -92,10 +90,22 @@ public class AIEnemy : MonoBehaviour
                 auxIndex++;
             }
             last2DPos = pos2D;
-            timer = 0;
         }
     }
 
+    private Vector2 GetAIAxis(float[] nNOutputs)
+    {
+        if(nNOutputs.Length >= 4)
+        {
+            Vector2 axis = Vector2.zero;
+            axis.x += NeuralNetworkMath.sigmoidToAxis(nNOutputs[0]) + NeuralNetworkMath.sigmoidToAxis(nNOutputs[1]);
+            axis.y += NeuralNetworkMath.sigmoidToAxis(nNOutputs[2]) + NeuralNetworkMath.sigmoidToAxis(nNOutputs[3]);
+            return axis.normalized;
+        }
+        return Vector2.zero;
+    }
+
+    
 
 
 }

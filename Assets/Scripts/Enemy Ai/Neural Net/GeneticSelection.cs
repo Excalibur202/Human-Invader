@@ -51,8 +51,7 @@ public class GeneticSelection : MonoBehaviour
 
     float timer = 0;
     int selectedNeuralNet = 0;
-
-
+    
     void Start()
     {
         if (RestartPopulation)
@@ -85,6 +84,7 @@ public class GeneticSelection : MonoBehaviour
             aIEnemy.nNet = population[0];
 
             aIEnemy.UpdateAI(Time.deltaTime);
+
 
 
 

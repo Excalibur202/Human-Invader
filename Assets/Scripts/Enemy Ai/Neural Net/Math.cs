@@ -60,4 +60,11 @@ public static class NeuralNetworkMath
         float k = (float)Math.Exp(value);
         return (value > 20) ? 1 : (value < -20) ? 0 : k / (1.0f + k);
     }
+
+    public static float sigmoidToAxis(float value)
+    {
+        float result = (value - 0.5f) * 2;
+        return (result < 0) ? 0 : (result > 1) ? 1 : result;
+    }
+    
 }
