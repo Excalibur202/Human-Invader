@@ -4,67 +4,98 @@ using UnityEngine;
 
 public class AIEnemy : MonoBehaviour
 {
+    public NeuralNetwork nNet;
     MapGenerator map;
-    public int sizeX;
-    public int sizeY;
+    int sizeX;
+    int sizeY;
     char[,] mapArea;
-    float timer = 0;
 
-    List<GameObject> areaDebug = new List<GameObject>();
-    public GameObject cubeTest;
-    public GameObject cubeTestAI;
-    public GameObject cubeTestEnemy;
+    float[] nNInput;
+    public float[] nNOutput;
+
+    float timer = 0;
 
     Vector2 last2DPos = Vector2.zero;
     Vector2 pos2D;
 
     // Start is called before the first frame update
     void Start()
-    { }
+    {
+
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (!map)
             map = MapGenerator.instance;
-        else
+    }
+
+    public void UpdateAI(float deltaTime)
+    {
+        if (map)
         {
-           
-            //timer += Time.deltaTime;
-            pos2D = new Vector2((int)this.gameObject.transform.position.x, (int)this.gameObject.transform.position.z);
+            //Vision
+            UpdateNNVision();
 
-            if (last2DPos != pos2D || /*timer > 0.2f*/ map.navMesh.refreshAreas )
-            {
-                
-                mapArea = map.navMesh.GetArea(sizeX, sizeY, this.gameObject.transform.position);
+            nNOutput = nNet.Eval(nNInput);
+            
 
-                //while (areaDebug.Count > 0)
-                //{
-
-                //    Destroy(areaDebug[0]);
-                //    areaDebug.RemoveAt(0);
-                //}
-
-                //for (int posX = 0; posX < mapArea.GetLength(0); posX++)
-                //    for (int posY = 0; posY < mapArea.GetLength(1); posY++)
-                //    {
-                //        if (mapArea[posX, posY] == 'w')
-                //            areaDebug.Add(Instantiate(cubeTest, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTest.transform.rotation));
-                //        else if (mapArea[posX, posY] == 'a')
-                //        {
-                //            if (cubeTestAI)
-                //                areaDebug.Add(Instantiate(cubeTestAI, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestAI.transform.rotation));
-                //        }
-                //        else if (mapArea[posX, posY] == 'e')
-                //        {
-                //            if (cubeTestEnemy)
-                //                areaDebug.Add(Instantiate(cubeTestEnemy, new Vector3(posX - 0.5f, 1, posY - 0.5f), cubeTestEnemy.transform.rotation));
-                //        }
-                //    }
-
-                last2DPos = pos2D;
-                timer = 0;
-            }
         }
     }
+
+    //AI Vision
+    public void SetVisionArea(int sizeX, int sizeY)
+    {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        nNInput = new float[sizeX * sizeY];
+
+    }
+
+    private void UpdateNNVision()
+    {
+        pos2D = new Vector2((int)this.gameObject.transform.position.x, (int)this.gameObject.transform.position.z);
+
+        if (last2DPos != pos2D || map.navMesh.refreshAreas)
+        {
+            mapArea = map.navMesh.GetArea(sizeX, sizeY, this.gameObject.transform.position);
+            int auxIndex = 0;
+            foreach (char unit in mapArea)
+            {
+                switch (unit)
+                {
+                    case 'g':
+                        nNInput[auxIndex] = 1f;
+                        break;
+
+                    case 's':
+                        nNInput[auxIndex] = 1f;
+                        break;
+
+                    case 'w':
+                        nNInput[auxIndex] = 2f;
+                        break;
+
+                    case 'o':
+                        nNInput[auxIndex] = 2f;
+                        break;
+
+                    case 'p':
+                        nNInput[auxIndex] = 3f;
+                        break;
+
+                    default:
+                        nNInput[auxIndex] = 0f;
+                        break;
+                }
+                auxIndex++;
+            }
+            last2DPos = pos2D;
+            timer = 0;
+        }
+    }
+
+
+
 }

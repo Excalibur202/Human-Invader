@@ -8,12 +8,21 @@ public class GeneticSelection : MonoBehaviour
     NeuralNetwork primeNeuralNet = new NeuralNetwork();
     NeuralNetwork[] population;
 
+    public AIEnemy aIEnemy;
+
+    [SerializeField]
+    int aIVisionSizeX;
+    [SerializeField]
+    int aIVisionSizeY;
+    
     [SerializeField]
     int populationCount = 0;
     [SerializeField]
+    float simulationTime;
+    [SerializeField]
     bool RestartPopulation = false;
     [SerializeField]
-    float simulationTime;
+    bool simulate = false;
 
 
     [SerializeField]
@@ -40,6 +49,9 @@ public class GeneticSelection : MonoBehaviour
     [SerializeField]
     int hidenLayerMaxRows = 0;
 
+    float timer = 0;
+    int selectedNeuralNet = 0;
+
 
     void Start()
     {
@@ -49,36 +61,41 @@ public class GeneticSelection : MonoBehaviour
             population = new NeuralNetwork[populationCount];
             for (int neuralNetIndex = 0; neuralNetIndex < population.Length; neuralNetIndex++)
                 population[neuralNetIndex] = new NeuralNetwork(hidenLayerMaxColumns, hidenLayerMaxRows, inputVecLength, outputVecLength);
+
+            //Fazer mutaçao inicial
+            foreach (NeuralNetwork neuralNet in population)
+                neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
         }
         else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
 
-        foreach (NeuralNetwork neuralNet in population)
-            neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
+
+        aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-
-    private float RunSimulation(NeuralNetwork nNet, float simulationTime)
-    {
-        //Start Simulation
-        float timer = 0;
-        
-        
-        //Update simulation
-        while (timer < simulationTime)
+        /*Simulation*/
+        if (simulate && aIEnemy && population.Length > 0)//do we want to simulate?
         {
             timer += Time.deltaTime;//Start timer
+            aIEnemy.nNet = population[0];
 
-            
+            aIEnemy.UpdateAI(Time.deltaTime);
+
+
+
         }
 
-        return 0;
     }
+
+
+
+
+
 
     private void OnApplicationQuit() //stoping the program
     {

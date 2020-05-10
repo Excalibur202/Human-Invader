@@ -58,6 +58,6 @@ public static class NeuralNetworkMath
     public static float Sigmoid(double value)
     {
         float k = (float)Math.Exp(value);
-        return k / (1.0f + k);
+        return (value > 20) ? 1 : (value < -20) ? 0 : k / (1.0f + k);
     }
 }

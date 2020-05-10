@@ -25,16 +25,27 @@ public class NeuralNetwork
 
         //Input weights
         for (int rowIndex = 0; rowIndex < hidenNodes.GetLength(1); rowIndex++)
+        {
             hidenNodes[0, rowIndex] = new NeuralNode(0, new float[nInputs/*inputVec.Length*/]);
+            hidenNodes[0, rowIndex].activated = true;////////
+        }
+        hidenNodes[0, 0].activated = true;
 
         //HidenNodes weights
         for (int columnIndex = 1; columnIndex < hidenNodes.GetLength(0); columnIndex++)
             for (int rowIndex = 0; rowIndex < hidenNodes.GetLength(1); rowIndex++)
+            {
                 hidenNodes[columnIndex, rowIndex] = new NeuralNode(0, new float[hidenNodes.GetLength(1)]);
+                hidenNodes[columnIndex, rowIndex].activated = true;////////
+            }
+                
 
         //Output weithrs
         for (int outputNodeIndex = 0; outputNodeIndex < outputNodes.Length; outputNodeIndex++)
+        {
             outputNodes[outputNodeIndex] = new NeuralNode(0, new float[hidenNodes.GetLength(1)]);
+            outputNodes[outputNodeIndex].activated = true;
+        }
 
         weightsZero = new float[hidenNodes.GetLength(1)];
         for (int weight = 0; weight < weightsZero.Length; weight++)
@@ -49,9 +60,7 @@ public class NeuralNetwork
         bool rowWhitActivatedNodes = false;
         //Hiden Nodes
         float[] bias = new float[hidenNodes.GetLength(1)];
-        outputVecAux = inputVec;//new float[inputVec.Length]; SEE LATER
-
-
+        outputVecAux = inputVec;//new float[inputVec.Length]; SEE LATER Use deepClone?
 
         for (int column = 0; column < hidenNodes.GetLength(0); column++)
         {
@@ -79,6 +88,7 @@ public class NeuralNetwork
                     }
                     else
                     {
+                        weightsZero = new float[outputVecAux.Length];
                         calcMatrix.AddRow(weightsZero);
                         bias[row] = 0;
                     }
@@ -93,7 +103,6 @@ public class NeuralNetwork
                 }
             }
         }
-
         //Output Nodes
         //calcMatrix = new Matrix(outputNodes.Length, outputVecAux.Length);
         calcMatrix = new Matrix(outputVecAux.Length, outputNodes.Length);
