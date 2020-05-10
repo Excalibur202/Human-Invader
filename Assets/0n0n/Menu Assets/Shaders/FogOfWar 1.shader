@@ -8,6 +8,7 @@
 		_TiltX("offset X", Range(-2,2)) = 0
 		_TiltY("offset Y", Range(-2,2)) = 0
 		_Scale("Scale", Range(-1,2)) = 1
+		_PlayerTexture("Player Texture", 2D) = "white" {}
 	}
     SubShader
     {

@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture2D: {fileID: 0}
-  size: 3
+  size: 2
   border: 1
   openMap: 0
   playerTransform: {fileID: 1907521644}
@@ -368,8 +368,8 @@ RectTransform:
   m_Father: {fileID: 374221637}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.64, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.0007324219, y: 0}
   m_SizeDelta: {x: 0.44999695, y: 0.8199997}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1061,7 +1061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &969937346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2068,7 +2068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1324878622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2085,8 +2085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -291.40002, y: 132.4}
-  m_SizeDelta: {x: -583.3058, y: -264.76196}
+  m_AnchoredPosition: {x: -0.0009765625, y: -0.00088500977}
+  m_SizeDelta: {x: -70.5625, y: -67.49011}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1324878623
 MonoBehaviour:
