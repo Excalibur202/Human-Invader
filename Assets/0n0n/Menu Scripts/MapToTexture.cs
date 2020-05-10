@@ -127,7 +127,7 @@ public class MapToTexture : MonoBehaviour
             //blitMat.mainTexture = mapRender;
 
             playerPos2D = Util.V3toV2(playerTransform.position);
-
+            
             //for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
             //    for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
             //    {
