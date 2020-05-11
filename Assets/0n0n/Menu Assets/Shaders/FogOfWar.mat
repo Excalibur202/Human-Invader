@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PlayerTexture:
-        m_Texture: {fileID: 2800000, guid: 2d9c4f322326a5e4d8e35efa389a03ed, type: 3}
+        m_Texture: {fileID: 2800000, guid: a8fb14b7acda1c24d985c6647b430022, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondaryTex:
@@ -81,7 +81,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 0
-    - _ScalePlayer: 20
+    - _ScalePlayer: 45
     - _ScalePlayerX: 2
     - _ScalePlayerY: 2
     - _ScaleX: 1.47
@@ -101,5 +101,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FuncInfo: {r: 0.005, g: 200, b: 200, a: 0}
     - _MapScale: {r: 200, g: 200, b: 0, a: 0}
-    - _PlayerPos: {r: 51.09719, g: 1.1399999, b: 118.41683, a: 0}
+    - _PlayerPos: {r: 28.60825, g: -46.59063, b: 119.16113, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

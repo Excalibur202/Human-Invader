@@ -129,8 +129,10 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         #endregion
 
+        
+
         #region Keyboard Camera Relative Direction
-        cameraForward = cameraTransform.transform.forward;
+            cameraForward = cameraTransform.transform.forward;
         cameraRight = cameraTransform.transform.right;
         
         cameraForward.y = 0;
@@ -171,8 +173,6 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log(direction);
 
-        
-
         #region Acceleration / Deacceleration
         if (horizontalInput == 0 && verticalInput == 0)
             currentSpeed -= deacceleration * Time.deltaTime;
@@ -183,7 +183,6 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         
-
         //Stop from controlling motion while on air
         if (characterController.isGrounded)
             characterMotion = characterDir * currentSpeed * Time.deltaTime;
