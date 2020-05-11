@@ -53,6 +53,14 @@ public class Matrix
     }
 }
 
+public static class MyMath
+{
+    public static float GetSlope(float x, float y)
+    {
+        return y / x;
+    }
+}
+
 public static class NeuralNetworkMath
 {
     public static float Sigmoid(double value)

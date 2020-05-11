@@ -58,24 +58,27 @@ public class MapToTexture : MonoBehaviour
 
                 mapChar = new char[sizeX, sizeY];
 
-                //for (int x = 0; x < sizeX; x++)
-                //    for (int y = 0; y < sizeY; y++)
-                //    {
-                //        //fogTexture.SetPixel(x, y, Color.black);
-                //        mapTexture.SetPixel(x, y, Color.black);
-                //        //texture2D.SetPixel(x, y, Color.white);
-                //    }
+                
                 mapMaterial.mainTexture = texture2D;
                 matTest2.mainTexture = fogTexture;
                 //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
                 mapTexture.wrapMode = TextureWrapMode.Clamp;
                 fogTexture.wrapMode = TextureWrapMode.Clamp;
                 texture2D.wrapMode = TextureWrapMode.Clamp;
+
                 SetTextureColor(texture2D, borderColor);
                 SetTextureColor(fogTexture, Color.white);
+                
                 //matTest.SetTexture("_MainTex", mapTexture);
                 matTest.SetTexture("_MainTex", texture2D);
                 matTest.SetTexture("_SecondaryTex", fogTexture);
+                
+                matTest.SetVector("_PlayerPos", playerTransform.position);
+                
+                //matTest.SetVector("_MapScale", new Vector3(sizeX,sizeY, 0));
+
+                matTest.SetVector("_FuncInfo", new Vector3(MyMath.GetSlope(sizeX * 0.5f, 0.5f),sizeX, sizeY));
+                Debug.Log(MyMath.GetSlope(sizeX, 0.5f));
                 //matTest.SetVector("_PlayerPos", playerPos);
                 CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
                 fogTexture.Apply();
@@ -125,9 +128,8 @@ public class MapToTexture : MonoBehaviour
             //Graphics.Blit(mapTexture, mapRender, blitMat);
 
             //blitMat.mainTexture = mapRender;
-
+            matTest.SetVector("_PlayerPos", playerTransform.position);
             playerPos2D = Util.V3toV2(playerTransform.position);
-            
             //for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
             //    for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
             //    {
@@ -190,4 +192,6 @@ public class MapToTexture : MonoBehaviour
                 SetTextureColor(border, size, x, y, color, texture);
             }
     }
+
+    
 }
