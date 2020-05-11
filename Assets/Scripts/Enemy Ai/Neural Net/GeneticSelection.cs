@@ -65,12 +65,12 @@ public class GeneticSelection : MonoBehaviour
             foreach (NeuralNetwork neuralNet in population)
                 neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
         }
-        else population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
-
-
+        else
+        {
+            population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
+            primeNeuralNet = primeNeuralNet.LoadBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
+        }
         aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
-
-        
     }
 
     // Update is called once per frame
@@ -84,10 +84,6 @@ public class GeneticSelection : MonoBehaviour
             aIEnemy.nNet = population[0];
 
             aIEnemy.UpdateAI(Time.deltaTime);
-
-
-
-
         }
 
     }

@@ -59,6 +59,15 @@ public static class MyMath
     {
         return y / x;
     }
+
+    public static float CalculateAverage(params float[] values)
+    {
+        float sum = 0;
+        for (int i = 0; i < values.Length; i++)
+            sum += values[i];
+
+        return (sum / values.Length);
+    }
 }
 
 public static class NeuralNetworkMath
@@ -74,5 +83,4 @@ public static class NeuralNetworkMath
         float result = (value - 0.5f) * 2;
         return (result < 0) ? 0 : (result > 1) ? 1 : result;
     }
-    
 }
