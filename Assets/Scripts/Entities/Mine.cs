@@ -144,7 +144,6 @@ public class Mine : MonoBehaviour {
 
         Collider[] objectsInRange = Physics.OverlapSphere (transform.position, explosionRadius);
         foreach (Collider col in objectsInRange) {
-
             // Draw debug line to each affected target
             Debug.DrawLine (transform.position, col.transform.position, Color.red, 2);
 
@@ -161,12 +160,14 @@ public class Mine : MonoBehaviour {
             }
 
             // Trigger other mines in range
-            Mine mine = col.transform.parent.GetComponent<Mine> ();
-            if (mine) {
-                mine.Trigger ();
+            if (col.gameObject.name == "TriggerSphere") {
+                Mine mine = col.transform.parent.GetComponent<Mine> ();
+                if (mine) {
+                    mine.Trigger ();
+                }
             }
-        }
 
-        Destroy (transform.gameObject);
+            Destroy (transform.gameObject);
+        }
     }
 }

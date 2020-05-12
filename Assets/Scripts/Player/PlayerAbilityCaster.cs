@@ -60,6 +60,9 @@ public class PlayerAbilityCaster : MonoBehaviour {
         Rigidbody mineRigidbody = (Rigidbody) mine.GetComponent (typeof (Rigidbody));
         mineRigidbody.velocity = cam.transform.forward * mineSpeed;
 
+        //     yield return new WaitForSeconds (Time.smoothDeltaTime);
+        // }
+
         mineHologram.SetActive (false);
         usingAbility = false;
 

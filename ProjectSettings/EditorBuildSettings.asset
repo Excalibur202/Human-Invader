@@ -8,4 +8,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Kikbow.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/AITraining.unity
+    guid: cb61466fd5771a04b85b52690e7a3fdb
+  - enabled: 1
+    path: Assets/Scenes/Francisco Aires.unity
+    guid: 68fbd7d7fe3afe149958449959829a91
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: db8b5ce7140e6b940a30c8a2d9462494
+  - enabled: 1
+    path: Assets/Scenes/Ronaldo.unity
+    guid: 45f994ab4d3558749a68dbbcdfdf78e5
+  - enabled: 1
+    path: Assets/Scenes/OnOn.unity
+    guid: 76ac27851dad3f344a23fedfcb8600ae
+  - enabled: 1
+    path: Assets/Scenes/Luis.unity
+    guid: d9e67291989f2124cb1bfbe0a623ef60
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 76cdc462805044340b82f49a01c12ad9
   m_configObjects: {}
