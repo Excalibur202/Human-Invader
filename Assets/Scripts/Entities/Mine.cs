@@ -3,6 +3,11 @@
 public class Mine : MonoBehaviour {
     [SerializeField] GameObject triggerSphere;
     [SerializeField] GameObject triggerLaser;
+    [SerializeField] float damage = 30;
+    [SerializeField] float explosionRadius = 3;
+    [SerializeField] float slowdownMultiplier = 0.3f;
+    [SerializeField] float slowdownDuration = 3;
+
     Material triggerSphereMat;
     Material triggerLaserMat;
 
@@ -10,7 +15,7 @@ public class Mine : MonoBehaviour {
     Quaternion finalRotation;
     Rigidbody finalBody;
     float lifetime;
-    public bool landed;
+    bool landed;
 
     public void SetDestination (Rigidbody rigidbody, Vector3 position, Quaternion rotation) {
         finalBody = rigidbody;
@@ -40,9 +45,9 @@ public class Mine : MonoBehaviour {
                 triggerSphereMat.SetVector ("_UpVector", transform.up);
                 triggerSphereMat.SetFloat ("_Invert", 1);
                 triggerLaserMat = triggerLaser.GetComponent<MeshRenderer> ().material;
-                triggerLaserMat.SetFloat("_EdgeWidth", 0);
-                triggerLaserMat.SetFloat("_Range", 1);
-                triggerLaserMat.SetFloat("_Offset", 10);
+                triggerLaserMat.SetFloat ("_EdgeWidth", 0);
+                triggerLaserMat.SetFloat ("_Range", 1);
+                triggerLaserMat.SetFloat ("_Offset", 10);
 
                 triggerSphere.SetActive (true);
             } else {
@@ -69,11 +74,11 @@ public class Mine : MonoBehaviour {
 
             } else if (currentWidth > 0.03f) {
                 currentWidth -= 1f * Time.fixedDeltaTime;
-                
+
                 // On completing the edge animation
                 if (currentWidth <= 0.03f) {
                     currentWidth = 0.03f;
-                    
+
                     triggerLaser.SetActive (true);
                 }
                 triggerSphereMat.SetFloat ("_EdgeWidth", currentWidth);
@@ -91,5 +96,27 @@ public class Mine : MonoBehaviour {
         }
     }
 
-    
+    // Finds and damages everything within range that has a HealthController on it
+    public void Explode () {
+        Collider[] objectsInRange = Physics.OverlapSphere (transform.position, explosionRadius);
+        foreach (Collider col in objectsInRange) {
+
+            // Draw debug line to each affected target
+            Debug.DrawLine (transform.position, col.transform.position, Color.red, 2);
+
+            // Damage if object has a health controller
+            HealthController healthController = col.GetComponent<HealthController> ();
+            if (healthController != null) {
+                healthController.Damage (damage);
+            }
+
+            // Slow if is an enemy
+            BaseEnemy baseEnemy = col.GetComponent<BaseEnemy> ();
+            if (baseEnemy != null) {
+                baseEnemy.ApplyTemporarySlowdown(slowdownMultiplier, slowdownDuration);
+            }
+        }
+
+        Destroy (transform.gameObject);
+    }
 }

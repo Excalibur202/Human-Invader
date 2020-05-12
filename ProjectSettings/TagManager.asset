@@ -20,9 +20,9 @@ TagManager:
   - Interactable
   - Player
   - Enemy
-  - 
-  - 
-  - 
+  - GlobalHurtbox
+  - EnemyHurtbox
+  - PlayerHurtbox
   - 
   - 
   - 
