@@ -9,7 +9,7 @@ internal class AbilityInputs {
 
 public class PlayerAbilityController : MonoBehaviour {
     [SerializeField] PlayerController playerController;
-    [SerializeField] PlayerAbilities abilities;
+    [SerializeField] PlayerAbilityCaster abilities;
     [SerializeField] Camera cam;
     [SerializeField] TerminalController connectedTerminal;
 

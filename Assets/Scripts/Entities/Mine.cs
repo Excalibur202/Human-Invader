@@ -90,4 +90,6 @@ public class Mine : MonoBehaviour {
             }
         }
     }
+
+    
 }

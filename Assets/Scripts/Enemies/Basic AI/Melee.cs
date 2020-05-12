@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class Melee : BaseEnemy {
 	enum AggroAction {
-		none,
-		attack,
-		ability1,
+		None,
+		MeleeAttack,
 	}
-	AggroAction aggroAction = AggroAction.none;
+	AggroAction aggroAction = AggroAction.None;
 
 	// Serialized Options
 	[SerializeField] float ability1CooldownMax;
@@ -54,15 +53,11 @@ public class Melee : BaseEnemy {
 		UpdateTimers ();
 
 		switch (aggroAction) {
-			case AggroAction.none:
+			case AggroAction.None:
 				UpdateAI ();
 				break;
 
-			case AggroAction.ability1:
-				Ability1 ();
-				break;
-
-			case AggroAction.attack:
+			case AggroAction.MeleeAttack:
 				MeleeAttack ();
 				break;
 		}
@@ -83,23 +78,10 @@ public class Melee : BaseEnemy {
 		EvalLDT (aiActions);
 
 		if (canSeePlayer) {
-			/*
-			if (ability1Cooldown == 0 && playerSqrDistance < Util.Square (4f)) {
-				aggroAction = AggroAction.attack;
-				attackStage = 0;
-			}
-			*/
 			if (playerSqrDistance < Util.Square (2f)) {
-				aggroAction = AggroAction.attack;
+				aggroAction = AggroAction.MeleeAttack;
 				attackStage = 0;
 			}
-		}
-	}
-
-	void Ability1 () {
-		switch (attackStage) {
-			case 0:
-				break;
 		}
 	}
 
@@ -122,22 +104,11 @@ public class Melee : BaseEnemy {
 
 			case 2:
 				stick.transform.localPosition = Vector3.zero;
-				aggroAction = AggroAction.none;
+				aggroAction = AggroAction.None;
 				break;
 		}
 	}
 
-	void UpdateTimers () {
-		if (aggroAction == AggroAction.ability1) {
-			attackStopwatch += Time.deltaTime;
-		}
-
-		if (ability1Cooldown > 0) {
-			ability1Cooldown -= Time.deltaTime;
-
-			if (ability1Cooldown <= 0) {
-				ability1Cooldown = 0;
-			}
-		}
-	}
+	// Timers that should be updated using Time.deltaTime every Update() go here
+	void UpdateTimers () { }
 }

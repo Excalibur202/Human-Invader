@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAbilities : MonoBehaviour {
+public class PlayerAbilityCaster : MonoBehaviour {
     public List<Vector3> points;
     [SerializeField] Camera cam;
     [SerializeField] Transform mineOrigin;
@@ -65,11 +65,14 @@ public class PlayerAbilities : MonoBehaviour {
 
         yield return null;
     }
+
     private IEnumerator SoldierRadar () { throw new NotImplementedException (); }
+
     private IEnumerator KnightSlash () { throw new NotImplementedException (); }
+
     private IEnumerator KnightBash () { throw new NotImplementedException (); }
 
-    void DrawMineTracer (Vector3 origin, Vector3 direction, float speed) {
+    private void DrawMineTracer (Vector3 origin, Vector3 direction, float speed) {
         Vector3 velocity = direction * speed;
 
         points = new List<Vector3> ();
