@@ -153,17 +153,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture2D: {fileID: 0}
   size: 2
-  border: 1
+  border: 2
   openMap: 0
   playerTransform: {fileID: 1907521644}
   mapMaterial: {fileID: 2100000, guid: 5d5c16512f59e6a429493acd63389ac7, type: 2}
   matTest: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
   matTest2: {fileID: 2100000, guid: 22a3ccd4bbce43546ac5d6e20a0e61e3, type: 2}
-  wallColor: {r: 1, g: 0, b: 0, a: 0}
+  wallColor: {r: 0.8867924, g: 0.6983401, b: 0.16313636, a: 0}
   obstacleColor: {r: 0.5188679, g: 0.40481818, b: 0.26188144, a: 0}
-  groundColor: {r: 0, g: 1, b: 0.90429544, a: 0}
+  groundColor: {r: 0.8396226, g: 0.37784117, b: 0.1544589, a: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
-  sectorDoorColor: {r: 0, g: 0, b: 0, a: 0}
+  sectorDoorColor: {r: 0.013794942, g: 0.5849056, b: 0.013794942, a: 0}
   borderColor: {r: 0.051886797, g: 0.13513455, b: 1, a: 0}
   area2D: 10
   radius: 10
@@ -193,6 +193,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87fab6168935bfa4aa1c1c1f6d06a15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forward: {fileID: 0}
+  back: {fileID: 0}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  jump: {fileID: 0}
+  attack: {fileID: 0}
+  ability1: {fileID: 0}
+  ability2: {fileID: 0}
 --- !u!1 &75417201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,7 +2014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1324878622
 RectTransform:
   m_ObjectHideFlags: 0
