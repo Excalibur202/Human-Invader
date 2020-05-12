@@ -40,6 +40,8 @@ public class BaseEnemy : MonoBehaviour {
     bool damageEffectActive;
     bool damagedRecently;
 
+    Coroutine slowdownCoroutine;
+
     protected void Start () {
         player = GameObject.FindGameObjectWithTag ("Player");
         charCtrl = transform.GetComponentInChildren<CharacterController> ();
@@ -417,8 +419,22 @@ public class BaseEnemy : MonoBehaviour {
     public void Die () {
         //// DEATH ANIMATION?
 
-        Destroy (transform);
+        Destroy (transform.gameObject);
 
         return;
+    }
+
+    // Applies a % slowdown for X seconds, replacing an ongoing slowdown effect if active  
+    public void ApplyTemporarySlowdown (float slowdownMultiplier, float duration) {
+        if (slowdownCoroutine != null)
+            StopCoroutine (slowdownCoroutine);
+
+        slowdownCoroutine = StartCoroutine (TemporarySlowdownEffect (slowdownMultiplier, duration));
+    }
+
+    IEnumerator TemporarySlowdownEffect (float slowdownMultiplier, float duration) {
+        moveSpeed = defaultMoveSpeed * slowdownMultiplier;
+        yield return new WaitForSeconds (duration);
+        moveSpeed = defaultMoveSpeed;
     }
 }

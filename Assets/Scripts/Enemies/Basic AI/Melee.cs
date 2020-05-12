@@ -104,6 +104,8 @@ public class Melee : BaseEnemy {
 
 			case 2:
 				stick.transform.localPosition = Vector3.zero;
+				stick.GetComponent<Hurtbox> ().Reset ();
+
 				aggroAction = AggroAction.None;
 				break;
 		}
