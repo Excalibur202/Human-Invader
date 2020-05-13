@@ -77,10 +77,10 @@ public class MapToTexture : MonoBehaviour
                 
                 //matTest.SetVector("_MapScale", new Vector3(sizeX,sizeY, 0));
 
-                matTest.SetVector("_FuncInfo", new Vector3(MyMath.GetSlope(sizeX * 0.5f, 0.5f),sizeX, sizeY));
+                matTest.SetVector("_FuncInfo", new Vector3(sizeX, sizeY,0));
                 Debug.Log(MyMath.GetSlope(sizeX, 0.5f));
                 //matTest.SetVector("_PlayerPos", playerPos);
-                CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
+                CenterOfTexture(fogTexture, /*Color.black*/ Color.white, sizeX, sizeY, size, border);
                 fogTexture.Apply();
                 //texture2D.Apply();
                 navMeshReady = true;
