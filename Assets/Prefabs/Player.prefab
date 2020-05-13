@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 116203280}
   - component: {fileID: 116203281}
   - component: {fileID: 116203283}
+  - component: {fileID: 8870820809610238423}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,11 +84,24 @@ MonoBehaviour:
   gunBarrel: {fileID: 8469700541842377641}
   damage: 23
   shotsPerSec: 5
+  shotTrailPrefab: {fileID: 0}
+  cachedBulletCounts: 5
+  bloomAmmount: 0.5
+  currentBloom: 0
+  bloomDecayPerSec: 1
+  maxBloom: 5
+  muzzleLight: {fileID: 0}
+  muzzleLightIntensity: 3
+  muzzleLightDecay: 5
+  useCamera: 1
   cameraPrefab: {fileID: 0}
   cameraHeight: 0.5
   cameraSideOffset: 0.5
   cameraBackOffset: 2
   cameraHitOffset: 0.197
+  defaultFov: 70
+  aimFov: 55
+  fovSwitchSpeed: 30
   mouseSensibility: 6
   cameraYaw: 0
   cameraPitch: 0
@@ -141,6 +155,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925c3af5ac49ef448859557a7da62ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderDistance: 0
+--- !u!114 &8870820809610238423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444799230317969557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42a22cc581cd7641bfdb2015eb868dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  die:
+    m_PersistentCalls:
+      m_Calls: []
+  damage:
+    m_PersistentCalls:
+      m_Calls: []
+  invulnerable: 0
+  oneHitKill: 0
+  dieDebug: 0
+  healthPoints: 15
+  healthPointsMax: 0
 --- !u!1001 &1444799231182887118
 PrefabInstance:
   m_ObjectHideFlags: 0
