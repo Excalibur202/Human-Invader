@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 //using System.Diagnostics;
 using UnityEngine;
 
@@ -38,6 +39,20 @@ public class PlayerController : MonoBehaviour
     public float shotsPerSec = 5f;
     private float fireRate = 0.2f;
     private float nextFire = 0f;
+    public GameObject shotTrailPrefab;
+    [SerializeField]
+    private int cachedBulletCounts = 5;
+    private Queue<ShotTrail> shotsCache;
+    public float bloomAmmount = 0.5f;
+    public float currentBloom = 0.0f;
+    public float bloomDecayPerSec = 1.0f;
+    public float maxBloom = 5f;
+    public Light muzzleLight;
+    public float muzzleLightIntensity = 3f;
+    public float muzzleLightDecay = 5f;
+    private float currentMuzzle = 0f;
+
+
 
     //Camera Rotation Vars
     [Header("Camera")]
@@ -51,6 +66,8 @@ public class PlayerController : MonoBehaviour
     public float defaultFov = 70f;
     public float aimFov = 55f;
     public float fovSwitchSpeed = 30f;
+    private float currentShake = 0f;
+    private Vector3 shakePosition = Vector3.zero;
 
 
     public float mouseSensibility = 1f;
@@ -110,6 +127,8 @@ public class PlayerController : MonoBehaviour
 
         fireRate = 1f / shotsPerSec;
 
+        CacheShots();
+
     }
 
     // Start is called before the first frame update
@@ -161,7 +180,7 @@ public class PlayerController : MonoBehaviour
         else
             aiming = false;
 
-        if (Input.GetMouseButtonDown(0) && aiming)
+        if (Input.GetMouseButton(0) && aiming)
             Shoot();
 
         //if (aiming)
@@ -223,8 +242,6 @@ public class PlayerController : MonoBehaviour
 
         
 
-            //characterYaw = Mathf.Lerp(characterYaw, cameraYaw, Time.deltaTime * 10);
-
         characterController.Move(characterMotion + gravityMotion);
         lastCharacterMotion = characterMotion;
 
@@ -251,6 +268,12 @@ public class PlayerController : MonoBehaviour
             else
                 animator.SetBool("InAir", true);
         }
+
+
+        UpdateShooting();
+        
+
+      // Cursor.lockState = CursorLockMode.Locked;
 
     }
 
@@ -299,12 +322,29 @@ public class PlayerController : MonoBehaviour
 
         if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude,LayerMask.GetMask("Obstacle")))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
-        
+
+
+        targetPosition += shakePosition;
+
 
         cameraTransform.position = targetPosition;
 
         Debug.DrawLine(transform.position, targetPosition,Color.green,Time.deltaTime);
     }
+
+    public void UpdateShooting()
+    {
+        shakePosition = Vector3.Lerp(shakePosition, Vector3.zero, Time.deltaTime * 5f);
+        currentBloom -= Mathf.Pow((Time.time - (nextFire - fireRate)), 2) * Time.deltaTime * bloomDecayPerSec;
+        currentBloom = Mathf.Clamp(currentBloom, 0, maxBloom);
+
+        currentMuzzle -= muzzleLightDecay * Time.deltaTime;
+        currentMuzzle = Mathf.Clamp(currentMuzzle, 0, muzzleLightIntensity);
+
+        muzzleLight.intensity = currentMuzzle;
+    }
+
+
 
     private Vector3 rawShootingPoint = Vector3.zero;
     private Vector3 barrelShootingDirection = Vector3.zero;
@@ -337,10 +377,17 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(cameraTransform.position, rawShootingPoint,Color.red,1f);
 
         barrelShootingDirection = (rawShootingPoint - gunBarrel.position).normalized;
+        barrelShootingDirection = (Quaternion.AngleAxis(UnityEngine.Random.Range(-bloomAmmount, bloomAmmount)*currentBloom, UnityEngine.Random.onUnitSphere) * barrelShootingDirection);
+
+        currentBloom += bloomAmmount;
+
+        shakePosition = UnityEngine.Random.insideUnitSphere * 0.05f;
 
         playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f);
 
         lastHitPoint = gunBarrel.position + (barrelShootingDirection * 1000f);
+
+        currentMuzzle = muzzleLightIntensity;
 
         for (int i = 0; i < playerShootHits.Length; i++)
         {
@@ -360,7 +407,11 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawLine(gunBarrel.position, lastHitPoint, Color.green, 1f);
 
+        GetNextShotTrail().Setup(gunBarrel.position, lastHitPoint);
+
         nextFire = Time.time + fireRate;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private float rawFov = 0;
@@ -379,5 +430,23 @@ public class PlayerController : MonoBehaviour
 
         currentFov = Mathf.Lerp(currentFov,rawFov,Time.deltaTime*10);
         camComp.fieldOfView = currentFov;
+    }
+
+    private void CacheShots()
+    {
+        shotsCache = new Queue<ShotTrail>();
+
+        for(int i = 0; i < cachedBulletCounts; i++)
+        {
+            GameObject go = Instantiate(shotTrailPrefab);
+            shotsCache.Enqueue(go.GetComponent<ShotTrail>());
+        }
+    }
+
+    private ShotTrail GetNextShotTrail()
+    {
+        ShotTrail st = shotsCache.Dequeue();
+        shotsCache.Enqueue(st);
+        return st;
     }
 }
