@@ -10,7 +10,6 @@ public class RoomInfo
     public Vector3 prefabScale;
     public Vector3 rightCornerPos;
     public Transform entranceTransform;
-    public bool drawed = false;
     //Room Exits
     public List<PrefabExit> exitPoints = new List<PrefabExit>();
 
@@ -18,12 +17,11 @@ public class RoomInfo
     public List<PrefabExit> lastExitPoints = new List<PrefabExit>();
     public int thisEntranceIndex;
     
-    //Spawn enemies?
-    public bool spawnEnemies;
-    //public <EnemyClass> enemies
+    //Enemies in room
+    public List<GameObject> enemies = new List<GameObject>();
     
     //Sector Info
-    public int sector;
+    public int sector;// -2:spawn room , -1:command room
     public char subSector;
     public GameObject sectorDoor;
 
@@ -39,7 +37,7 @@ public class RoomInfo
     public RoomInfo(
         GameObject prefab, GameObject basePrefab,
         List<Transform> exitPoints, Vector3 prefabScale,
-        Vector3 rightCornerPos, Transform entranceTransform, bool spawnEnemies,
+        Vector3 rightCornerPos, Transform entranceTransform,
         int sector, char subSector)
     {
         this.prefab = prefab;
@@ -49,7 +47,6 @@ public class RoomInfo
         this.prefabScale = prefabScale;
         this.rightCornerPos = rightCornerPos;
         this.entranceTransform = entranceTransform;
-        this.spawnEnemies = spawnEnemies;
         this.sector = sector;
         this.subSector = subSector;
     }

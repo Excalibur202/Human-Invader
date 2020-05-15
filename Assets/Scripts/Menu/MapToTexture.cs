@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapToTexture : MonoBehaviour
 {
+    public static MapToTexture instance;
     public Texture2D texture2D;
     public int size;
     public int border;
@@ -35,6 +36,15 @@ public class MapToTexture : MonoBehaviour
     ////////////////////////////////////////////////////////////
     public char[,] mapChar;
 
+    private void Awake()
+    {
+        if (instance)
+        {
+            Destroy(this);
+        }
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +68,7 @@ public class MapToTexture : MonoBehaviour
 
                 mapChar = new char[sizeX, sizeY];
 
-                
+
                 mapMaterial.mainTexture = texture2D;
                 matTest2.mainTexture = fogTexture;
                 //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
@@ -68,19 +78,19 @@ public class MapToTexture : MonoBehaviour
 
                 SetTextureColor(texture2D, borderColor);
                 SetTextureColor(fogTexture, Color.white);
-                
+
                 //matTest.SetTexture("_MainTex", mapTexture);
                 matTest.SetTexture("_MainTex", texture2D);
                 matTest.SetTexture("_SecondaryTex", fogTexture);
-                
+
                 matTest.SetVector("_PlayerPos", playerTransform.position);
-                
+
                 //matTest.SetVector("_MapScale", new Vector3(sizeX,sizeY, 0));
 
-                matTest.SetVector("_FuncInfo", new Vector3(sizeX, sizeY,0));
+                matTest.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
                 Debug.Log(MyMath.GetSlope(sizeX, 0.5f));
                 //matTest.SetVector("_PlayerPos", playerPos);
-                CenterOfTexture(fogTexture, /*Color.black*/ Color.white, sizeX, sizeY, size, border);
+                CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
                 fogTexture.Apply();
                 //texture2D.Apply();
                 navMeshReady = true;
@@ -117,7 +127,7 @@ public class MapToTexture : MonoBehaviour
                 //mapTexture.Apply();
                 texture2D.Apply();
 
-                openMap = true;
+                // openMap = true;
             }
         }
         else
@@ -141,23 +151,20 @@ public class MapToTexture : MonoBehaviour
 
             //fogTexture.Apply();
 
-            foreach (RoomInfo roomInfo in map.spawnedRooms)
-                if (!roomInfo.drawed)
-                    if (Util.SqrDistance(playerPos2D, Util.V3toV2(roomInfo.prefab.transform.position)) < Util.Square(17f))
-                    {
+            //foreach (RoomInfo roomInfo in map.spawnedRooms)
+            //    if (!roomInfo.drawed)
+            //        if (Util.SqrDistance(playerPos2D, Util.V3toV2(roomInfo.prefab.transform.position)) < Util.Square(17f))
+            //        {
+            //            map.navMesh.RoomToTexture(fogTexture, roomInfo, size, border);
+            //            roomInfo.drawed = true;
+            //        }
+
+            //if (openMap)
+            //{
 
 
-                        map.navMesh.RoomToTexture(fogTexture, roomInfo, size, border);
-                        roomInfo.drawed = true;
-
-                    }
-
-            if (openMap)
-            {
-
-
-                openMap = false;
-            }
+            //    openMap = false;
+            //}
 
         }
     }
@@ -184,14 +191,26 @@ public class MapToTexture : MonoBehaviour
             }
     }
 
-    public void CenterOfTexture(Texture2D texture, Color color, int sizeX,int sizeY,int size, int border)
+    public void CenterOfTexture(Texture2D texture, Color color, int sizeX, int sizeY, int size, int border)
     {
-        for(int x = 0; x < sizeX; x++)
-            for(int y = 0; y < sizeY; y++)
+        for (int x = 0; x < sizeX; x++)
+            for (int y = 0; y < sizeY; y++)
             {
                 SetTextureColor(border, size, x, y, color, texture);
             }
     }
 
-    
+    public bool DrawSector(int sector)
+    {
+        bool sectorDrown = false;
+        foreach (RoomInfo room in map.spawnedRooms)
+            if (room.sector == sector)
+            {
+                map.navMesh.RoomToTexture(fogTexture, room, size, border);
+                sectorDrown = true;
+            }
+
+        return sectorDrown;
+    }
+
 }

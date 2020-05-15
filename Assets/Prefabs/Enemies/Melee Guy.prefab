@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentBehavior: 0
-  ground_Y: 0.5
+  ground_Y: 0
   aboveGround_Y: 1
   moveSpeed: 3
   aggroRange: 10

@@ -11,7 +11,7 @@ public class RoomEntrance : MonoBehaviour
 
     public Transform consoleTransform;
     public Transform rightCorner;
-    
+
     public List<Transform> navMeshObjs;
     public List<Transform> navMeshRightCorners;
 
@@ -19,8 +19,9 @@ public class RoomEntrance : MonoBehaviour
     public List<Transform> obstacles;
     public List<Transform> obstaclesRightCorners;
 
-    public bool spawnEnemies;
-    public List<Transform> enemies;
+    public List<Transform> enemySpawners;
 
     public TextMesh textMesh;
+
+    public int sector = -3;
 }

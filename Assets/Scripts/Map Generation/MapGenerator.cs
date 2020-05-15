@@ -14,7 +14,28 @@ public class MapGenerator : MonoBehaviour
 
     public NavMesh navMesh;
 
-    //Available Prefabs
+    //Random Seed
+    [SerializeField]
+    private int randSeed = 0;
+    public bool seedOnOff;
+
+    [SerializeField]
+    private GameObject consolePrefab;
+    [SerializeField]
+    private GameObject sectorDoor;
+    [SerializeField]
+    private GameObject sectorRoomEntrance;
+
+
+
+    //Colision Map Info
+    public int mapSizeX;
+    public int mapSizeY;
+
+    //Sector Info
+    public int nSectors;
+    public int minRoomsPSector;
+    public int maxRoomsPSector;
     [SerializeField]
     private List<GameObject> basicRooms = new List<GameObject>();
     [SerializeField]
@@ -25,34 +46,18 @@ public class MapGenerator : MonoBehaviour
     private List<int> cmdRoomsProb = new List<int>();
     [SerializeField]
     private List<GameObject> closedDoors = new List<GameObject>();
-    [SerializeField]
-    private GameObject consolePrefab;
-    [SerializeField]
-    private GameObject sectorDoor;
-    [SerializeField]
-    private GameObject sectorRoomEntrance;
 
 
-    //Random Seed
+    public int minEnemies;
+    public int maxEnemies;
     [SerializeField]
-    private int randSeed = 0;
-    public bool seedOnOff;
-
-    //Colision Map Info
-    public int mapSizeX;
-    public int mapSizeY;
-
-    //Sector Info
-    public int nSectors;
-    public int minRoomsPSector;
-    public int maxRoomsPSector;
+    private List<GameObject> enemies = new List<GameObject>();
+    [SerializeField]
+    private List<int> enemyProbs = new List<int>();
 
     [SerializeField]
     public Transform playerTransform;
 
-    public GameObject cubeTestObstacles;
-    public GameObject cubeTestWalls;
-    public GameObject cubeTestGround;
 
 
     private void Awake()
@@ -89,14 +94,6 @@ public class MapGenerator : MonoBehaviour
         //Get map border
         navMesh.navMeshMap = navMesh.GetMapBorder(true, true, navMesh.navMeshMap);
 
-
-
-       
-
-
-
-        //Transform roomConsoleTransform;
-        //GameObject auxTerminal;
         GameObject auxDoor;
         foreach (RoomInfo room in spawnedRooms)
         {
@@ -108,53 +105,35 @@ public class MapGenerator : MonoBehaviour
             }
 
             //Sector
-            if (room.sector != lastSector)
+            if (room.basePrefab != null)
             {
-                //Spawn Sector Terminals
-                if (room.basePrefab != null)
+                if (room.sector != lastSector && room.sector >= -1)//first room of sector? not a spawn room?
                 {
-                    //roomConsoleTransform = room.prefab.GetComponent<RoomEntrance>().consoleTransform;
-                    //auxTerminal = Instantiate(consolePrefab, roomConsoleTransform.position, roomConsoleTransform.rotation);
-                    //auxTerminal.transform.SetParent(room.prefab.transform);
-
                     //Spawn Sector Doors
                     auxDoor = Instantiate(sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
                     auxDoor.transform.SetParent(room.prefab.transform);
-                    navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(),'s');
+                    navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(), 's');
                     room.sectorDoor = auxDoor;
+
+                    //Spawn Enemies
+                    if (room.sector >= -2)
+                        SpawnEnemies(minEnemies, maxEnemies, enemies, enemyProbs, spawnedRooms, room.sector);
 
                     lastSector = room.sector;
                 }
-            }
-            else
-            {
-                if (room.basePrefab != null)
+                else
                 {
                     auxDoor = Instantiate(sectorRoomEntrance, room.prefab.transform.position, room.prefab.transform.rotation);
                     auxDoor.transform.SetParent(room.prefab.transform);
                 }
-            }
-            if (room.basePrefab != null)
+
+                //Debug sectors
                 room.GetRoomEntrance().textMesh.text = "" + room.sector + room.subSector;
+            }
         }
+
         playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
-
-
-
-        ////Debug navMesh
-        //for (int x = 0; x < mapSizeX; x++)
-        //    for (int y = 0; y < mapSizeY; y++)
-        //    {
-
-        //        if (navMesh.GetPosChar(x, y) == 'p')
-        //            Instantiate(cubeTestObstacles, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //        else if (navMesh.GetPosChar(x, y) == 'w')
-        //            Instantiate(cubeTestWalls, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //        else if (navMesh.GetPosChar(x, y) == 'g')
-        //            Instantiate(cubeTestGround, new Vector3(x - 0.5f, 1, y - 0.5f), cubeTestObstacles.transform.rotation);
-        //    }
     }
-
     private bool GenerateMap
         (int mapSizeX, int mapSizeY, int minRoomsPSector, int maxRoomsPSector, int nSectors,
          List<GameObject> basicRooms, List<GameObject> spawnRooms,
@@ -226,8 +205,6 @@ public class MapGenerator : MonoBehaviour
                     else nRooms = 0;
                 }
             }
-
-
             //Get nRooms p/Sector
             if (nRooms <= 0 && nSectors > 0)
             {
@@ -239,7 +216,6 @@ public class MapGenerator : MonoBehaviour
                 thisSubSector = (char)64;
                 canSpawnHall = false;
             }
-
             //Caso o sector nao tenha saidas
             if (sectorPath.Count == 1 && sectorPath[0].sector > 0 && !sectorPath[0].OpenExits)
                 if (!SelectSector(sectorPath[0].sector - 1, spawnedRooms, sectorPath))
@@ -252,15 +228,12 @@ public class MapGenerator : MonoBehaviour
                 SpawnSpawnRoom(spawnedRooms, ref colisionMap, spawnRooms);
                 return true;
             }
-
             //Pode continuar a gerar?
             if (nRooms > 0 && spawnedRooms.Count != 0)
             {//Sim
-
                 ////A peça antes do spawn room nao pode ser um corredor
                 if (nRooms == 2 && nSectors <= 0)
                     canSpawnHall = false;
-
 
                 //Obter o proximo prefab
                 if (spawnCommandRoom)
@@ -281,7 +254,6 @@ public class MapGenerator : MonoBehaviour
                     }
                     else
                     {
-
                         //Escolher uma saida aleatoria
                         randExit = sectorPath[sectorPath.Count - 1].GetRandExit;
                         while (sectorPath[sectorPath.Count - 1].exitPoints[randExit].exitState == 'l')
@@ -318,12 +290,6 @@ public class MapGenerator : MonoBehaviour
                                     }
                                 }
                             }
-
-                            if (sectorPath.Count == 1 && sectorPath[0].sector == 0)
-                            {
-                                SpawnSpawnRoom(spawnedRooms, ref colisionMap, spawnRooms);
-                                return true;
-                            }
                             if (sectorPath.Count >= 1)
                                 randExit = sectorPath[sectorPath.Count - 1].GetRandExit;
 
@@ -359,10 +325,11 @@ public class MapGenerator : MonoBehaviour
                                 sectorPath[sectorPath.Count - 1].exitPoints[randExit].exitTransform.rotation);
 
                             roomEntrance = spawnedRoom.GetComponent<RoomEntrance>();
+                            roomEntrance.sector = thisSector;
 
                             //Adiciona a informaçao do prefab a lista de prefabs gerados
                             spawnedRooms.Add(new RoomInfo(spawnedRoom, nextPrefab, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                                roomEntrance.rightCorner.transform.position, spawnedRoom.transform, roomEntrance.spawnEnemies, thisSector, thisSubSector));
+                                roomEntrance.rightCorner.transform.position, spawnedRoom.transform, thisSector, thisSubSector));
 
                             spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                             spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -389,7 +356,7 @@ public class MapGenerator : MonoBehaviour
                         {//Inicio do mapa
                             spawnedRoom = Instantiate(nextPrefab, spawnedRooms[spawnedRooms.Count - 1].exitPoints[randExit].exitTransform.position,
                                 spawnedRooms[spawnedRooms.Count - 1].exitPoints[randExit].exitTransform.rotation);
-
+                            
                             //Obter entrada
                             roomEntrance = spawnedRoom.GetComponent<RoomEntrance>();
 
@@ -398,7 +365,7 @@ public class MapGenerator : MonoBehaviour
 
                             //Adiciona a informaçao do prefab a lista de prefabs gerados
                             spawnedRooms.Add(new RoomInfo(spawnedRoom, nextPrefab, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                                roomEntrance.rightCorner.transform.position, spawnedRoom.transform, roomEntrance.spawnEnemies, -1, '*'));
+                                roomEntrance.rightCorner.transform.position, spawnedRoom.transform, -1, '*'));
 
                             spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = spawnedRooms[spawnedRooms.Count - 2].exitPoints;
                             spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -407,9 +374,6 @@ public class MapGenerator : MonoBehaviour
                             sectorPath.Add(spawnedRooms[spawnedRooms.Count - 1]);
                             sectorFirstRoom = false;
                         }
-
-                        ////Info para o caso de existir colisao depois de um corredor
-                        lastWasHall = !canSpawnHall;
                         sectorRoomCount++;
                         thisSubSector++;
                         nRooms--;
@@ -476,7 +440,7 @@ public class MapGenerator : MonoBehaviour
 
             GameObject auxDoor = Instantiate(doors[randDoor], exit.position + doors[randDoor].transform.position, exit.rotation);
             auxDoor.transform.SetParent(exit);
-            navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(),'w');
+            navMesh.ObstacleToNavMesh(auxDoor.GetComponent<NavMeshObstacle>(), 'w');
 
         }
     }
@@ -556,7 +520,7 @@ public class MapGenerator : MonoBehaviour
 
                         //Adiciona a informaçao do prefab a lista de prefabs gerados
                         spawnedRooms.Add(new RoomInfo(spawnedRoom, nextRoom, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                            roomEntrance.rightCorner.transform.position, spawnedRoom.transform, roomEntrance.spawnEnemies, -2, '*'));
+                            roomEntrance.rightCorner.transform.position, spawnedRoom.transform, -2, '*'));
 
                         spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                         spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -580,7 +544,7 @@ public class MapGenerator : MonoBehaviour
 
                     //Adiciona a informaçao do prefab a lista de prefabs gerados
                     spawnedRooms.Add(new RoomInfo(spawnedRoom, nextRoom, roomEntrance.exitPoints, roomEntrance.roomDimension.transform.lossyScale,
-                        roomEntrance.rightCorner.transform.position, spawnedRoom.transform, roomEntrance.spawnEnemies, -2, '*'));
+                        roomEntrance.rightCorner.transform.position, spawnedRoom.transform, -2, '*'));
 
                     spawnedRooms[spawnedRooms.Count - 1].lastExitPoints = sectorPath[sectorPath.Count - 1].exitPoints;
                     spawnedRooms[spawnedRooms.Count - 1].thisEntranceIndex = randExit;
@@ -650,6 +614,88 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+    }
+
+    private bool SpawnEnemies(int minEnemies, int maxEnemies, List<GameObject> enemies, List<int> enemyProbs, List<RoomInfo> spawnedRooms, int sector)
+    {
+        if (maxEnemies > 0 && enemies.Count > 0)
+        {
+            List<int> sectorRoomsI = new List<int>();
+            sectorRoomsI = GetRoomIndexesFromSectorE(spawnedRooms, sector);
+
+            if (sectorRoomsI.Count > 0)
+            {
+                int randRoom = 0;
+                int randESpawner = 0;
+                GameObject auxEnemy;
+                Transform auxTransform;
+
+                //Get the number of enemies for this sector
+                int nEnemies = Random.Range(minEnemies, maxEnemies + 1);
+                while (nEnemies > 0 && sectorRoomsI.Count > 0)
+                {
+                    //Select Room and Enemy Spawner
+                    randRoom = Random.Range(0, sectorRoomsI.Count);
+                    randESpawner = Random.Range(0, spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance().enemySpawners.Count);
+
+                    auxTransform = spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance().enemySpawners[randESpawner];
+
+                    auxEnemy = Instantiate(weightedRandGO(enemies, enemyProbs), auxTransform.position, auxTransform.rotation);
+                    //auxEnemy.transform.SetParent(spawnedRooms[sectorRoomsI[randRoom]].prefab.transform);// Ai n da
+                    spawnedRooms[sectorRoomsI[randRoom]].enemies.Add(auxEnemy);
+
+                    sectorRoomsI.Remove(randRoom);
+
+                    nEnemies--;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*Weighted Rand (Game Object)*/
+    private GameObject weightedRandGO(List<GameObject> objs, List<int> probs)
+    {
+        if (objs.Count > 0 && probs.Count > 0)
+        {
+            int sum = 0;
+            int auxRand = 0;
+
+            for (int i = 0; i < probs.Count; i++)
+                sum += probs[i];
+
+            auxRand = Random.Range(0, sum + 1);
+
+            sum = 0;
+            for (int i = 0; i < probs.Count; i++)
+            {
+                sum += probs[i];
+                if (auxRand <= sum)
+                    return objs[i];
+            }
+        }
+        return null;
+    }
+
+    public static List<int> GetRoomIndexesFromSector(List<RoomInfo> spawnedRooms, int sector)
+    {
+        List<int> sectorRoomsI = new List<int>();
+        for (int roomIndex = 1; roomIndex < spawnedRooms.Count; roomIndex++)
+            if (spawnedRooms[roomIndex].sector == sector)
+                sectorRoomsI.Add(roomIndex);
+
+        return sectorRoomsI;
+    }
+    /*Get the index of the rooms whith spawns on*/
+    private List<int> GetRoomIndexesFromSectorE(List<RoomInfo> spawnedRooms, int sector)
+    {
+        List<int> sectorRoomsI = new List<int>();
+        for (int roomIndex = 1; roomIndex < spawnedRooms.Count; roomIndex++)
+            if (spawnedRooms[roomIndex].sector == sector && spawnedRooms[roomIndex].GetRoomEntrance().enemySpawners.Count > 0)
+                sectorRoomsI.Add(roomIndex);
+
+        return sectorRoomsI;
     }
 
 }
