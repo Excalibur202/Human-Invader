@@ -28,11 +28,7 @@ public class TerminalController : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("MapGen"))
             StartCoroutine(ConnectToMap());
-
-
-
-
-
+        
         Action HELP = () =>
         {
             string[] inputArray = inputString.Split(' ');
@@ -104,9 +100,13 @@ public class TerminalController : MonoBehaviour
             switch (inputArray.Length)
             {
                 case 1:
-                    if (!MapToTexture.instance.DrawSector(transform.root.GetComponent<RoomEntrance>().sector))
+                    int sector = transform.root.GetComponent<RoomEntrance>().sector;
+                    if (MapToTexture.instance.DrawSector(sector))
+                        AddStringToLog("Successfully downloaded sector " + sector);
+                    else
                         AddStringToLog("ERROR! Can't find the door's sector.");
                     break;
+
                 default:
                     AddStringToLog("INPUT ERROR! The command MAP_DOWNLOAD can only be used by itself.");
                     break;

@@ -151,22 +151,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 988a673349b34c04eb4970918f8f6c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture2D: {fileID: 0}
-  size: 2
-  border: 2
-  openMap: 0
   playerTransform: {fileID: 1117353564}
-  mapMaterial: {fileID: 2100000, guid: 5d5c16512f59e6a429493acd63389ac7, type: 2}
-  matTest: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
-  matTest2: {fileID: 2100000, guid: 22a3ccd4bbce43546ac5d6e20a0e61e3, type: 2}
+  mapMat: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
+  debugMapMat: {fileID: 0}
+  debugFogMat: {fileID: 0}
   wallColor: {r: 0.8867924, g: 0.6983401, b: 0.16313636, a: 0}
-  obstacleColor: {r: 0.5188679, g: 0.40481818, b: 0.26188144, a: 0}
+  borderColor: {r: 0.051886797, g: 0.13513455, b: 1, a: 0}
   groundColor: {r: 0.8396226, g: 0.37784117, b: 0.1544589, a: 0}
+  obstacleColor: {r: 0.5188679, g: 0.40481818, b: 0.26188144, a: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
   sectorDoorColor: {r: 0.013794942, g: 0.5849056, b: 0.013794942, a: 0}
-  borderColor: {r: 0.051886797, g: 0.13513455, b: 1, a: 0}
-  area2D: 10
-  radius: 10
+  size: 2
+  border: 2
 --- !u!4 &73955749
 Transform:
   m_ObjectHideFlags: 0

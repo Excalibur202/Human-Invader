@@ -5,34 +5,37 @@ using UnityEngine;
 public class MapToTexture : MonoBehaviour
 {
     public static MapToTexture instance;
-    public Texture2D texture2D;
-    public int size;
-    public int border;
-    //public RenderTexture mapRender;
-    public bool openMap = false;
+    bool shaderReady = false;
+
+    //Player Transform
     public Transform playerTransform;
-    private Vector3 playerPos;
-    private Vector2 playerPos2D;
-    Texture2D mapTexture;
-    Texture2D fogTexture;
-    MapGenerator map;
-    public Material mapMaterial;
-    public Material matTest;
-    public Material matTest2;
-    //public Material blitMat;
+
+    //Textures
+    private Texture2D mapTexture;
+    private Texture2D fogTexture;
+
+    //Materials
+    public Material mapMat;
+    public Material debugMapMat;
+    public Material debugFogMat;
+
+    //Colors
     Color pixelColor;
     public Color wallColor;
-    public Color obstacleColor;
+    public Color borderColor;
     public Color groundColor;
+    public Color obstacleColor;
     public Color backgroundColor;
     public Color sectorDoorColor;
-    public Color borderColor;
+
+    //Map Info
     int sizeX;
     int sizeY;
-    public int area2D;
-    public float radius;
     char[,] navMap;
-    bool navMeshReady = false;
+    public int size;
+    public int border;
+    private MapGenerator map;
+
     ////////////////////////////////////////////////////////////
     public char[,] mapChar;
 
@@ -54,124 +57,95 @@ public class MapToTexture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!navMeshReady)
-        {
-            if (map.navMesh != null)
-            {
-                navMap = map.navMesh.navMeshMap;
-                sizeX = navMap.GetLength(0);
-                sizeY = navMap.GetLength(1);
-
-                mapTexture = new Texture2D(sizeX, sizeY);
-                fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
-                texture2D = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
-
-                mapChar = new char[sizeX, sizeY];
-
-
-                mapMaterial.mainTexture = texture2D;
-                matTest2.mainTexture = fogTexture;
-                //playerPos = new Vector3(playerTransform.position.x, playerTransform.position.z,0);
-                mapTexture.wrapMode = TextureWrapMode.Clamp;
-                fogTexture.wrapMode = TextureWrapMode.Clamp;
-                texture2D.wrapMode = TextureWrapMode.Clamp;
-
-                SetTextureColor(texture2D, borderColor);
-                SetTextureColor(fogTexture, Color.white);
-
-                //matTest.SetTexture("_MainTex", mapTexture);
-                matTest.SetTexture("_MainTex", texture2D);
-                matTest.SetTexture("_SecondaryTex", fogTexture);
-
-                matTest.SetVector("_PlayerPos", playerTransform.position);
-
-                //matTest.SetVector("_MapScale", new Vector3(sizeX,sizeY, 0));
-
-                matTest.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
-                Debug.Log(MyMath.GetSlope(sizeX, 0.5f));
-                //matTest.SetVector("_PlayerPos", playerPos);
-                CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
-                fogTexture.Apply();
-                //texture2D.Apply();
-                navMeshReady = true;
-
-                for (int x = 0; x < sizeX; x++)
-                    for (int y = 0; y < sizeY; y++)
-                    {
-                        switch (navMap[x, y])
-                        {
-                            case 'w':
-                                pixelColor = wallColor;
-                                break;
-                            case 'g':
-                                pixelColor = groundColor;
-                                break;
-                            case 'o':
-                                pixelColor = obstacleColor;
-                                break;
-                            case 'p':
-                                pixelColor = groundColor;
-                                break;
-                            case 's':
-                                pixelColor = sectorDoorColor;
-                                break;
-                            default:
-                                pixelColor = backgroundColor;
-                                break;
-                        }
-
-                        //mapTexture.SetPixel(x, y, pixelColor);
-                        SetTextureColor(border, size, x, y, pixelColor, texture2D);
-                    }
-
-                //mapTexture.Apply();
-                texture2D.Apply();
-
-                // openMap = true;
-            }
-        }
+        if (!shaderReady)
+            shaderReady = InitializeMap();
         else
+            UpdateShaderInfo(shaderReady);
+        //Updates player pos in shader
+
+
+    }
+
+    /*Init*/
+    public bool InitializeMap()
+    {
+        if (map.navMesh != null)
         {
-            //playerPos = new Vector3(playerTransform.position.x,playerTransform.position.z,0);
-            //matTest.SetVector("_PlayerPos", playerPos);
+            //Get map size
+            navMap = map.navMesh.navMeshMap;
+            sizeX = navMap.GetLength(0);
+            sizeY = navMap.GetLength(1);
 
-            //Graphics.Blit(mapTexture, mapRender, blitMat);
+            //Debug Materials
+            if (debugMapMat) debugMapMat.mainTexture = mapTexture;
+            if (debugFogMat) debugFogMat.mainTexture = fogTexture;
 
-            //blitMat.mainTexture = mapRender;
-            matTest.SetVector("_PlayerPos", playerTransform.position);
-            playerPos2D = Util.V3toV2(playerTransform.position);
-            //for (int x = ((int)playerPos2D.x - area2D); x < ((int)playerPos2D.x + area2D); x++)
-            //    for (int y = ((int)playerPos2D.y - area2D); y < ((int)playerPos2D.y + area2D); y++)
-            //    {
-            //        if (map.navMesh.InMapRange(x, y))
-            //            if (Util.SqrDistance(new Vector2(x, y),playerPos2D) < Util.Square(radius))
-            //                fogTexture.SetPixel(x, y, Color.white);
+            //FogTexture
+            fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
+            fogTexture.wrapMode = TextureWrapMode.Clamp;
+            SetTextureColor(fogTexture, Color.white);
+            CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
+            fogTexture.Apply();
 
-            //    }
+            //MapTexture
+            mapTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
+            mapTexture.wrapMode = TextureWrapMode.Clamp;
+            SetTextureColor(mapTexture, borderColor);
+            for (int x = 0; x < sizeX; x++)
+                for (int y = 0; y < sizeY; y++)
+                {
+                    switch (navMap[x, y])
+                    {
+                        case 'w':
+                            pixelColor = wallColor;
+                            break;
+                        case 'g':
+                            pixelColor = groundColor;
+                            break;
+                        case 'o':
+                            pixelColor = obstacleColor;
+                            break;
+                        case 'p':
+                            pixelColor = groundColor;
+                            break;
+                        case 's':
+                            pixelColor = sectorDoorColor;
+                            break;
+                        default:
+                            pixelColor = backgroundColor;
+                            break;
+                    }
+                    SetTextureColor(border, size, x, y, pixelColor, mapTexture);
+                }
+            mapTexture.Apply();
 
-            //fogTexture.Apply();
+            //Send info to shader
+            mapMat.SetTexture("_MainTex", mapTexture);
+            mapMat.SetTexture("_SecondaryTex", fogTexture);
+            mapMat.SetVector("_PlayerPos", playerTransform.position);
+            mapMat.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
 
-            //foreach (RoomInfo roomInfo in map.spawnedRooms)
-            //    if (!roomInfo.drawed)
-            //        if (Util.SqrDistance(playerPos2D, Util.V3toV2(roomInfo.prefab.transform.position)) < Util.Square(17f))
-            //        {
-            //            map.navMesh.RoomToTexture(fogTexture, roomInfo, size, border);
-            //            roomInfo.drawed = true;
-            //        }
+            //Draw Spawn
+            DrawSector(-2);
 
-            //if (openMap)
-            //{
+            return true;
+        }
+        return false;
+    }
 
-
-            //    openMap = false;
-            //}
-
+    /*Updates shader info*/
+    public void UpdateShaderInfo(bool shaderReady)
+    {
+        if (shaderReady)//Shader ready?
+        {
+            //Update player pos
+            mapMat.SetVector("_PlayerPos", playerTransform.position);
         }
     }
 
+    /*Set texture main color (with border)*/
     public static void SetTextureColor(int border, int size, int x, int y, Color pxColor, Texture2D texture)
     {
-
         Vector2 modiefiedPos = new Vector2(border + (x * size), border + (y * size));
 
         for (int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
@@ -181,9 +155,9 @@ public class MapToTexture : MonoBehaviour
             }
     }
 
+    /*Set texture main color (without border)*/
     private void SetTextureColor(Texture2D texture, Color borderColor)
     {
-
         for (int x = 0; x < texture.width; x++)
             for (int y = 0; y < texture.height; y++)
             {
@@ -191,6 +165,7 @@ public class MapToTexture : MonoBehaviour
             }
     }
 
+    /*Paints a quad area in texture*/
     public void CenterOfTexture(Texture2D texture, Color color, int sizeX, int sizeY, int size, int border)
     {
         for (int x = 0; x < sizeX; x++)
@@ -200,6 +175,7 @@ public class MapToTexture : MonoBehaviour
             }
     }
 
+    /*Draws a sector from the map in the texture*/
     public bool DrawSector(int sector)
     {
         bool sectorDrown = false;
@@ -207,10 +183,10 @@ public class MapToTexture : MonoBehaviour
             if (room.sector == sector)
             {
                 map.navMesh.RoomToTexture(fogTexture, room, size, border);
+                room.downloaded = true;
                 sectorDrown = true;
             }
 
         return sectorDrown;
     }
-
 }

@@ -16,14 +16,17 @@ public class RoomInfo
     //Entrance
     public List<PrefabExit> lastExitPoints = new List<PrefabExit>();
     public int thisEntranceIndex;
-    
+
     //Enemies in room
     public List<GameObject> enemies = new List<GameObject>();
-    
+
     //Sector Info
     public int sector;// -2:spawn room , -1:command room
     public char subSector;
     public GameObject sectorDoor;
+
+    //did the player download this room?
+    public bool downloaded = false;
 
     //______________________________________________________________________________
 

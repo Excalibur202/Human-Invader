@@ -25,9 +25,7 @@ public class MapGenerator : MonoBehaviour
     private GameObject sectorDoor;
     [SerializeField]
     private GameObject sectorRoomEntrance;
-
-
-
+    
     //Colision Map Info
     public int mapSizeX;
     public int mapSizeY;
@@ -46,8 +44,7 @@ public class MapGenerator : MonoBehaviour
     private List<int> cmdRoomsProb = new List<int>();
     [SerializeField]
     private List<GameObject> closedDoors = new List<GameObject>();
-
-
+    
     public int minEnemies;
     public int maxEnemies;
     [SerializeField]
@@ -57,9 +54,7 @@ public class MapGenerator : MonoBehaviour
 
     [SerializeField]
     public Transform playerTransform;
-
-
-
+    
     private void Awake()
     {
         if (instance)
@@ -134,6 +129,8 @@ public class MapGenerator : MonoBehaviour
 
         playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
     }
+
+    /*Generates Map*/
     private bool GenerateMap
         (int mapSizeX, int mapSizeY, int minRoomsPSector, int maxRoomsPSector, int nSectors,
          List<GameObject> basicRooms, List<GameObject> spawnRooms,
@@ -156,13 +153,9 @@ public class MapGenerator : MonoBehaviour
         char thisSubSector = (char)64;
         int sectorRoomCount = 0;
         int canRemoveSector = 0;
-        //int lastSector = 0;
-
-        //Pode gerar um corredor?
-        bool canSpawnHall = false;
+        
 
         //A ultima peça foi um corredor?
-        bool lastWasHall = false;
         bool spawnCommandRoom = true;
 
         //Random
@@ -190,7 +183,6 @@ public class MapGenerator : MonoBehaviour
                     {
                         if (RemoveSector(sectorPath[0].sector, ref colisionMap))
                         {
-
                             if (!SelectSector(spawnedRooms[spawnedRooms.Count - 1].sector, spawnedRooms, sectorPath))
                             {
                                 SpawnSpawnRoom(spawnedRooms, ref colisionMap, spawnRooms);
@@ -214,7 +206,6 @@ public class MapGenerator : MonoBehaviour
                 sectorRoomCount = 0;
                 sectorFirstRoom = true;
                 thisSubSector = (char)64;
-                canSpawnHall = false;
             }
             //Caso o sector nao tenha saidas
             if (sectorPath.Count == 1 && sectorPath[0].sector > 0 && !sectorPath[0].OpenExits)
@@ -231,9 +222,6 @@ public class MapGenerator : MonoBehaviour
             //Pode continuar a gerar?
             if (nRooms > 0 && spawnedRooms.Count != 0)
             {//Sim
-                ////A peça antes do spawn room nao pode ser um corredor
-                if (nRooms == 2 && nSectors <= 0)
-                    canSpawnHall = false;
 
                 //Obter o proximo prefab
                 if (spawnCommandRoom)
@@ -242,12 +230,11 @@ public class MapGenerator : MonoBehaviour
                     spawnCommandRoom = false;
                 }
                 else
-                    nextPrefab = NextPrefab(basicRooms/*, halls*/, ref canSpawnHall, ref thisSubSector);
+                    nextPrefab = NextPrefab(basicRooms);
 
                 //O prefab tem saidas?
                 if ((spawnedRooms.Count == 1) || sectorPath[sectorPath.Count - 1].OpenExits)
                 {
-
                     if (spawnedRooms.Count == 1)
                     {
                         randExit = spawnedRooms[spawnedRooms.Count - 1].GetRandExit;
@@ -380,10 +367,7 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
                 else
-                {
-                    //Caso o prefab seleccionado nao tenha saidas
-                    canSpawnHall = false;
-
+                { //Caso o prefab seleccionado nao tenha saidas
                     if (sectorPath.Count > 1)
                         sectorPath[sectorPath.Count - 1].lastExitPoints[sectorPath[sectorPath.Count - 1].thisEntranceIndex].exitState = 'x';
 
@@ -405,11 +389,13 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private GameObject NextPrefab(List<GameObject> availableRooms/*, List<GameObject> availableHalls*/, ref bool canSpawnHall, ref char thisSubSector)
+    /*Selects a rand object from a list*/
+    private GameObject NextPrefab(List<GameObject> availableRooms)
     {
         return availableRooms[Random.Range(0, availableRooms.Count)];
     }
 
+    /*Returns an index of a gameObj (weighted rand)*/
     private int ListRand(List<int> probs, List<GameObject> objList)
     {
         int rand = 0;
@@ -432,6 +418,31 @@ public class MapGenerator : MonoBehaviour
         return indexObstacle;
     }
 
+    /*Weighted Rand (Game Object)*/
+    private GameObject weightedRandGO(List<GameObject> objs, List<int> probs)
+    {
+        if (objs.Count > 0 && probs.Count > 0)
+        {
+            int sum = 0;
+            int auxRand = 0;
+
+            for (int i = 0; i < probs.Count; i++)
+                sum += probs[i];
+
+            auxRand = Random.Range(0, sum + 1);
+
+            sum = 0;
+            for (int i = 0; i < probs.Count; i++)
+            {
+                sum += probs[i];
+                if (auxRand <= sum)
+                    return objs[i];
+            }
+        }
+        return null;
+    }
+
+    /*Closes a exit with rand from list of doors*/
     private void CloseExit(Transform exit, List<GameObject> doors)
     {
         if (doors.Count > 0)
@@ -445,6 +456,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    /*Removes a sector from the colision map*/
     private bool RemoveSector(int sector, ref ColisionMap colisionMap)
     {
         bool sectorRemoved = false;
@@ -466,6 +478,7 @@ public class MapGenerator : MonoBehaviour
         return sectorRemoved;
     }
 
+    /*Selects the sector's main room and adds it to sector path*/
     private bool SelectSector(int sector, List<RoomInfo> spawnedRooms, List<RoomInfo> sectorPath)
     {
         foreach (RoomInfo room in spawnedRooms)
@@ -480,6 +493,7 @@ public class MapGenerator : MonoBehaviour
         return false;
     }
 
+    /*Spawns spawn room*/
     private void SpawnSpawnRoom(List<RoomInfo> spawnedRooms, ref ColisionMap colisionMap, List<GameObject> spawnRooms)
     {
         List<RoomInfo> sectorPath = new List<RoomInfo>();
@@ -556,6 +570,7 @@ public class MapGenerator : MonoBehaviour
             }
     }
 
+    /*Corrects the layout of SubSectors */
     private void RearrangeSubSectors()
     {
         char subSector = '@';
@@ -616,6 +631,7 @@ public class MapGenerator : MonoBehaviour
 
     }
 
+    /*Spawns enemies*/
     private bool SpawnEnemies(int minEnemies, int maxEnemies, List<GameObject> enemies, List<int> enemyProbs, List<RoomInfo> spawnedRooms, int sector)
     {
         if (maxEnemies > 0 && enemies.Count > 0)
@@ -653,31 +669,8 @@ public class MapGenerator : MonoBehaviour
         }
         return false;
     }
-
-    /*Weighted Rand (Game Object)*/
-    private GameObject weightedRandGO(List<GameObject> objs, List<int> probs)
-    {
-        if (objs.Count > 0 && probs.Count > 0)
-        {
-            int sum = 0;
-            int auxRand = 0;
-
-            for (int i = 0; i < probs.Count; i++)
-                sum += probs[i];
-
-            auxRand = Random.Range(0, sum + 1);
-
-            sum = 0;
-            for (int i = 0; i < probs.Count; i++)
-            {
-                sum += probs[i];
-                if (auxRand <= sum)
-                    return objs[i];
-            }
-        }
-        return null;
-    }
-
+    
+    /*Returns the list of idexes of a sector*/
     public static List<int> GetRoomIndexesFromSector(List<RoomInfo> spawnedRooms, int sector)
     {
         List<int> sectorRoomsI = new List<int>();
@@ -687,7 +680,8 @@ public class MapGenerator : MonoBehaviour
 
         return sectorRoomsI;
     }
-    /*Get the index of the rooms whith spawns on*/
+
+    /*Get the index of the rooms whith spawn points*/
     private List<int> GetRoomIndexesFromSectorE(List<RoomInfo> spawnedRooms, int sector)
     {
         List<int> sectorRoomsI = new List<int>();
@@ -697,5 +691,4 @@ public class MapGenerator : MonoBehaviour
 
         return sectorRoomsI;
     }
-
 }
