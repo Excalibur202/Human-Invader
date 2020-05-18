@@ -470,6 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffc893db98dd2846b90a4c51889f8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recreateMap: 0
   randSeed: 0
   seedOnOff: 0
   sectorDoor: {fileID: 1048543418951750808, guid: 123813d0fd8505f4d9642426b853de8b,
@@ -493,6 +494,7 @@ MonoBehaviour:
   closedDoors:
   - {fileID: 1365970185731006, guid: ab6c3f8fd297542b98b0b08deabb440f, type: 3}
   - {fileID: 1594110723863288, guid: a6146f8e3e7904e1c91dd0c0acb5fdd6, type: 3}
+  spawnEnemies: 0
   minEnemies: 1
   maxEnemies: 10
   enemies:
@@ -711,7 +713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &395979292
 RectTransform:
   m_ObjectHideFlags: 0
