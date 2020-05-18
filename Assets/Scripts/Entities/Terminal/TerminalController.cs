@@ -28,7 +28,19 @@ public class TerminalController : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("MapGen"))
             StartCoroutine(ConnectToMap());
-        
+
+        LoadCommands();
+
+        AddStringToLog(
+            "Welcome, user [ERROR_NaN_error].",
+            "You may exit this interface at anytime by pressing ESC.\n",
+            "Enter 'HELP' to list the available commands.",
+            "Enter 'HELP [COMMAND]' to learn more about an existing command.\n");
+    }
+
+    private void LoadCommands()
+    {
+        //Help
         Action HELP = () =>
         {
             string[] inputArray = inputString.Split(' ');
@@ -56,11 +68,11 @@ public class TerminalController : MonoBehaviour
                     break;
             }
         };
-
         commands.Add("HELP", new TerminalCommand("Lists most available commands, or returns the description of a command", HELP, false,
             "'HELP'",
             "'HELP [COMMAND]'"));
 
+        //List
         Action LIST = () =>
         {
             string[] inputArray = inputString.Split(' ');
@@ -87,12 +99,7 @@ public class TerminalController : MonoBehaviour
             "'LIST'",
             "'LIST [FILTER STRING]'"));
 
-        AddStringToLog(
-            "Welcome, user [ERROR_NaN_error].",
-            "You may exit this interface at anytime by pressing ESC.\n",
-            "Enter 'HELP' to list the available commands.",
-            "Enter 'HELP [COMMAND]' to learn more about an existing command.\n");
-
+        //MapDownload
         Action MapDownload = () =>
         {
             string[] inputArray = inputString.Split(' ');
@@ -114,6 +121,25 @@ public class TerminalController : MonoBehaviour
         };
         commands.Add("MAP_DOWNLOAD", new TerminalCommand("Downloads sector map", MapDownload, false,
             "'MAP_DOWNLOAD'"));
+
+        //OpenDoor
+        Action DoorUnlock = () =>
+        {
+            string[] inputArray = inputString.Split(' ');
+
+            switch (inputArray.Length)
+            {
+                case 1:
+                    transform.GetComponentInParent<DoorCrl>().OpenDoor();
+                    break;
+
+                default:
+                    AddStringToLog("INPUT ERROR! KEY NOT DETECTED.");
+                    break;
+            }
+        };
+        commands.Add("DOOR_UNLOCK", new TerminalCommand("UNLOCKS A DOOR", DoorUnlock, false,
+            "'DOOR_UNLOCK'"));
     }
 
     public void AddStringToInput(string inputtedString)
