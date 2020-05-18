@@ -138,9 +138,7 @@ public class Mine : MonoBehaviour {
 
     // Finds and damages everything within range that has a HealthController on it
     void Explode () {
-
-        OneShotAudioPlayer explosionSoundPlayer = Instantiate (oneShotAudioPlayer, transform.position, Quaternion.identity).GetComponent<OneShotAudioPlayer> ();
-        explosionSoundPlayer.Play (explosionSound);
+        Util.PlaySound (explosionSound, transform.position);
 
         Collider[] objectsInRange = Physics.OverlapSphere (transform.position, explosionRadius);
         foreach (Collider col in objectsInRange) {

@@ -13,6 +13,8 @@ public class PlayerAbilityController : MonoBehaviour {
     [SerializeField] Camera cam;
     [SerializeField] TerminalController connectedTerminal;
 
+    public int keycards;
+
     AbilityInputs inputs = new AbilityInputs ();
 
     void Start () {

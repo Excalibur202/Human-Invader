@@ -23,7 +23,7 @@ TagManager:
   - GlobalHurtbox
   - EnemyHurtbox
   - PlayerHurtbox
-  - 
+  - PickupItem
   - 
   - 
   - 

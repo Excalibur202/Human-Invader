@@ -60,6 +60,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
         Rigidbody mineRigidbody = (Rigidbody) mine.GetComponent (typeof (Rigidbody));
         mineRigidbody.velocity = cam.transform.forward * mineSpeed;
 
+        // comment lines 54-55 and uncomment this for fun times autofire
         //     yield return new WaitForSeconds (Time.smoothDeltaTime);
         // }
 

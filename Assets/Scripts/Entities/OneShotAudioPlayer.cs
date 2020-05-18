@@ -8,9 +8,15 @@ public class OneShotAudioPlayer : MonoBehaviour {
         Destroy (transform.gameObject);
     }
 
-    public void Play (AudioClip audioClip) {
+    public void Play (AudioClip audioClip, float volume = 1, bool positionalAudio = false) {
+        audioSource.volume = volume;
+
+        if (positionalAudio)
+            audioSource.spatialBlend = 1;
+        else
+            audioSource.spatialBlend = 0;
+
         audioSource.PlayOneShot (audioClip);
         Invoke ("Delete", audioClip.length);
     }
-
 }
