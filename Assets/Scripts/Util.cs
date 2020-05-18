@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public static class Util {
+
     // Convert a 3D vector to 2D, dropping the Y value
     public static Vector2 V3toV2 (Vector3 vector3) {
         return (new Vector2 (vector3.x, vector3.z));
@@ -44,6 +45,18 @@ public static class Util {
         if (rayLength == 0)
             rayLength = Vector2.Distance (from, to);
 
-        return RayFromTo(fromV3, toV3, layerMask, rayLength);
+        return RayFromTo (fromV3, toV3, layerMask, rayLength);
+    }
+
+    // Return the player GameObject
+    public static GameObject GetPlayer () { return GameObject.FindGameObjectWithTag ("Player"); }
+
+    // Play a sound in 2D
+    public static void PlaySound (AudioClip audioClip, float volume = 1) {
+        GameObject.Instantiate (Resources.Load ("OneShotAudioPlayer") as GameObject).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume);
+    }
+    // Play a sound in 3D from a position
+    public static void PlaySound (AudioClip audioClip, Vector3 position, float volume = 1 ) {
+        GameObject.Instantiate (Resources.Load ("OneShotAudioPlayer") as GameObject, position, Quaternion.identity).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume, true);
     }
 }
