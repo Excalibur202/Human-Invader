@@ -472,31 +472,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randSeed: 0
   seedOnOff: 0
-  consolePrefab: {fileID: 4364675133816101361, guid: a40bbf3f742b80d4eb9663f2dca98f45,
-    type: 3}
   sectorDoor: {fileID: 1048543418951750808, guid: 123813d0fd8505f4d9642426b853de8b,
     type: 3}
   sectorRoomEntrance: {fileID: 1184715463556000, guid: 53cf773e020411e49bd73fd08cc0d929,
     type: 3}
   mapSizeX: 200
   mapSizeY: 200
-  nSectors: 300
+  nSectors: 100
   minRoomsPSector: 3
   maxRoomsPSector: 10
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
-  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
   - {fileID: 8767123182385438691, guid: fd710fcb68efee047b9cf6166febe706, type: 3}
+  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
   spawnRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
-  cmdRoomsProb: 01000000
+  cmdRoomsProb: 00000000
   closedDoors:
   - {fileID: 1365970185731006, guid: ab6c3f8fd297542b98b0b08deabb440f, type: 3}
   - {fileID: 1594110723863288, guid: a6146f8e3e7904e1c91dd0c0acb5fdd6, type: 3}
   minEnemies: 1
-  maxEnemies: 5
+  maxEnemies: 10
   enemies:
   - {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440, type: 3}
   enemyProbs: 01000000

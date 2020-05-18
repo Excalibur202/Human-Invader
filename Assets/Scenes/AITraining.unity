@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nNet:
+    outputNodes: []
     fitness: 0
   nNOutput: []
   outputAxis: {x: 0, y: 0}
@@ -300,9 +301,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
         type: 3}
+      propertyPath: enemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: enemyProbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 135638639}
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: nSectors
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: cmdRoomsProb.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: minEnemies
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: maxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: basicRooms.Array.data[1]
+      value: 
+      objectReference: {fileID: 8767123182385438691, guid: fd710fcb68efee047b9cf6166febe706,
+        type: 3}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: basicRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71,
+        type: 3}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440,
+        type: 3}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: enemyProbs.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2, type: 3}
 --- !u!1 &1003820899

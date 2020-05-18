@@ -14,7 +14,7 @@ public class GeneticSelection : MonoBehaviour
     int aIVisionSizeX;
     [SerializeField]
     int aIVisionSizeY;
-    
+
     [SerializeField]
     int populationCount = 0;
     [SerializeField]
@@ -51,7 +51,7 @@ public class GeneticSelection : MonoBehaviour
 
     float timer = 0;
     int selectedNeuralNet = 0;
-    
+
     void Start()
     {
         if (RestartPopulation)
@@ -76,7 +76,6 @@ public class GeneticSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         /*Simulation*/
         if (simulate && aIEnemy && population.Length > 0)//do we want to simulate?
         {
@@ -84,14 +83,9 @@ public class GeneticSelection : MonoBehaviour
             aIEnemy.nNet = population[0];
 
             aIEnemy.UpdateAI(Time.deltaTime);
+
         }
-
     }
-
-
-
-
-
 
     private void OnApplicationQuit() //stoping the program
     {
@@ -99,5 +93,10 @@ public class GeneticSelection : MonoBehaviour
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
         primeNeuralNet.SaveBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
 
+    }
+
+    private float Fitness(bool canSee, float deltaTime)
+    {
+        return (canSee) ? 0f : deltaTime;
     }
 }
