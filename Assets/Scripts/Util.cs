@@ -59,4 +59,9 @@ public static class Util {
     public static void PlaySound (AudioClip audioClip, Vector3 position, float volume = 1 ) {
         GameObject.Instantiate (Resources.Load ("OneShotAudioPlayer") as GameObject, position, Quaternion.identity).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume, true);
     }
+
+    // Random float value between min and max inclusive
+    public static float RndRange(float min, float max){
+        return UnityEngine.Random.Range(min, max);
+    }
 }
