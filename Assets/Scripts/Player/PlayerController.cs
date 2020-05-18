@@ -429,7 +429,7 @@ public class PlayerController : MonoBehaviour
 
 
         currentFov = Mathf.Lerp(currentFov,rawFov,Time.deltaTime*10);
-        camComp.fieldOfView = currentFov;
+        //camComp.fieldOfView = currentFov;
     }
 
     private void CacheShots()

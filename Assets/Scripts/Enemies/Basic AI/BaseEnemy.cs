@@ -18,6 +18,7 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float aggroRange;
     [SerializeField] protected float health;
+    [SerializeField] protected bool hasKeycard;
 
     protected CharacterController charCtrl;
     protected GameObject player;
@@ -417,9 +418,18 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     public void Die () {
-        //// DEATH ANIMATION?
+        if (hasKeycard) {
+            // Spawn a keycard and make it jump a little in some direction
+            GameObject keycard = Instantiate (
+                Resources.Load ("Keycard") as GameObject,
+                transform.position,
+                Quaternion.Euler (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)));
 
-        Destroy (transform.gameObject);
+            keycard.GetComponent<Rigidbody> ().AddForce (5 * new Vector3 (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)), ForceMode.VelocityChange);
+        }
+
+        //// DEATH ANIMATION?
+        Destroy (gameObject);
 
         return;
     }
