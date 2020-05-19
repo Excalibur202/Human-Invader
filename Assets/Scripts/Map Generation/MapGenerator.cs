@@ -46,13 +46,20 @@ public class MapGenerator : MonoBehaviour
     private List<GameObject> closedDoors = new List<GameObject>();
 
     //Enemies
-    public bool spawnEnemies;
+    public bool spawnEnemies = false;
     public int minEnemies;
     public int maxEnemies;
     [SerializeField]
     private List<GameObject> enemies = new List<GameObject>();
     [SerializeField]
     private List<int> enemyProbs = new List<int>();
+
+    //AI Training
+    public bool trainingAI = false;
+    [SerializeField]
+    private GameObject aIEnemyTraining;
+    [SerializeField]
+    private GameObject baseEnemyAI;
 
     //Player
     [SerializeField]
@@ -76,22 +83,25 @@ public class MapGenerator : MonoBehaviour
         MapInit();
 
         //Set player pos (spawn room)
-        if (playerTransform)
-            playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+        SetPlayerPosToSpawnPos();
     }
 
     private void Update()
     {
-        //
+        //Recreate map
         if (recreateMap)
         {
-            //MapInit();
-            //Generate map
-            restartSimulation();
-
-            //Set player pos (spawn room)
-            if (playerTransform)
-                playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+            //AI training?
+            if (trainingAI)
+            {
+                RestartSimulation();
+            }
+            else
+            {
+                MapInit();
+                //Set player pos (spawn room)
+                SetPlayerPosToSpawnPos();
+            }
             recreateMap = false;
         }
     }
@@ -106,11 +116,17 @@ public class MapGenerator : MonoBehaviour
         //Destroy map
         while (spawnedRooms.Count > 0)
         {
-            if(spawnedRooms.Count != 1)
+            if (spawnedRooms.Count != 1)
             {
+                while (spawnedRooms[1].enemies.Count > 0)
+                {
+                    Destroy(spawnedRooms[1].enemies[0]);
+                    spawnedRooms[1].enemies.RemoveAt(0);
+                }
                 Destroy(spawnedRooms[1].prefab);
                 spawnedRooms.RemoveAt(1);
-            }else
+            }
+            else
                 spawnedRooms.RemoveAt(0);
         }
 
@@ -156,8 +172,12 @@ public class MapGenerator : MonoBehaviour
                     }
 
                     //Spawn Enemies
-                    if (room.sector >= -2 && spawnEnemies)
+                    if (/*room.sector >= -2 &&*/ room.sector >= 0 && spawnEnemies)
+                    {
                         SpawnEnemies(minEnemies, maxEnemies, enemies, enemyProbs, spawnedRooms, room.sector);
+                        AssociateKeycards(room.sector);
+                    }
+
 
                     lastSector = room.sector;
                 }
@@ -274,7 +294,7 @@ public class MapGenerator : MonoBehaviour
                 //Obter o proximo prefab
                 if (spawnCommandRoom)
                 {
-                    nextPrefab = cmdRooms[ListRand(cmdRoomsProb, cmdRooms)];
+                    nextPrefab = cmdRooms[ListRand(cmdRoomsProb)];
                     spawnCommandRoom = false;
                 }
                 else
@@ -649,7 +669,7 @@ public class MapGenerator : MonoBehaviour
         if (maxEnemies > 0 && enemies.Count > 0)
         {
             List<int> sectorRoomsI = new List<int>();
-            sectorRoomsI = GetRoomIndexesFromSectorE(spawnedRooms, sector);
+            sectorRoomsI = GetRoomIndexesFromSectoSpawners(spawnedRooms, sector);
 
             if (sectorRoomsI.Count > 0)
             {
@@ -672,7 +692,12 @@ public class MapGenerator : MonoBehaviour
                     //auxEnemy.transform.SetParent(spawnedRooms[sectorRoomsI[randRoom]].prefab.transform);// Ai n da
                     spawnedRooms[sectorRoomsI[randRoom]].enemies.Add(auxEnemy);
 
-                    sectorRoomsI.Remove(randRoom);
+                    //Remove Spawner
+                    spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance().enemySpawners.RemoveAt(randESpawner);
+
+                    //Remove room from de the spawnable list (does it have spawners?)
+                    if (spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance().enemySpawners.Count == 0)
+                        sectorRoomsI.RemoveAt(randRoom);
 
                     nEnemies--;
                 }
@@ -682,15 +707,69 @@ public class MapGenerator : MonoBehaviour
         return false;
     }
 
+    private bool SetPlayerPosToSpawnPos()
+    {
+        //Set player pos (spawn room)
+        if (playerTransform)
+        {
+            playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+            return true;
+        }
+        return false;
+    }
+
+    private void AssociateKeycards(int sector)
+    {
+        List<int> roomsWithEnemies = GetRoomIndexesFromSectorEnemies(spawnedRooms, sector);
+
+        int randRoom = Random.Range(0, roomsWithEnemies.Count);
+
+        int randEnemy = Random.Range(0, spawnedRooms[roomsWithEnemies[randRoom]].enemies.Count);
+
+        spawnedRooms[roomsWithEnemies[randRoom]].enemies[randEnemy].GetComponent<BaseEnemy>().hasKeycard = true;
+
+    }
+
     #endregion Map Generation Funcs
 
     #region AI Map(Simulation) Funcs
     //_____________________________________________________________________________________________________
     //Map Generation Funcs
 
-    public void restartSimulation()
+    public void RestartSimulation()
     {
         MapInit();
+        SpawnAI();
+    }
+
+    private bool SpawnAI()
+    {
+        GameObject auxEnemy;
+        Transform auxTransform;
+
+        int sectorCount = GetSectorCount();
+        int randSector = Random.Range(0, sectorCount);
+        List<int> roomIndexes = GetRoomIndexesFromSectoSpawners(spawnedRooms, randSector);
+        int randRoom = Random.Range(0, roomIndexes.Count);
+        int randSpawner = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            if (spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance().enemySpawners.Count == 0)
+                return false;
+
+            randSpawner = Random.Range(0, spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance().enemySpawners.Count);
+
+            auxTransform = spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance().enemySpawners[randSpawner];
+
+            //Spawn
+            auxEnemy = Instantiate((i == 0) ? aIEnemyTraining : baseEnemyAI, auxTransform.position, auxTransform.rotation);
+            spawnedRooms[roomIndexes[randRoom]].enemies.Add(auxEnemy);
+
+            //Remove Spawner
+            spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance().enemySpawners.RemoveAt(randSpawner);
+        }
+        return true;
     }
 
     #endregion AI Map(Simulation) Funcs
@@ -699,8 +778,8 @@ public class MapGenerator : MonoBehaviour
     //_____________________________________________________________________________________________________
     //Aux Funcs
 
-    /*Returns an index of a gameObj (weighted rand)*/
-    private int ListRand(List<int> probs, List<GameObject> objList)
+    /*Returns an index of list (weighted rand)*/
+    private int ListRand(List<int> probs)
     {
         int rand = 0;
         int total = 0;
@@ -757,8 +836,8 @@ public class MapGenerator : MonoBehaviour
         return sectorRoomsI;
     }
 
-    /*Get the index of the rooms whith spawn points*/
-    private List<int> GetRoomIndexesFromSectorE(List<RoomInfo> spawnedRooms, int sector)
+    /*Get the index of the rooms with spawn points*/
+    private List<int> GetRoomIndexesFromSectoSpawners(List<RoomInfo> spawnedRooms, int sector)
     {
         List<int> sectorRoomsI = new List<int>();
         for (int roomIndex = 1; roomIndex < spawnedRooms.Count; roomIndex++)
@@ -766,6 +845,34 @@ public class MapGenerator : MonoBehaviour
                 sectorRoomsI.Add(roomIndex);
 
         return sectorRoomsI;
+    }
+
+    /*Get the index of the rooms with*/
+    private List<int> GetRoomIndexesFromSectorEnemies(List<RoomInfo> spawnedRooms, int sector)
+    {
+        List<int> sectorRoomsI = new List<int>();
+        for (int roomIndex = 1; roomIndex < spawnedRooms.Count; roomIndex++)
+            if (spawnedRooms[roomIndex].sector == sector && spawnedRooms[roomIndex].enemies.Count > 0)
+                sectorRoomsI.Add(roomIndex);
+
+        return sectorRoomsI;
+    }
+
+    //Get Sector Count
+    public int GetSectorCount()
+    {
+        int sectorCount = 0;
+        int lastSector = -1;
+        foreach (RoomInfo room in spawnedRooms)
+        {
+            if (room.sector != lastSector && room.sector > -1)
+            {
+                sectorCount++;
+                lastSector = room.sector;
+            }
+        }
+
+        return sectorCount;
     }
 
     #endregion Aux Funcs
