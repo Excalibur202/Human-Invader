@@ -8,11 +8,21 @@ public class DoorCrl : MonoBehaviour
     public Animation WingRight;
     public bool unlocked = false;
 
-    public void OpenDoor()
+
+    public bool UnlockDoor()
+    {
+        if (unlocked)
+            return false;
+
+        OpenDoor();
+        unlocked = true;
+        return true;
+    }
+
+    private void OpenDoor()
     {
         unlocked = true;
         GetComponent<AudioSource>().Play();
-
         WingLeft["door_01_wing_left"].speed = 1;
         WingRight["door_01_wing_right"].speed = 1;
         WingLeft.Play();
@@ -20,7 +30,7 @@ public class DoorCrl : MonoBehaviour
 
     }
 
-    public void CloseDoor()
+    private void CloseDoor()
     {
         GetComponent<AudioSource>().Play();
         WingLeft["door_01_wing_left"].time = WingLeft["door_01_wing_left"].length;
