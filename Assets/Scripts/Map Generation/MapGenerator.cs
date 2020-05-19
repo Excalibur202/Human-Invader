@@ -722,11 +722,15 @@ public class MapGenerator : MonoBehaviour
     {
         List<int> roomsWithEnemies = GetRoomIndexesFromSectorEnemies(spawnedRooms, sector);
 
-        int randRoom = Random.Range(0, roomsWithEnemies.Count);
+        if (roomsWithEnemies.Count > 0)
+        {
+            int randRoom = Random.Range(0, roomsWithEnemies.Count);
 
-        int randEnemy = Random.Range(0, spawnedRooms[roomsWithEnemies[randRoom]].enemies.Count);
+            int randEnemy = Random.Range(0, spawnedRooms[roomsWithEnemies[randRoom]].enemies.Count);
 
-        spawnedRooms[roomsWithEnemies[randRoom]].enemies[randEnemy].GetComponent<BaseEnemy>().hasKeycard = true;
+            spawnedRooms[roomsWithEnemies[randRoom]].enemies[randEnemy].GetComponent<BaseEnemy>().hasKeycard = true;
+        }
+
 
     }
 
