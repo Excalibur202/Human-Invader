@@ -9,6 +9,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
     [SerializeField] Transform mineOrigin;
     [SerializeField] GameObject minePrefab;
     [SerializeField] GameObject mineHologramPrefab;
+    [SerializeField] LineRenderer lineRenderer;
     [SerializeField] float mineSpeed = 20;
     RaycastHit mineRaycastHit;
     GameObject mineHologram;
@@ -31,12 +32,6 @@ public class PlayerAbilityCaster : MonoBehaviour {
                 case 2:
                     StartCoroutine (SoldierRadar ());
                     break;
-                case 3:
-                    StartCoroutine (KnightSlash ());
-                    break;
-                case 4:
-                    StartCoroutine (KnightBash ());
-                    break;
                 default:
                     usingAbility = false;
                     return;
@@ -48,19 +43,28 @@ public class PlayerAbilityCaster : MonoBehaviour {
         if (!mineHologram && mineHologramPrefab)
             mineHologram = Instantiate (mineHologramPrefab);
 
+        RaycastHit rayHit;
+        Vector3 throwDirection = cam.transform.forward;
+
         while (Input.GetKey (KeyCode.F)) {
-            DrawMineTracer (mineOrigin.position, cam.transform.forward, mineSpeed);
+            if (Physics.Raycast (cam.transform.position, cam.transform.forward, out rayHit, 9999, LayerMask.GetMask ("Obstacle")))
+                throwDirection = (rayHit.point - mineOrigin.position).normalized;
+            else
+                throwDirection = cam.transform.forward;
+
+            DrawMineTracer (mineOrigin.position, throwDirection, mineSpeed);
 
             yield return new WaitForSeconds (Time.smoothDeltaTime);
         }
+        lineRenderer.enabled = false;
 
         GameObject mine = Instantiate (minePrefab);
         mine.GetComponent<Mine> ().SetDestination (mineRaycastHit.rigidbody, mineHologram.transform.position, mineHologram.transform.rotation);
         mine.transform.position = mineOrigin.position;
         Rigidbody mineRigidbody = (Rigidbody) mine.GetComponent (typeof (Rigidbody));
-        mineRigidbody.velocity = cam.transform.forward * mineSpeed;
+        mineRigidbody.velocity = throwDirection * mineSpeed;
 
-        // comment lines 54-55 and uncomment this for fun times autofire
+        // comment lines 54-55 and uncomment this for full-auto mine shooting
         //     yield return new WaitForSeconds (Time.smoothDeltaTime);
         // }
 
@@ -72,16 +76,13 @@ public class PlayerAbilityCaster : MonoBehaviour {
 
     private IEnumerator SoldierRadar () { throw new NotImplementedException (); }
 
-    private IEnumerator KnightSlash () { throw new NotImplementedException (); }
-
-    private IEnumerator KnightBash () { throw new NotImplementedException (); }
-
     private void DrawMineTracer (Vector3 origin, Vector3 direction, float speed) {
+        int stepSeconds = 3;
         Vector3 velocity = direction * speed;
 
         points = new List<Vector3> ();
         points.Add (origin);
-        points.Add (origin + velocity * 3 * Time.fixedDeltaTime);
+        points.Add (origin + velocity * stepSeconds * Time.fixedDeltaTime);
 
         // Calculate points along the mine's predicted path until colliding with the map or going too far
         while (points.Count < 100 &&
@@ -90,7 +91,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
                 Vector3.Distance (points[points.Count - 2], points[points.Count - 1]),
                 LayerMask.GetMask ("Obstacle"))) {
             velocity += Physics.gravity * 3 * Time.fixedDeltaTime;
-            points.Add (points[points.Count - 1] + velocity * 3 * Time.fixedDeltaTime);
+            points.Add (points[points.Count - 1] + velocity * stepSeconds * Time.fixedDeltaTime);
         }
 
         // If it collided with the floor, shift the last point to where it collided
@@ -116,8 +117,9 @@ public class PlayerAbilityCaster : MonoBehaviour {
         }
 
         // Draw lines between the points
-        for (int i = 0; i < points.Count - 1; i++) {
-            Debug.DrawLine (points[i], points[i + 1], Color.green);
-        }
+        lineRenderer.positionCount = points.Count;
+        lineRenderer.SetPositions (points.ToArray ());
+
+        lineRenderer.enabled = true;
     }
 }
