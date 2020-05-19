@@ -1987,6 +1987,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Positions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.9058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.9058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97461073359810448, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: m_Layer

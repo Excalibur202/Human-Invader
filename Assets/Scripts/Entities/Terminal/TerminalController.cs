@@ -116,11 +116,15 @@ public class TerminalController : MonoBehaviour {
             switch (inputArray.Length) {
                 case 1:
                     if (Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards > 0) {
-                        Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards--;
-                        transform.GetComponentInParent<DoorCrl> ().OpenDoor ();
-                        AddStringToLog ("SUCCESS! The door is now open.");
-                    } else
+                        if (transform.GetComponentInParent<DoorCrl> ().UnlockDoor ()) {
+                            Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards--;
+                            AddStringToLog ("SUCCESS! The door is now open.");
+                        } else {
+                            AddStringToLog ("ERROR! The door is already unlocked.");
+                        }
+                    } else {
                         AddStringToLog ("ERROR! You need a keycard to unlock the door.");
+                    }
                     break;
 
                 default:
