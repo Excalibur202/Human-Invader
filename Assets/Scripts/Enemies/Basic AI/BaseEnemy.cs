@@ -426,6 +426,7 @@ public class BaseEnemy : MonoBehaviour {
                 Quaternion.Euler (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)));
 
             keycard.GetComponent<Rigidbody> ().AddForce (5 * new Vector3 (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)), ForceMode.VelocityChange);
+            keycard.GetComponent<Rigidbody> ().AddTorque (10 * new Vector3 (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)), ForceMode.VelocityChange);
         }
 
         //// DEATH ANIMATION?
