@@ -18,12 +18,12 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float aggroRange;
     [SerializeField] protected float health;
-    [SerializeField] protected bool hasKeycard;
 
     protected CharacterController charCtrl;
     protected GameObject player;
     protected float defaultMoveSpeed;
-
+    public bool hasKeycard;
+    
     // Movement and navigation
     protected bool canSeePlayer;
     protected Vector3 playerLastSightedAt;
