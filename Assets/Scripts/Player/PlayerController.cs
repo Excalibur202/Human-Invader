@@ -314,6 +314,9 @@ public class PlayerController : MonoBehaviour
     {
         cameraTransform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
         
+        Vector3 direction = ((cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset)).normalized;
+
+
         Vector3 targetPosition = transform.position - (cameraTransform.forward * cameraBackOffset) + (Vector3.up*cameraHeight) + (cameraTransform.right*cameraSideOffset);
         Debug.DrawLine(transform.position, targetPosition, Color.red, Time.deltaTime);
        
@@ -410,6 +413,8 @@ public class PlayerController : MonoBehaviour
         GetNextShotTrail().Setup(gunBarrel.position, lastHitPoint);
 
         nextFire = Time.time + fireRate;
+
+        animator.SetTrigger("Shoot");
 
         Cursor.lockState = CursorLockMode.Locked;
     }

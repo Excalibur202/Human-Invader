@@ -37,6 +37,7 @@
                 float4 vertex : SV_POSITION;
                 float2 grabPos: TEXCOORD1;
                 float3 viewDir : TEXCOORD2;
+                half3 worldNormal : TEXCOORD3;
             };
 
             sampler2D _MainTex;
@@ -47,12 +48,13 @@
             sampler2D _BackgroundTexture;
 
 
-            v2f vert (appdata v)
+            v2f vert (appdata v, float3 normal : NORMAL)
             {
                 v2f o;
-                o.grabPos = ComputeGrabScreenPos(UnityObjectToClipPos(v.vertex));
-                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.grabPos = ComputeGrabScreenPos(UnityObjectToClipPos(v.vertex));
+                o.vertex = UnityObjectToClipPos(v.vertex);//+ float4(UnityObjectToWorldNormal(normal)*2.0f,1)*o.uv.x;
+                o.worldNormal = UnityObjectToWorldNormal(normal);
                 return o;
             }
 
