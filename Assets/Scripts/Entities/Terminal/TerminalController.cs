@@ -21,7 +21,7 @@ public class TerminalController : MonoBehaviour {
     string inputString;
     Mutex bufferMutex = new Mutex ();
 
-    public List<RoomInfo> roomInfo = new List<RoomInfo> ();
+    public List<RoomInfo> mapRooms = new List<RoomInfo> ();
 
     public void Initialize () {
         if (GameObject.FindGameObjectWithTag ("MapGen"))
@@ -72,11 +72,45 @@ public class TerminalController : MonoBehaviour {
             switch (inputArray.Length) {
                 case 1:
                     int lastSector = -1;
-                    foreach (RoomInfo room in roomInfo) {
+                    foreach (RoomInfo room in mapRooms) {
                         if (room.sector != lastSector) {
                             AddStringToLog (room.sector.ToString ());
                             lastSector = room.sector;
                         }
+                    }
+                    break;
+                case 3:
+                    if (inputArray[1] == "SECTOR") {
+                        string firstChar = inputArray[2][0].ToString ();
+
+                        // if firstChar is an integer
+                        if (Regex.IsMatch (firstChar, @"^\d+$")) {
+                            int sector = int.Parse (firstChar);
+                            int sectorCount = MapGenerator.instance.GetSectorCount ();
+                            // if sector exists
+                            if (sector >= 0 && sector < sectorCount) {
+                                MapGenerator.instance.RefreshEnemies ();
+
+                                AddStringToLog ("Sector " + sector + " found! Listing info...\n");
+
+                                List<int> roomIndexes = MapGenerator.instance.GetRoomIndexesFromSectorEnemies (mapRooms, sector);
+                                foreach (int roomIndex in roomIndexes) {
+                                    foreach (GameObject enemy in mapRooms[roomIndex].enemies) {
+                                        string enemyInfo;
+                                        if (enemy.GetComponent<BaseEnemy> ().hasKeycard)
+                                            enemyInfo = enemy.name + " - In Subsector " + mapRooms[roomIndex].subSector + " -  Has Keycard";
+                                        else
+                                            enemyInfo = enemy.name + " - In Subsector " + mapRooms[roomIndex].subSector;
+
+                                        AddStringToLog (enemyInfo);
+                                    }
+                                }
+
+                            } else {
+                                AddStringToLog ("ERROR! Sector " + firstChar + " does not exist!");
+                            }
+                        }
+
                     }
                     break;
                 default:
@@ -86,7 +120,8 @@ public class TerminalController : MonoBehaviour {
         };
         commands.Add ("LIST", new TerminalCommand ("Lists information from the map database", LIST, false,
             "'LIST'",
-            "'LIST [FILTER STRING]'"));
+            "'LIST [FILTER_STRING]'",
+            "'LIST SECTOR [SECTOR_NAME]"));
 
         //MapDownload
         Action MapDownload = () => {
@@ -115,15 +150,17 @@ public class TerminalController : MonoBehaviour {
 
             switch (inputArray.Length) {
                 case 1:
-                    if (Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards > 0) {
-                        if (transform.GetComponentInParent<DoorCrl> ().UnlockDoor ()) {
-                            Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards--;
-                            AddStringToLog ("SUCCESS! The door is now open.");
-                        } else {
-                            AddStringToLog ("ERROR! The door is already unlocked.");
-                        }
+                    if (transform.GetComponentInParent<DoorCrl> ().unlocked) {
+                        AddStringToLog ("ERROR! The door is already unlocked.");
                     } else {
-                        AddStringToLog ("ERROR! You need a keycard to unlock the door.");
+                        if (Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards > 0) {
+                            if (transform.GetComponentInParent<DoorCrl> ().UnlockDoor ()) {
+                                Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards--;
+                                AddStringToLog ("SUCCESS! The door is now open.");
+                            }
+                        } else {
+                            AddStringToLog ("ERROR! You need a keycard to unlock the door.");
+                        }
                     }
                     break;
 
@@ -242,9 +279,9 @@ public class TerminalController : MonoBehaviour {
             log.text += logBuffer.Dequeue ();
 
             if (log.text.Last () == '\n')
-                yield return new WaitForSeconds (Random.Range (0.4f, 0.9f));
+                yield return new WaitForSeconds (Random.Range (0.05f, 0.1f));
             else
-                yield return new WaitForSeconds (Random.Range (0.01f, 0.05f));
+                yield return new WaitForSeconds (Random.Range (0.005f, 0.01f));
         }
 
         bufferMutex.WaitOne ();
@@ -253,8 +290,8 @@ public class TerminalController : MonoBehaviour {
     }
 
     private IEnumerator ConnectToMap () {
-        while (roomInfo.Count < 1) {
-            roomInfo = MapGenerator.instance.spawnedRooms;
+        while (mapRooms.Count < 1) {
+            mapRooms = MapGenerator.instance.spawnedRooms;
 
             yield return new WaitForSeconds (0.25f);
         }

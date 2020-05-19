@@ -6,7 +6,7 @@ public class DoorCrl : MonoBehaviour
 {
     public Animation WingLeft;
     public Animation WingRight;
-    private bool unlocked = false;
+    public bool unlocked = false;
 
 
     public bool UnlockDoor()
