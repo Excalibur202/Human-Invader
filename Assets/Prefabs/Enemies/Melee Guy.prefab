@@ -303,10 +303,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentBehavior: 0
   ground_Y: 0
-  aboveGround_Y: 0.8
+  aboveGround_Y: 1
   moveSpeed: 3
   aggroRange: 10
   health: 100
+  hasKeycard: 0
   ability1CooldownMax: 6
   stick: {fileID: 2134649695}
 --- !u!114 &1023328002065548908
