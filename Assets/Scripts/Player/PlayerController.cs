@@ -175,12 +175,12 @@ public class PlayerController : MonoBehaviour
         if (keyboardInput != Vector3.zero)
             characterDir = Vector3.Lerp(characterDir, keyboardInput,Time.deltaTime*5f);
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && characterController.isGrounded)
             aiming = true;
         else
             aiming = false;
 
-        if (Input.GetMouseButton(0) && aiming)
+        if (Input.GetMouseButton(0) && aiming && characterController.isGrounded)
             Shoot();
 
         //if (aiming)
