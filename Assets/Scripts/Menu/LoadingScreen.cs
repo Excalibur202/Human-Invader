@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading;
 
 enum ProgTrack
 {
@@ -43,7 +44,6 @@ public class LoadingScreen : MonoBehaviour
     {
         AsyncOperation sceneLoader;
         float timer = 0;
-        
 
         switch(scene)
         {
@@ -68,20 +68,16 @@ public class LoadingScreen : MonoBehaviour
         while (!sceneLoader.isDone)
         {
             timer += Time.deltaTime;
-            //float progress = Mathf.Clamp01(sceneLoader.progress / .9f);
 
-            //Debug.Log(sceneLoader.progress);
-           
-            if (sceneLoader.progress == 0.9f && timer >= 1000f)
+            
+            if (sceneLoader.progress >= 0.9f && timer >= 2)
             {
-                //for (int pro = 0; pro < ProgressTracker.progressGeneral.Length; pro++)
-                //    ProgressTracker.progressGeneral[pro] = false;
 
-                sceneLoader.allowSceneActivation = true;
 
-                yield return new WaitForEndOfFrame();
+                //sceneLoader.allowSceneActivation = true;
+
             }
-
+            yield return new WaitForEndOfFrame();
         }
     }
 }
