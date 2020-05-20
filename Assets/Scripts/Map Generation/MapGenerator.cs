@@ -62,7 +62,6 @@ public class MapGenerator : MonoBehaviour {
     //Player
     [SerializeField]
     public Transform playerTransform;
-    private bool playerToSpawnPos = false;
 
     private void Awake () {
         //Set instance
@@ -84,28 +83,27 @@ public class MapGenerator : MonoBehaviour {
             MapInit();
 
             //Set player pos (spawn room)
-            playerToSpawnPos = SetPlayerPosToSpawnPos();
+            SetPlayerPosToSpawnPos();
         }
-       
-
     }
 
     private void Update () {
-        //if (!playerToSpawnPos)
-        //    playerToSpawnPos = SetPlayerPosToSpawnPos();
-
-        ////Recreate map
-        //if (recreateMap) {
-        //    //AI training?
-        //    if (trainingAI) {
-        //        RestartSimulation ();
-        //    } else {
-        //        MapInit ();
-        //        //Set player pos (spawn room)
-        //        SetPlayerPosToSpawnPos ();
-        //    }
-        //    recreateMap = false;
-        //}
+        //Recreate map
+        if (recreateMap)
+        {
+            //AI training?
+            if (trainingAI)
+            {
+                RestartSimulation();
+            }
+            else
+            {
+                MapInit();
+                //Set player pos (spawn room)
+                SetPlayerPosToSpawnPos();
+            }
+            recreateMap = false;
+        }
     }
 
     #region Map Generation Funcs
