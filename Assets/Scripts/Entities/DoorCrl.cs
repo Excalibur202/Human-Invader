@@ -6,7 +6,9 @@ public class DoorCrl : MonoBehaviour
 {
     public Animation WingLeft;
     public Animation WingRight;
+    public GameObject trigger;
     public bool unlocked = false;
+
 
 
     public bool UnlockDoor()
@@ -16,6 +18,8 @@ public class DoorCrl : MonoBehaviour
 
         OpenDoor();
         unlocked = true;
+
+        trigger.active = true;
         return true;
     }
 
