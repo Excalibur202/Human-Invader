@@ -74,7 +74,7 @@ public class LoadingScreen : MonoBehaviour
             {
 
 
-                //sceneLoader.allowSceneActivation = true;
+                sceneLoader.allowSceneActivation = true;
 
             }
             yield return new WaitForEndOfFrame();
