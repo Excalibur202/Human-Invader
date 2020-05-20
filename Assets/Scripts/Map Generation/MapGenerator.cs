@@ -73,12 +73,19 @@ public class MapGenerator : MonoBehaviour {
 
     private void Start () {
         transform.tag = "MapGen";
+        if(trainingAI)
+        {
+            RestartSimulation();
+        }else
+        {
+            //Generate map
+            MapInit();
 
-        //Generate map
-        MapInit ();
+            //Set player pos (spawn room)
+            SetPlayerPosToSpawnPos();
+        }
+       
 
-        //Set player pos (spawn room)
-        SetPlayerPosToSpawnPos ();
     }
 
     private void Update () {
@@ -571,6 +578,7 @@ public class MapGenerator : MonoBehaviour {
                 int randRoom = 0;
                 int randESpawner = 0;
                 GameObject auxEnemy;
+                GameObject auxBaseEnemy;
                 Transform auxTransform;
 
                 //Get the number of enemies for this sector
@@ -582,7 +590,9 @@ public class MapGenerator : MonoBehaviour {
 
                     auxTransform = spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance ().enemySpawners[randESpawner];
 
-                    auxEnemy = Instantiate (weightedRandGO (enemies, enemyProbs), auxTransform.position, auxTransform.rotation);
+                    auxBaseEnemy = weightedRandGO(enemies, enemyProbs);
+                    auxEnemy = Instantiate (auxBaseEnemy, auxTransform.position, auxTransform.rotation);
+                    auxEnemy.name = auxBaseEnemy.name;
                     //auxEnemy.transform.SetParent(spawnedRooms[sectorRoomsI[randRoom]].prefab.transform);// Ai n da
                     spawnedRooms[sectorRoomsI[randRoom]].enemies.Add (auxEnemy);
 
