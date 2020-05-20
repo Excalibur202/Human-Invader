@@ -5,6 +5,8 @@ internal class AbilityInputs {
     internal bool Use = false;
     internal bool Ability1 = false;
     internal bool Ability2 = false;
+    internal bool Map = false;
+
 }
 
 public class PlayerAbilityController : MonoBehaviour {
@@ -14,8 +16,9 @@ public class PlayerAbilityController : MonoBehaviour {
     [SerializeField] TerminalController connectedTerminal;
 
     public int keycards;
-
+    public GameObject map;
     AbilityInputs inputs = new AbilityInputs ();
+    bool mapActive;
 
     void Start () {
         // Disable ability inputs if no abilities to work with
@@ -27,10 +30,10 @@ public class PlayerAbilityController : MonoBehaviour {
     }
 
     void Update () {
-        if (!connectedTerminal) {
+        if (!connectedTerminal && !mapActive) {
             playerController.enabled = true;
 
-            UpdateAbilityInputs ();
+            UpdateAbilityInputs();
 
             if (inputs.InputtedSomething) {
                 if (inputs.Ability1) {
@@ -42,37 +45,54 @@ public class PlayerAbilityController : MonoBehaviour {
                 if (inputs.Use) {
                     Interact ();
                 }
+                if (inputs.Map)
+                {
+                    ActiveMap(true);
+                }
             }
-
         } else {
-            if (playerController.enabled) {
-                playerController.enabled = false;
+            if (connectedTerminal)
+            {
+                if (playerController.enabled)
+                {
+                    playerController.enabled = false;
 
-                // Move the player to be diagonal to the left of the terminal
-                playerController.transform.root.transform.position = new Vector3 (
-                    connectedTerminal.transform.parent.position.x + connectedTerminal.transform.parent.forward.x * 0.5f + connectedTerminal.transform.parent.right.x * 0.5f,
-                    playerController.transform.root.transform.position.y,
-                    connectedTerminal.transform.parent.position.z + connectedTerminal.transform.parent.forward.z * 0.5f + connectedTerminal.transform.parent.right.z * 0.5f) * 1.0f; /*+*/
+                     // Move the player to be diagonal to the left of the terminal
+                     playerController.transform.root.transform.position = new Vector3(
+                         connectedTerminal.transform.parent.position.x + connectedTerminal.transform.parent.forward.x * 0.5f + connectedTerminal.transform.parent.right.x * 0.5f,
+                         playerController.transform.root.transform.position.y,
+                         connectedTerminal.transform.parent.position.z + connectedTerminal.transform.parent.forward.z * 0.5f + connectedTerminal.transform.parent.right.z * 0.5f) * 1.0f; /*+*/
 
-                // Rotate the player to face the terminal
-                playerController.transform.root.forward = Util.V3setY (connectedTerminal.transform.parent.position - playerController.transform.root.position, 0).normalized;
+                     // Rotate the player to face the terminal
+                     playerController.transform.root.forward = Util.V3setY(connectedTerminal.transform.parent.position - playerController.transform.root.position, 0).normalized;
+                }
+
+                // Smoothly move the camera to be diagonal to the right of the terminal
+                cam.transform.position = Vector3.Lerp(
+                    cam.transform.position,
+                    connectedTerminal.transform.position * 1.0f +
+                    connectedTerminal.transform.up * 1f +
+                    connectedTerminal.transform.right * 0.5f,
+                    Time.fixedDeltaTime);
+
+                // Smoothly rotate the camera to face the terminal
+                cam.transform.forward = Vector3.Lerp(
+                    cam.transform.forward,
+                    (connectedTerminal.transform.position - cam.transform.position).normalized,
+                    Time.fixedDeltaTime);
+
+                UpdateTerminalInputs();
             }
-
-            // Smoothly move the camera to be diagonal to the right of the terminal
-            cam.transform.position = Vector3.Lerp (
-                cam.transform.position,
-                connectedTerminal.transform.position * 1.0f +
-                connectedTerminal.transform.up * 1f +
-                connectedTerminal.transform.right * 0.5f,
-                Time.fixedDeltaTime);
-
-            // Smoothly rotate the camera to face the terminal
-            cam.transform.forward = Vector3.Lerp (
-                cam.transform.forward,
-                (connectedTerminal.transform.position - cam.transform.position).normalized,
-                Time.fixedDeltaTime);
-
-            UpdateTerminalInputs ();
+            else if(mapActive)
+            {
+                if (playerController.enabled)
+                {
+                    playerController.enabled = false;
+                }
+                    if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape))
+                        ActiveMap(false);
+                
+            }
         }
     }
 
@@ -95,6 +115,13 @@ public class PlayerAbilityController : MonoBehaviour {
             inputs.Ability1 = true;
             inputs.InputtedSomething = true;
         }
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            inputs.Map = true;
+            inputs.InputtedSomething = true;
+        }
+        
 
         // // Ability 2
         // if (Input.GetKeyDown (KeyCode.R)) {
@@ -127,5 +154,14 @@ public class PlayerAbilityController : MonoBehaviour {
         inputs.Ability1 = false;
         inputs.Ability2 = false;
         inputs.Use = false;
+        inputs.Map = false;
     }
+
+    void ActiveMap(bool state)
+    {
+        mapActive = state;
+        map.SetActive(state);
+    }
+
+
 }
