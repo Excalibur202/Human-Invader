@@ -84,7 +84,7 @@ AvatarMask:
   - m_Path: root/pelvis/spine_01/spine_02/spine_03/backpack/backpack_ring_E_l
     m_Weight: 1
   - m_Path: root/pelvis/spine_01/spine_02/spine_03/backpack/backpack_ring_E_r
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: root/pelvis/spine_01/spine_02/spine_03/canon_base
     m_Weight: 0
   - m_Path: root/pelvis/spine_01/spine_02/spine_03/canon_base/canon_arms

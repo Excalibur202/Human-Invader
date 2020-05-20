@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     public float muzzleLightIntensity = 3f;
     public float muzzleLightDecay = 5f;
     private float currentMuzzle = 0f;
-
+    public ParticleSystem muzzlePS;
 
 
     //Camera Rotation Vars
@@ -373,7 +373,11 @@ public class PlayerController : MonoBehaviour
 
         rawShootingPoint = cameraTransform.position + (cameraTransform.forward * 1000f);
 
-        if(Physics.Raycast(cameraTransform.position,cameraTransform.forward,out cameraShootHit, 1000f)){
+        int layerMask = 1 << 11;
+        layerMask = ~layerMask;
+
+
+        if (Physics.Raycast(cameraTransform.position,cameraTransform.forward,out cameraShootHit, 1000f,layerMask)){
             rawShootingPoint = cameraShootHit.point;
         }
 
@@ -386,7 +390,15 @@ public class PlayerController : MonoBehaviour
 
         shakePosition = UnityEngine.Random.insideUnitSphere * 0.05f;
 
-        playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f);
+        if (muzzlePS)
+        {
+            muzzlePS.gameObject.transform.rotation = Quaternion.LookRotation(cameraTransform.forward, Vector3.up);
+            muzzlePS.Emit(UnityEngine.Random.Range(5,9));
+        }
+            
+
+
+        playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f,layerMask);
 
         lastHitPoint = gunBarrel.position + (barrelShootingDirection * 1000f);
 
