@@ -490,16 +490,21 @@ MonoBehaviour:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
-  cmdRoomsProb: 00000000
+  cmdRoomsProb: 01000000
   closedDoors:
   - {fileID: 1365970185731006, guid: ab6c3f8fd297542b98b0b08deabb440f, type: 3}
   - {fileID: 1594110723863288, guid: a6146f8e3e7904e1c91dd0c0acb5fdd6, type: 3}
-  spawnEnemies: 0
-  minEnemies: 1
-  maxEnemies: 10
+  spawnEnemies: 1
+  minEnemies: 10
+  maxEnemies: 20
   enemies:
   - {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440, type: 3}
   enemyProbs: 01000000
+  trainingAI: 0
+  aIEnemyTraining: {fileID: 672395017111101435, guid: 324894f29650f9242ad2f94a8adcdf0f,
+    type: 3}
+  baseEnemyAI: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
+    type: 3}
   playerTransform: {fileID: 1117353564}
 --- !u!1 &267897170
 GameObject:
@@ -1982,6 +1987,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Positions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.9058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.9058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005505378, guid: c0f11071db0fc164bacacd64bd7429dc, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97461073359810448, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: m_Layer

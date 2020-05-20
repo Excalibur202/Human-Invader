@@ -1,61 +1,102 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyBindManager : MonoBehaviour
 {
-    private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
+    private static KeyBindManager instance;
 
-    public Text forward, back, left, right, jump, attack, ability1, ability2;
+    public static KeyBindManager MyInstance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<KeyBindManager>();
+            }
+
+            return instance;
+        }
+    }
+
+    public Dictionary<string, KeyCode> keysbinds { get; set; }
+    
+    public Text forward, back, left, right, jump, attack, aim, ability1, ability2, map;
+
+    private KeyCode keyCode;
 
     private GameObject currentKey;
 
+    private string bindName;
+
     private void Start()
     {
-        keys.Add("Forward", KeyCode.W);
-        keys.Add("Back", KeyCode.S);
-        keys.Add("Left", KeyCode.A);
-        keys.Add("Right", KeyCode.D);
-        keys.Add("Jump", KeyCode.Space);
-        keys.Add("Attack", KeyCode.Mouse0);
-        keys.Add("Ability1", KeyCode.F);
-        keys.Add("Ability2", KeyCode.Q);
+
+        keysbinds = new Dictionary<string, KeyCode>();
+        
+
+        BindKey("Forward", KeyCode.W);
+        BindKey("Back", KeyCode.S);
+        BindKey("Left", KeyCode.A);
+        BindKey("Right", KeyCode.D);
+        BindKey("Jump", KeyCode.Space);
+        BindKey("Attack", KeyCode.Mouse0);
+        BindKey("Aim", KeyCode.Mouse1);
+        BindKey("Ability1", KeyCode.F);
+        BindKey("Ability2", KeyCode.Q);
+        BindKey("Map", KeyCode.M);
+        BindKey("Pause", KeyCode.Escape);
+
+        forward.text = keysbinds["Forward"].ToString();
+        back.text = keysbinds["Back"].ToString();
+        left.text = keysbinds["Left"].ToString();
+        right.text = keysbinds["Right"].ToString();
+        jump.text = keysbinds["Jump"].ToString();
+        attack.text = keysbinds["Attack"].ToString();
+        aim.text = keysbinds["Aim"].ToString();
+        ability1.text = keysbinds["Ability1"].ToString();
+        ability2.text = keysbinds["Ability2"].ToString();
+        map.text = keysbinds["Map"].ToString();
     }
 
-    void Update()
+    void OnGUI()
     {
-        if(Input.GetKeyDown(keys["Forward"]))
+        if(currentKey != null)
         {
+            Event e = Event.current;
 
+            if(e.isKey)
+            {
+                keysbinds[currentKey.name] = e.keyCode;
+                currentKey.transform.GetChild(0).GetComponent<Text>().text = e.keyCode.ToString();
+                currentKey = null;
+            }
         }
-        if (Input.GetKeyDown(keys["Back"]))
+    }
+
+    public void Changekey(GameObject clicked)
+    {
+        currentKey = clicked;
+    }
+
+    public void BindKey(string key, KeyCode keyBind)
+    {
+        Dictionary<string, KeyCode> currentdictionary = keysbinds;
+
+        if(!currentdictionary.ContainsValue(keyBind))
         {
-
+            currentdictionary.Add(key, keyBind);
         }
-        if (Input.GetKeyDown(keys["Left"]))
+        else if(currentdictionary.ContainsValue(keyBind))
         {
+            string mykey = currentdictionary.FirstOrDefault(x => x.Value == keyBind).Key;
 
+            currentdictionary[mykey] = KeyCode.None;
         }
-        if (Input.GetKeyDown(keys["Right"]))
-        {
 
-        }
-        if (Input.GetKeyDown(keys["Jump"]))
-        {
-
-        }
-        if (Input.GetKeyDown(keys["Attack"]))
-        {
-
-        }
-        if (Input.GetKeyDown(keys["Ability1"]))
-        {
-
-        }
-        if (Input.GetKeyDown(keys["Ability2"]))
-        {
-
-        }
+        currentdictionary[key] = keyBind;
+        bindName = string.Empty;
     }
 }

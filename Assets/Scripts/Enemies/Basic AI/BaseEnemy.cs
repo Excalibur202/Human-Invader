@@ -18,12 +18,12 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float aggroRange;
     [SerializeField] protected float health;
-    [SerializeField] protected bool hasKeycard;
 
     protected CharacterController charCtrl;
     protected GameObject player;
     protected float defaultMoveSpeed;
-
+    public bool hasKeycard;
+    
     // Movement and navigation
     protected bool canSeePlayer;
     protected Vector3 playerLastSightedAt;
@@ -426,6 +426,7 @@ public class BaseEnemy : MonoBehaviour {
                 Quaternion.Euler (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)));
 
             keycard.GetComponent<Rigidbody> ().AddForce (5 * new Vector3 (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)), ForceMode.VelocityChange);
+            keycard.GetComponent<Rigidbody> ().AddTorque (10 * new Vector3 (Util.RndRange (0, 1), Util.RndRange (0, 1), Util.RndRange (0, 1)), ForceMode.VelocityChange);
         }
 
         //// DEATH ANIMATION?

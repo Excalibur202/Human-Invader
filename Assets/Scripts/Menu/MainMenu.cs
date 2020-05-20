@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     private IEnumerator StartLoading()
     {
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("LoadingScreen");
     }
 
     void QuitButton()

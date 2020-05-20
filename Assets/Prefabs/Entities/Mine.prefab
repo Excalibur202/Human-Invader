@@ -318,7 +318,7 @@ MonoBehaviour:
   triggerLaser: {fileID: 527617046}
   audioSource: {fileID: 638919437145137409}
   beepSound: {fileID: 8300000, guid: f0b2b53886922b8438a8b85cc5de1ff3, type: 3}
-  explosionSound: {fileID: 8300000, guid: 57bc7d16ac118fe45832cb5879b0d87a, type: 3}
+  explosionSound: {fileID: 8300000, guid: 4c7602cb4bade2e478413fce80c2213c, type: 3}
   damage: 50
   explosionRadius: 5
   explosionDelay: 1
