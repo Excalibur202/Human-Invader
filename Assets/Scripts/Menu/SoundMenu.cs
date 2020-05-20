@@ -26,10 +26,10 @@ public class SoundMenu : MonoBehaviour
 
     void Start()
     {
-        masterVolume.value = 100f;
-        gameVolume.value = 100f;
-        soundVolume.value = 100f;
-        voiceVolume.value = 100f;
+        masterVolume.value = 30f;
+        gameVolume.value = 50f;
+        soundVolume.value = 50f;
+        voiceVolume.value = 50f;
     }
 
     void Update()
@@ -53,6 +53,8 @@ public class SoundMenu : MonoBehaviour
             AudioListener.volume = 0f;
         else
             AudioListener.volume = 1f;
+
+        
     }
 
     //public void SetVolume(float sliderValue)
