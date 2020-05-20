@@ -62,6 +62,7 @@ public class MapGenerator : MonoBehaviour {
     //Player
     [SerializeField]
     public Transform playerTransform;
+    private bool playerToSpawnPos = false;
 
     private void Awake () {
         //Set instance
@@ -72,6 +73,7 @@ public class MapGenerator : MonoBehaviour {
     }
 
     private void Start () {
+
         transform.tag = "MapGen";
         if(trainingAI)
         {
@@ -82,25 +84,28 @@ public class MapGenerator : MonoBehaviour {
             MapInit();
 
             //Set player pos (spawn room)
-            SetPlayerPosToSpawnPos();
+            playerToSpawnPos = SetPlayerPosToSpawnPos();
         }
        
 
     }
 
     private void Update () {
-        //Recreate map
-        if (recreateMap) {
-            //AI training?
-            if (trainingAI) {
-                RestartSimulation ();
-            } else {
-                MapInit ();
-                //Set player pos (spawn room)
-                SetPlayerPosToSpawnPos ();
-            }
-            recreateMap = false;
-        }
+        //if (!playerToSpawnPos)
+        //    playerToSpawnPos = SetPlayerPosToSpawnPos();
+
+        ////Recreate map
+        //if (recreateMap) {
+        //    //AI training?
+        //    if (trainingAI) {
+        //        RestartSimulation ();
+        //    } else {
+        //        MapInit ();
+        //        //Set player pos (spawn room)
+        //        SetPlayerPosToSpawnPos ();
+        //    }
+        //    recreateMap = false;
+        //}
     }
 
     #region Map Generation Funcs
@@ -614,7 +619,7 @@ public class MapGenerator : MonoBehaviour {
     private bool SetPlayerPosToSpawnPos () {
         //Set player pos (spawn room)
         if (playerTransform) {
-            playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance> ().playerSpawnPoint.position;
+            playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
             return true;
         }
         return false;

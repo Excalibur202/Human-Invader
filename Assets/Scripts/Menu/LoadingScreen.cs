@@ -31,6 +31,8 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField]
     public Slider gameProgress;
     public Text progressText;
+    public char scene = 'g';
+    AsyncOperation scenes;
 
     void Start()
     {
@@ -39,28 +41,47 @@ public class LoadingScreen : MonoBehaviour
 
     IEnumerator LoadAsyncOperation()
     {
-        AsyncOperation gamelevel = SceneManager.LoadSceneAsync("Game");
-        gamelevel.allowSceneActivation = false;
+        AsyncOperation sceneLoader;
+        float timer = 0;
+        
 
-        while (!gamelevel.isDone)
+        switch(scene)
         {
-            float progress = Mathf.Clamp01(gamelevel.progress / .9f);
+            case 'g':
+                sceneLoader = SceneManager.LoadSceneAsync("Game");
+                
+                break;
+            case 'm':
+                sceneLoader = SceneManager.LoadSceneAsync("Menu");
+                
+                break;
+            default:
+                sceneLoader = SceneManager.LoadSceneAsync("Menu");
+                break;
+        }
 
-            gameProgress.value = progress;
+        
+        sceneLoader.allowSceneActivation = false;
 
-            progressText.text = progress * 100f + "%";
-            //Debug.Log("" + o);
+        //Debug.Log("eu estou aqui");
+
+        while (!sceneLoader.isDone)
+        {
+            timer += Time.deltaTime;
+            //float progress = Mathf.Clamp01(sceneLoader.progress / .9f);
+
+            //Debug.Log(sceneLoader.progress);
            
-            if (progress == 1)
+            if (sceneLoader.progress == 0.9f && timer >= 1000f)
             {
                 //for (int pro = 0; pro < ProgressTracker.progressGeneral.Length; pro++)
                 //    ProgressTracker.progressGeneral[pro] = false;
 
-                gamelevel.allowSceneActivation = true;
+                sceneLoader.allowSceneActivation = true;
 
+                yield return new WaitForEndOfFrame();
             }
 
-            yield return new WaitForEndOfFrame();
         }
     }
 }

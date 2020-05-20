@@ -5,8 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.Audio;
+using SaveLoad;
+
 public class SoundMenu : MonoBehaviour
 {
+    OptionsData optionsData;
+    public bool testSave = false;
     [Header("Game")]
     public Slider gameVolume;
     public InputField gameValue;
@@ -26,15 +30,18 @@ public class SoundMenu : MonoBehaviour
 
     void Start()
     {
-        masterVolume.value = 30f;
-        gameVolume.value = 50f;
-        soundVolume.value = 50f;
-        voiceVolume.value = 50f;
+        LoadOptionsData();
     }
 
     void Update()
     {
         ValuesChange(masterVolume.value,gameVolume.value,soundVolume.value,voiceVolume.value);
+
+        if(testSave)
+        {
+            SaveOptionsData();
+            testSave = false;
+        }
     }
 
     public void ValuesChange(float masterCount, float gameCount, float soundCount, float voiceCount)
@@ -55,6 +62,39 @@ public class SoundMenu : MonoBehaviour
             AudioListener.volume = 1f;
 
         
+    }
+
+    private void GetValuesFromOptionsData()
+    {
+        masterVolume.value = optionsData.masterVolume;
+        gameVolume.value = optionsData.gameVolume;
+        soundVolume.value = optionsData.soundVolume;
+        voiceVolume.value = optionsData.voiceVolume;
+    }
+
+    private void SetValuesFromOptionsData()
+    {
+        optionsData.masterVolume = masterVolume.value;
+        optionsData.gameVolume = gameVolume.value;
+        optionsData.soundVolume = soundVolume.value;
+        optionsData.voiceVolume = voiceVolume.value;
+    }
+
+    private void LoadOptionsData()
+    {
+        optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
+        if (optionsData == null)
+            optionsData = new OptionsData();
+
+        GetValuesFromOptionsData();
+        
+    }
+
+    public void SaveOptionsData()
+    {
+        SetValuesFromOptionsData();
+
+        optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
     }
 
     //public void SetVolume(float sliderValue)

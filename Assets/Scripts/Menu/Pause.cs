@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
-    public MapGenerator map;
-
-    void Start()
+    public void StartLoad()
     {
-        map = MapGenerator.instance;
-        
+        StartCoroutine(StartLoading());
     }
 
+    private IEnumerator StartLoading()
+    {
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene("LoadingScreen");
+    }
 }
