@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour {
 
     //Spawned Prefabs
     public List<RoomInfo> spawnedRooms = new List<RoomInfo> ();
-    //public List<GameObject> spawnedEnemies = new List<GameObject>();
+    public List<GameObject> spawnedEnemies = new List<GameObject>();
 
     //Random Seed
     [SerializeField]
@@ -599,7 +599,7 @@ public class MapGenerator : MonoBehaviour {
                     auxEnemy.name = auxBaseEnemy.name;
                     //auxEnemy.transform.SetParent(spawnedRooms[sectorRoomsI[randRoom]].prefab.transform);// Ai n da
                     spawnedRooms[sectorRoomsI[randRoom]].enemies.Add (auxEnemy);
-                    //spawnedEnemies.Add(auxEnemy);
+                    spawnedEnemies.Add(auxEnemy);
 
                     //Remove Spawner
                     spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance ().enemySpawners.RemoveAt (randESpawner);

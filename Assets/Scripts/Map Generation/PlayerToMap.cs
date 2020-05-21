@@ -9,7 +9,6 @@ public class PlayerToMap : MonoBehaviour
     Vector2 pos2D;
     [SerializeField]
     int renderDistance;
-   // bool waitForSecoundupdate = false;
    
 
     // Update is called once per frame
@@ -44,22 +43,26 @@ public class PlayerToMap : MonoBehaviour
                     last2DPos = pos2D;
                 }
 
-                //if (map.spawnedEnemies.Count > 0 && waitForSecoundupdate)
-                //    for (int enemyIndex = 0; enemyIndex < map.spawnedEnemies.Count; enemyIndex++)
-                //    {
-                //        if (!map.spawnedEnemies[enemyIndex])
-                //            map.spawnedEnemies.RemoveAt(enemyIndex--);
-                //        else
-                //        {
-                //            if (Util.SqrDistance(this.gameObject.transform.position, map.spawnedEnemies[enemyIndex].transform.position, true) < Util.Square(renderDistance))
-                //                map.spawnedEnemies[enemyIndex].SetActive(true);
-                //            else
-                //                map.spawnedEnemies[enemyIndex].SetActive(false);
+                if (map.spawnedEnemies.Count > 0)
+                    for (int enemyIndex = 0; enemyIndex < map.spawnedEnemies.Count; enemyIndex++)
+                    {
+                        if (!map.spawnedEnemies[enemyIndex])
+                            map.spawnedEnemies.RemoveAt(enemyIndex--);
+                        else
+                        {
+                            if (Util.SqrDistance(this.gameObject.transform.position, map.spawnedEnemies[enemyIndex].transform.position, true) < Util.Square(renderDistance))
+                            {
+                                map.spawnedEnemies[enemyIndex].SetActive(true);
 
-                //        }
+                            }
+                            else
+                            {
+                                map.spawnedEnemies[enemyIndex].SetActive(false);
+                            }
+                                
 
-                //    }
-                //waitForSecoundupdate = true;
+                        }
+                    }
             }
 
 
