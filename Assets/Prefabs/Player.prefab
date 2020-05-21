@@ -4859,7 +4859,7 @@ CharacterController:
   m_GameObject: {fileID: 5559695255248275850}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.4
@@ -4939,6 +4939,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   connectedTerminal: {fileID: 0}
   keycards: 0
+  map: {fileID: 0}
 --- !u!114 &6423527655052596750
 MonoBehaviour:
   m_ObjectHideFlags: 0
