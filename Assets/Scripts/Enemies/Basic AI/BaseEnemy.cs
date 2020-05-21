@@ -263,7 +263,7 @@ public class BaseEnemy : MonoBehaviour {
             }
 
             // Retry aggro scan after X seconds
-            yield return new WaitForSeconds (0.25f);
+            yield return new WaitForSeconds (0.5f);
         }
     }
 

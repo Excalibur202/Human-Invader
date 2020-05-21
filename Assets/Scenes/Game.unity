@@ -383,9 +383,9 @@ MonoBehaviour:
     type: 3}
   mapSizeX: 1000
   mapSizeY: 1000
-  nSectors: 10
-  minRoomsPSector: 5
-  maxRoomsPSector: 20
+  nSectors: 5
+  minRoomsPSector: 10
+  maxRoomsPSector: 30
   basicRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   - {fileID: 8767123182385438691, guid: fd710fcb68efee047b9cf6166febe706, type: 3}
@@ -409,7 +409,7 @@ MonoBehaviour:
     type: 3}
   baseEnemyAI: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
     type: 3}
-  playerTransform: {fileID: 1117353564}
+  player: {fileID: 1283764197}
 --- !u!1 &267897170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,6 +1711,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1283764197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5559695255248275850, guid: c0f11071db0fc164bacacd64bd7429dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1414516898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1324878621
 GameObject:
   m_ObjectHideFlags: 0

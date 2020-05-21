@@ -13,8 +13,7 @@ public class NavMesh
     Vector2 down = new Vector3(0, -1);
     Vector2 right = new Vector3(1, 0);
     Vector2 left = new Vector3(-1, 0);
-
-
+    
     public NavMesh(int mapSizeX, int mapSizeY)
     {
         this.navMeshMap = new char[mapSizeX, mapSizeY];

@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour {
 
     //Spawned Prefabs
     public List<RoomInfo> spawnedRooms = new List<RoomInfo> ();
+    //public List<GameObject> spawnedEnemies = new List<GameObject>();
 
     //Random Seed
     [SerializeField]
@@ -61,7 +62,7 @@ public class MapGenerator : MonoBehaviour {
 
     //Player
     [SerializeField]
-    public Transform playerTransform;
+    public GameObject player;
 
     private void Awake () {
         //Set instance
@@ -598,6 +599,7 @@ public class MapGenerator : MonoBehaviour {
                     auxEnemy.name = auxBaseEnemy.name;
                     //auxEnemy.transform.SetParent(spawnedRooms[sectorRoomsI[randRoom]].prefab.transform);// Ai n da
                     spawnedRooms[sectorRoomsI[randRoom]].enemies.Add (auxEnemy);
+                    //spawnedEnemies.Add(auxEnemy);
 
                     //Remove Spawner
                     spawnedRooms[sectorRoomsI[randRoom]].GetRoomEntrance ().enemySpawners.RemoveAt (randESpawner);
@@ -616,8 +618,9 @@ public class MapGenerator : MonoBehaviour {
 
     private bool SetPlayerPosToSpawnPos () {
         //Set player pos (spawn room)
-        if (playerTransform) {
-            playerTransform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+        if (player) {
+            player.transform.position = spawnedRooms[spawnedRooms.Count - 1].prefab.GetComponent<RoomEntrance>().playerSpawnPoint.position;
+            player.GetComponent<CharacterController>().enabled = true;
             return true;
         }
         return false;

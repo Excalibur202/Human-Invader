@@ -60,9 +60,7 @@ public class MapToTexture : MonoBehaviour
         if (!shaderReady)
             shaderReady = InitializeMap();
         else
-            UpdateShaderInfo(shaderReady);
-        //Updates player pos in shader
-
+            UpdateShaderInfo();//Updates player pos in shader
 
     }
 
@@ -134,13 +132,11 @@ public class MapToTexture : MonoBehaviour
     }
 
     /*Updates shader info*/
-    public void UpdateShaderInfo(bool shaderReady)
+    public void UpdateShaderInfo()
     {
-        if (shaderReady)//Shader ready?
-        {
             //Update player pos
             mapMat.SetVector("_PlayerPos", playerTransform.position);
-        }
+        
     }
 
     /*Set texture main color (with border)*/

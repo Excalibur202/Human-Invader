@@ -58,8 +58,4 @@ public class Door_01 : MonoBehaviour
         WingRight.Play();
         open = false;
     }
-
-
-
-
 }
