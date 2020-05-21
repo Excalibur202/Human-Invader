@@ -1444,7 +1444,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1718,6 +1718,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1414516898}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1283764199 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1414516898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283764197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42a22cc581cd7641bfdb2015eb868dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1324878621
 GameObject:
   m_ObjectHideFlags: 0
@@ -2111,8 +2123,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
       propertyPath: healthPoints
-      value: 10000
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1158643437}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoDie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: die.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1283764199}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdatePlayerHPBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3169403031170486538, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -2522,7 +2594,7 @@ PrefabInstance:
     - target: {fileID: 6423527655052596748, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: renderDistance
-      value: 50
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6423527655052596751, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}

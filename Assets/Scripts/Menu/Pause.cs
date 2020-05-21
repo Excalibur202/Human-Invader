@@ -15,4 +15,8 @@ public class Pause : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene("LoadingScreen");
     }
+
+    public void GoDie(){
+        SceneManager.LoadScene("Menu");
+    }
 }

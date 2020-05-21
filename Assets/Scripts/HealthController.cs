@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class HealthController : MonoBehaviour
-{
+public class HealthController : MonoBehaviour {
     //[Header("Die event")]
     public UnityEvent die;
     public UnityEvent damage;
@@ -19,56 +19,57 @@ public class HealthController : MonoBehaviour
     [HideInInspector]
     public float healthPointsMax;
 
-    private void Awake()
-    {
+    private void Awake () {
         healthPointsMax = healthPoints;
+
+        if (gameObject.tag == "Player") {
+            GameObject.Find ("HealthBar").GetComponent<Slider> ().maxValue = healthPointsMax;
+            UpdatePlayerHPBar ();
+        }
     }
 
-    private void Update()
-    {
+    private void Update () {
         if (dieDebug && !dead)
-            Die();
+            Die ();
     }
 
-    public void Damage(float damage, bool ignoreInvulnerability = false)
-    {
+    public void Damage (float damage, bool ignoreInvulnerability = false) {
         if ((invulnerable && !ignoreInvulnerability) || dead)
             return;
 
         healthPoints -= damage;
 
+        Damage ();
+
         if (healthPoints <= 0 || oneHitKill)
-            Die();
-        else
-            Damage();
+            Die ();
     }
 
-
-    private void Damage()
-    {
-        damage.Invoke();
+    private void Damage () {
+        damage.Invoke ();
     }
 
-    private void Die()
-    {
+    private void Die () {
         dead = true;
-        die.Invoke();
-        StartCoroutine(WaitToDie());
+        die.Invoke ();
+        StartCoroutine (WaitToDie ());
     }
 
-    public void ResetHP()
-    {
+    public void ResetHP () {
         healthPoints = healthPointsMax;
     }
 
-    public int HealthPoints()
-    {
-        return Mathf.CeilToInt(healthPoints);
+    public int HealthPoints () {
+        return Mathf.CeilToInt (healthPoints);
     }
 
-    private IEnumerator WaitToDie()
-    {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Menu");
+    private IEnumerator WaitToDie () {
+        yield return new WaitForSeconds (1f);
+
+        SceneManager.LoadScene ("Luis");
+    }
+
+    public void UpdatePlayerHPBar () {
+        GameObject.Find ("HealthBar").GetComponent<Slider> ().value = -(healthPoints - healthPointsMax);
     }
 }

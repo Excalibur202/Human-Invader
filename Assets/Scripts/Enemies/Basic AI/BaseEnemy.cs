@@ -23,7 +23,7 @@ public class BaseEnemy : MonoBehaviour {
     protected GameObject player;
     protected float defaultMoveSpeed;
     public bool hasKeycard;
-    
+
     // Movement and navigation
     protected bool canSeePlayer;
     protected Vector3 playerLastSightedAt;
@@ -53,6 +53,22 @@ public class BaseEnemy : MonoBehaviour {
         transform.position = Util.V3setY (transform.position, ground_Y + aboveGround_Y);
 
         // Waypoint pathing system
+        // Adds spawn location as the "home base", the first travel waypoint
+        waypoints.Add (Util.V3toV2 (transform.position));
+        recentPos.Add (Util.V3toV2 (transform.position));
+        StartCoroutine (PositionLibrarian ());
+        StartCoroutine (WaypointPathMaker ());
+
+        StartCoroutine (AggroScanner ());
+    }
+
+    public void Reset () {
+        transform.position = Util.V2toV3 (waypoints[0], ground_Y + aboveGround_Y);
+
+        waypoints = new List<Vector2>();
+        recentPos = new List<Vector2>();
+        waypoints.Add (Util.V3toV2 (transform.position));
+        recentPos.Add (Util.V3toV2 (transform.position));
         StartCoroutine (PositionLibrarian ());
         StartCoroutine (WaypointPathMaker ());
 
@@ -269,8 +285,6 @@ public class BaseEnemy : MonoBehaviour {
 
     // Keeps recent enemy positions, used when deciding where to set a new waypoint
     IEnumerator PositionLibrarian () {
-        recentPos.Add (Util.V3toV2 (transform.position));
-
         while (true) {
             // Don't keep more than X most recent ones
             while (recentPos.Count > 10)
@@ -288,9 +302,6 @@ public class BaseEnemy : MonoBehaviour {
 
     // Lays down a series of waypoints that the enemy can follow to return to spawn
     IEnumerator WaypointPathMaker () {
-        // Add spawn location as the first travel waypoint
-        waypoints.Add (Util.V3toV2 (transform.position));
-
         while (true) {
             int lastWaypoint = waypoints.Count - 1;
 
