@@ -13,7 +13,7 @@ public class NavMesh
     Vector2 down = new Vector3(0, -1);
     Vector2 right = new Vector3(1, 0);
     Vector2 left = new Vector3(-1, 0);
-    
+
     public NavMesh(int mapSizeX, int mapSizeY)
     {
         this.navMeshMap = new char[mapSizeX, mapSizeY];
@@ -61,8 +61,6 @@ public class NavMesh
     public char[,] GetMapBorder(bool changeOriginalMap, bool maintainGroundInfo, char[,] mapChar)
     {
         char[,] wallMap = new char[mapSizeX, mapSizeY];
-        bool canWall = false;
-
         for (int posX = 0; posX < mapSizeX; posX++)
             for (int posY = 0; posY < mapSizeY; posY++)
             {
@@ -73,18 +71,19 @@ public class NavMesh
                         for (int deltaX = -1; deltaX < 2; deltaX++)
                             for (int deltaY = -1; deltaY < 2; deltaY++)
                                 if (mapChar[deltaX + posX, deltaY + posY] == '\0')
-                                    canWall = true;
+                                {
+                                    wallMap[deltaX + posX, deltaY + posY] = 'w';
+                                }
 
-                        if(canWall)
-                            wallMap[posX, posY] = 'w';
-                        else if (maintainGroundInfo)
-                            wallMap[posX, posY] = 'g';
-                        canWall = false;
+                        if (maintainGroundInfo)
+                            wallMap[posX, posY] = mapChar[posX, posY];
                     }
                     else //Sim
                         wallMap[posX, posY] = 'w';
                 }
-                else wallMap[posX, posY] = mapChar[posX, posY];
+                else
+                    if (mapChar[posX, posY] != '\0')
+                    wallMap[posX, posY] = mapChar[posX, posY];
             }
 
         if (changeOriginalMap)
@@ -97,7 +96,7 @@ public class NavMesh
     {
         char[,] mapArea = new char[sizeX, sizeY];
 
-        Vector2 rightCorner = new Vector2((int)((int)(sizeX * 0.5f) + position.x), (int)((int)(sizeY * 0.5f) + position.z));
+        Vector2 rightCorner = new Vector2((int)((int)(sizeX * 0.5f) + (position.x)), (int)((int)(sizeY * 0.5f) + (position.z)));
 
         int deltaX = ((int)rightCorner.x - sizeX);
         int deltaY = ((int)rightCorner.y - sizeY);
@@ -280,7 +279,7 @@ public class NavMesh
         return mapChar;
     }
 
-    public void RoomToTexture(Texture2D texture, RoomInfo room, int size,int border)
+    public void RoomToTexture(Texture2D texture, RoomInfo room, int size, int border)
     {
         Vector2 entrance2DForward;
         GameObject roomObj = room.prefab;
@@ -301,7 +300,7 @@ public class NavMesh
                 int boxRightCorner2DPosY = Mathf.RoundToInt(boxRightCorner.position.z);
 
                 //Ground
-                SetMapPixel(texture,Color.white,box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward,size,border);
+                SetMapPixel(texture, Color.white, box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, entrance2DForward, size, border);
 
                 texture.Apply();
             }
@@ -321,7 +320,7 @@ public class NavMesh
             for (int x = boxRightCorner2DPosX; x > deltaX; x--)
                 for (int y = boxRightCorner2DPosY; y > deltaY; y--)
                     if (InMapRange(x, y))
-                        MapToTexture.SetTextureColor(border,size,x,y,inputColor,texture);
+                        MapToTexture.SetTextureColor(border, size, x, y, inputColor, texture);
         }
         else if (entrance2DForward == down)//Exit Down
         {
@@ -361,18 +360,12 @@ public class NavMesh
         }
     }
 
-    public void ObstacleToNavMesh(NavMeshObstacle obstacle, char mapChar)
+    public void ObstaclesToNavMesh(NavMeshObstacle obstacles)
     {
-        Vector2 obstacleForward = new Vector2((int)obstacle.obstacleTransform.forward.normalized.x, (int)obstacle.obstacleTransform.forward.normalized.z);
-        int box2DScaleX = Mathf.RoundToInt(obstacle.obstacleTransform.lossyScale.x);
-        int box2DScaleY = Mathf.RoundToInt(obstacle.obstacleTransform.lossyScale.z);
-
-        int boxRightCorner2DPosX = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.x);
-        int boxRightCorner2DPosY = Mathf.RoundToInt(obstacle.obstacleRightCorner.position.z);
-
-        navMeshMap = SetMapChars(box2DScaleX, box2DScaleY, boxRightCorner2DPosX, boxRightCorner2DPosY, obstacleForward, mapChar, navMeshMap);
+        for (int i = 0; i < obstacles.obstacleTransform.Length;i++)
+            ObstacleToNavMesh(obstacles.obstacleTransform[i], obstacles.obstacleRightCorner[i], obstacles.mapChar[i]);
     }
-    public void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner, char mapChar)
+    private void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner, char mapChar)
     {
         Vector2 obstacleForward = new Vector2((int)obstacleTransform.forward.normalized.x, (int)obstacleTransform.forward.normalized.z);
 

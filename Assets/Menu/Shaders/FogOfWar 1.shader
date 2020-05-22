@@ -12,7 +12,7 @@
 		_ConsoleTexture("Console Texture", 2D) = "white" {}
 		_PlayerPos("Player", Vector) = (0,0,0)
 		_ConsolePos("Console", Vector) = (0,0,0)
-		_ScalePlayer("Scale Player", Range(-1,50)) = 0
+		_ScalePlayer("Scale Player", Range(-1,100)) = 0
 
 		_FuncInfo("Function Information", Vector) = (0,0,0)
 	}

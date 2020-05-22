@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NavMeshObstacle : MonoBehaviour
 {
-    public Transform obstacleTransform;
-    public Transform obstacleRightCorner;
+    public Transform[] obstacleTransform;
+    public Transform[] obstacleRightCorner;
+    public char[] mapChar;
 }

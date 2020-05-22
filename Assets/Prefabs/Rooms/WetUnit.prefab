@@ -1251,6 +1251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4204221321198530}
   - component: {fileID: 2197426663442342138}
+  - component: {fileID: 1530955607217944150}
   m_Layer: 9
   m_Name: WetUnit
   m_TagString: Untagged
@@ -1313,8 +1314,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bb1af06b69c9cf48a42f7db71a6c8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleTransform: {fileID: 2247269824769604571}
-  obstacleRightCorner: {fileID: 6604956107190612794}
+  obstacleTransform:
+  - {fileID: 2247269824769604571}
+  obstacleRightCorner:
+  - {fileID: 6604956107190612794}
+  mapChar: 7700
+--- !u!65 &1530955607217944150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594110723863288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.0156727, y: 3.3910751, z: 1.3801821}
+  m_Center: {x: -0.002977848, y: 1.1955376, z: 0.14960903}
 --- !u!1 &1596513810538266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,7 +1885,7 @@ MeshCollider:
   m_GameObject: {fileID: 1863408425118376}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

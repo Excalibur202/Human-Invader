@@ -6,13 +6,16 @@ public class AIEnemy : MonoBehaviour
 {
     public NeuralNetwork nNet;
     MapGenerator map;
+    public CharacterController characterCrl;
+    public int speed = 1;
+
     int sizeX;
     int sizeY;
-    char[,] mapArea;
-    
+    public char[,] mapArea;
+
     float[] nNInput;
     public float[] nNOutput;
-    
+
 
     Vector2 last2DPos = Vector2.zero;
     Vector2 pos2D;
@@ -32,7 +35,7 @@ public class AIEnemy : MonoBehaviour
             map = MapGenerator.instance;
     }
 
-    public void UpdateAI(float deltaTime)
+    public void UpdateAI()
     {
         if (map)
         {
@@ -40,6 +43,9 @@ public class AIEnemy : MonoBehaviour
             UpdateNNVision();
             nNOutput = nNet.Eval(nNInput);
             outputAxis = GetAIAxis(nNOutput);
+
+            characterCrl.Move((Util.V2toV3(outputAxis) * speed) * Time.deltaTime);
+
         }
     }
 
@@ -64,6 +70,10 @@ public class AIEnemy : MonoBehaviour
                 switch (unit)
                 {
                     case 'g':
+                        nNInput[auxIndex] = 1f;
+                        break;
+
+                    case 'a':
                         nNInput[auxIndex] = 1f;
                         break;
 
@@ -95,17 +105,17 @@ public class AIEnemy : MonoBehaviour
 
     private Vector2 GetAIAxis(float[] nNOutputs)
     {
-        if(nNOutputs.Length >= 4)
+        if (nNOutputs.Length >= 4)
         {
             Vector2 axis = Vector2.zero;
-            axis.x += NeuralNetworkMath.sigmoidToAxis(nNOutputs[0]) + NeuralNetworkMath.sigmoidToAxis(nNOutputs[1]);
-            axis.y += NeuralNetworkMath.sigmoidToAxis(nNOutputs[2]) + NeuralNetworkMath.sigmoidToAxis(nNOutputs[3]);
+            axis.x += NeuralNetworkMath.sigmoidToAxis(nNOutputs[0]) - NeuralNetworkMath.sigmoidToAxis(nNOutputs[1]);
+            axis.y += NeuralNetworkMath.sigmoidToAxis(nNOutputs[2]) - NeuralNetworkMath.sigmoidToAxis(nNOutputs[3]);
             return axis.normalized;
         }
         return Vector2.zero;
     }
 
-    
+
 
 
 }

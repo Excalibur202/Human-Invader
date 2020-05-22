@@ -14,6 +14,7 @@ public class MapGenerator : MonoBehaviour {
     public List<RoomInfo> spawnedRooms = new List<RoomInfo> ();
     public List<GameObject> spawnedEnemies = new List<GameObject>();
 
+
     //Random Seed
     [SerializeField]
     private int randSeed = 0;
@@ -56,9 +57,11 @@ public class MapGenerator : MonoBehaviour {
     //AI Training
     public bool trainingAI = false;
     [SerializeField]
-    private GameObject aIEnemyTraining;
+    private GameObject baseAIEnemyTraining ;
     [SerializeField]
     private GameObject baseEnemyAI;
+    public GameObject aIEnemyTraining, enemyAI;
+
 
     //Player
     [SerializeField]
@@ -160,7 +163,7 @@ public class MapGenerator : MonoBehaviour {
                     if (sectorDoor) {
                         auxDoor = Instantiate (sectorDoor, room.prefab.transform.position + sectorDoor.transform.position, room.prefab.transform.rotation);
                         auxDoor.transform.SetParent (room.prefab.transform);
-                        navMesh.ObstacleToNavMesh (auxDoor.GetComponent<NavMeshObstacle> (), 's');
+                        navMesh.ObstaclesToNavMesh (auxDoor.GetComponent<NavMeshObstacle> ());
                         room.sectorDoor = auxDoor;
                     }
 
@@ -411,7 +414,7 @@ public class MapGenerator : MonoBehaviour {
 
             GameObject auxDoor = Instantiate (doors[randDoor], exit.position + doors[randDoor].transform.position, exit.rotation);
             auxDoor.transform.SetParent (exit);
-            navMesh.ObstacleToNavMesh (auxDoor.GetComponent<NavMeshObstacle> (), 'w');
+            navMesh.ObstaclesToNavMesh (auxDoor.GetComponent<NavMeshObstacle> ());
 
         }
     }
@@ -669,8 +672,13 @@ public class MapGenerator : MonoBehaviour {
             auxTransform = spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance ().enemySpawners[randSpawner];
 
             //Spawn
-            auxEnemy = Instantiate ((i == 0) ? aIEnemyTraining : baseEnemyAI, auxTransform.position, auxTransform.rotation);
+            auxEnemy = Instantiate ((i == 0) ? baseAIEnemyTraining : baseEnemyAI, auxTransform.position, auxTransform.rotation);
             spawnedRooms[roomIndexes[randRoom]].enemies.Add (auxEnemy);
+
+            if (i == 0)
+                aIEnemyTraining = auxEnemy;
+            else
+                enemyAI = auxEnemy;
 
             //Remove Spawner
             spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance ().enemySpawners.RemoveAt (randSpawner);

@@ -749,6 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4162187661114364}
   - component: {fileID: 5707807151591068345}
+  - component: {fileID: 6451528507956928142}
   m_Layer: 9
   m_Name: wall_bed
   m_TagString: Untagged
@@ -792,8 +793,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bb1af06b69c9cf48a42f7db71a6c8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleTransform: {fileID: 5699770605878968214}
-  obstacleRightCorner: {fileID: 8706449177927452081}
+  obstacleTransform:
+  - {fileID: 5699770605878968214}
+  obstacleRightCorner:
+  - {fileID: 8706449177927452081}
+  mapChar: 7700
+--- !u!65 &6451528507956928142
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365970185731006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.299842, y: 3.681686, z: 1.504779}
+  m_Center: {x: 0.100403786, y: 1.340843, z: -0.2523895}
 --- !u!1 &1461532818281862
 GameObject:
   m_ObjectHideFlags: 0

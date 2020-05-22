@@ -5,15 +5,14 @@ using SaveLoad;
 
 public class GeneticSelection : MonoBehaviour
 {
+    public static GeneticSelection instance;
     NeuralNetwork primeNeuralNet = new NeuralNetwork();
     NeuralNetwork[] population;
 
-    public AIEnemy aIEnemy;
-
-    [SerializeField]
-    int aIVisionSizeX;
-    [SerializeField]
-    int aIVisionSizeY;
+    private AIEnemy aIEnemy;
+    
+    public int aIVisionSizeX;
+    public int aIVisionSizeY;
 
     [SerializeField]
     int populationCount = 0;
@@ -52,6 +51,17 @@ public class GeneticSelection : MonoBehaviour
     float timer = 0;
     int selectedNeuralNet = 0;
 
+    private void Awake()
+    {
+        //Set instance
+        if (instance)
+        {
+            Destroy(this);
+        }
+        instance = this;
+    }
+
+
     void Start()
     {
         if (RestartPopulation)
@@ -70,7 +80,15 @@ public class GeneticSelection : MonoBehaviour
             population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
             primeNeuralNet = primeNeuralNet.LoadBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
         }
-        aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
+
+
+        if (MapGenerator.instance)
+        {
+            aIEnemy = MapGenerator.instance.aIEnemyTraining.GetComponent<AIEnemy>();
+            aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
+            aIEnemy.nNet = population[0];
+        }
+            
     }
 
     // Update is called once per frame
@@ -82,7 +100,7 @@ public class GeneticSelection : MonoBehaviour
             timer += Time.deltaTime;//Start timer
             aIEnemy.nNet = population[0];
 
-            aIEnemy.UpdateAI(Time.deltaTime);
+            aIEnemy.UpdateAI();
 
         }
     }
