@@ -17,6 +17,6 @@ public class Pause : MonoBehaviour
     }
 
     public void GoDie(){
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Luis");
     }
 }
