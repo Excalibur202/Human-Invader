@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 988a673349b34c04eb4970918f8f6c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aIVision: 0
   playerTransform: {fileID: 1117353564}
   mapMat: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
   debugMapMat: {fileID: 0}
@@ -161,7 +162,7 @@ MonoBehaviour:
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
   sectorDoorColor: {r: 0.013794942, g: 0.5849056, b: 0.013794942, a: 0}
   size: 2
-  border: 2
+  border: 3
 --- !u!4 &73955749
 Transform:
   m_ObjectHideFlags: 0
@@ -382,8 +383,8 @@ MonoBehaviour:
     type: 3}
   sectorRoomEntrance: {fileID: 1184715463556000, guid: 53cf773e020411e49bd73fd08cc0d929,
     type: 3}
-  mapSizeX: 1000
-  mapSizeY: 1000
+  mapSizeX: 400
+  mapSizeY: 400
   nSectors: 5
   minRoomsPSector: 10
   maxRoomsPSector: 30
@@ -406,10 +407,12 @@ MonoBehaviour:
   - {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440, type: 3}
   enemyProbs: 01000000
   trainingAI: 0
-  aIEnemyTraining: {fileID: 672395017111101435, guid: 324894f29650f9242ad2f94a8adcdf0f,
-    type: 3}
+  baseAIEnemyTraining: {fileID: 0}
   baseEnemyAI: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
     type: 3}
+  aIEnemyTraining: {fileID: 672395017111101435, guid: 324894f29650f9242ad2f94a8adcdf0f,
+    type: 3}
+  enemyAI: {fileID: 0}
   player: {fileID: 1283764197}
 --- !u!1 &267897170
 GameObject:
@@ -2595,7 +2598,7 @@ PrefabInstance:
     - target: {fileID: 6423527655052596748, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: renderDistance
-      value: 150
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6423527655052596751, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}

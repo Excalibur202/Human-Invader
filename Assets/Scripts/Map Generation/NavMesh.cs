@@ -292,8 +292,8 @@ public class NavMesh
             for (int navMeshBoxIndex = 0; navMeshBoxIndex < roomInfo.navMeshObjs.Count; navMeshBoxIndex++)
             {
                 Transform navMeshBox = roomInfo.navMeshObjs[navMeshBoxIndex];
-                int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x);
-                int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z);
+                int box2DScaleX = Mathf.RoundToInt(navMeshBox.lossyScale.x+2);
+                int box2DScaleY = Mathf.RoundToInt(navMeshBox.lossyScale.z+2);
 
                 Transform boxRightCorner = roomInfo.navMeshRightCorners[navMeshBoxIndex];
                 int boxRightCorner2DPosX = Mathf.RoundToInt(boxRightCorner.position.x);
@@ -314,6 +314,10 @@ public class NavMesh
         int deltaY;
         if (entrance2DForward == up)//Exit Up
         {
+
+            boxRightCorner2DPosX = boxRightCorner2DPosX + 1;
+            boxRightCorner2DPosY = boxRightCorner2DPosY + 1;
+
             deltaX = (boxRightCorner2DPosX - box2DScaleX);
             deltaY = (boxRightCorner2DPosY - box2DScaleY);
 
@@ -324,11 +328,8 @@ public class NavMesh
         }
         else if (entrance2DForward == down)//Exit Down
         {
-            boxRightCorner2DPosX = boxRightCorner2DPosX + 1;
-            boxRightCorner2DPosY = boxRightCorner2DPosY + 1;
-
-            deltaX = (boxRightCorner2DPosX + box2DScaleX);
-            deltaY = (boxRightCorner2DPosY + box2DScaleY);
+            deltaX = ((boxRightCorner2DPosX) + box2DScaleX);
+            deltaY = ((boxRightCorner2DPosY) + box2DScaleY);
 
             for (int x = boxRightCorner2DPosX; x < deltaX; x++)
                 for (int y = boxRightCorner2DPosY; y < deltaY; y++)
@@ -337,7 +338,8 @@ public class NavMesh
         }
         else if (entrance2DForward == right)//Exit Right
         {
-            boxRightCorner2DPosY = boxRightCorner2DPosY + 1;
+            boxRightCorner2DPosX = boxRightCorner2DPosX + 1;
+
             deltaX = (boxRightCorner2DPosX - box2DScaleY);
             deltaY = (boxRightCorner2DPosY + box2DScaleX);
 
@@ -348,7 +350,7 @@ public class NavMesh
         }
         else if (entrance2DForward == left)//Exit Left
         {
-            boxRightCorner2DPosX = boxRightCorner2DPosX + 1;
+            boxRightCorner2DPosY = boxRightCorner2DPosY + 1;
             //Calculate delta relative to the mapArray
             deltaX = (boxRightCorner2DPosX + box2DScaleY);
             deltaY = (boxRightCorner2DPosY - box2DScaleX);
@@ -362,7 +364,7 @@ public class NavMesh
 
     public void ObstaclesToNavMesh(NavMeshObstacle obstacles)
     {
-        for (int i = 0; i < obstacles.obstacleTransform.Length;i++)
+        for (int i = 0; i < obstacles.obstacleTransform.Length; i++)
             ObstacleToNavMesh(obstacles.obstacleTransform[i], obstacles.obstacleRightCorner[i], obstacles.mapChar[i]);
     }
     private void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner, char mapChar)
