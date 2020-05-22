@@ -17,6 +17,7 @@ public class PlayerAbilityController : MonoBehaviour {
 
     public int keycards;
     public GameObject map;
+    public GameObject crosshair;
     AbilityInputs inputs = new AbilityInputs ();
     bool mapActive;
     [SerializeField] float scale, dragX, dragY;
@@ -90,7 +91,7 @@ public class PlayerAbilityController : MonoBehaviour {
                 {
                     playerController.enabled = false;
                 }
-
+                crosshair.SetActive(false);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
 
@@ -103,9 +104,13 @@ public class PlayerAbilityController : MonoBehaviour {
                 }
 
                 if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape))
-                        ActiveMap(false);
-                
+                {
+                    Cursor.visible = false;
+                    crosshair.SetActive(true);
+                    ActiveMap(false);
+                }
             }
+            
         }
     }
 

@@ -2607,6 +2607,11 @@ PrefabInstance:
       propertyPath: mapTexture
       value: 
       objectReference: {fileID: 2100000, guid: be40197d09455d846816f8b5a9eedde2, type: 2}
+    - target: {fileID: 6423527655052596751, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: crosshair
+      value: 
+      objectReference: {fileID: 1769116607}
     - target: {fileID: 6489544736704474251, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: m_Layer
@@ -3000,7 +3005,7 @@ GameObject:
   - component: {fileID: 1769116610}
   - component: {fileID: 1769116609}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
