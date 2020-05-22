@@ -80,7 +80,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Scale: 0.39
+    - _Scale: 0
     - _ScalePlayer: 50
     - _ScalePlayerX: 2
     - _ScalePlayerY: 2
@@ -93,8 +93,8 @@ Material:
     - _Test2: -2.1
     - _TiltPlayerX: 0.22
     - _TiltPlayerY: 0
-    - _TiltX: -0.01
-    - _TiltY: -0.05
+    - _TiltX: -0.072278135
+    - _TiltY: -0.027642276
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
@@ -103,5 +103,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FuncInfo: {r: 1000, g: 1000, b: 0, a: 0}
     - _MapScale: {r: 200, g: 200, b: 0, a: 0}
-    - _PlayerPos: {r: 45.85051, g: 1.2190998, b: 115.5399, a: 0}
+    - _PlayerPos: {r: 367.58084, g: 1.1100999, b: 106.406364, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

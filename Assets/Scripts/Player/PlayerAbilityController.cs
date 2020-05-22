@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-
 internal class AbilityInputs {
     internal bool InputtedSomething = false;
     internal bool Use = false;
     internal bool Ability1 = false;
     internal bool Ability2 = false;
     internal bool Map = false;
-
+    internal bool mapdrag = false;
 }
 
 public class PlayerAbilityController : MonoBehaviour {
@@ -14,11 +13,13 @@ public class PlayerAbilityController : MonoBehaviour {
     [SerializeField] PlayerAbilityCaster abilities;
     [SerializeField] Camera cam;
     [SerializeField] TerminalController connectedTerminal;
+    [SerializeField] Material mapTexture;
 
     public int keycards;
     public GameObject map;
     AbilityInputs inputs = new AbilityInputs ();
     bool mapActive;
+    [SerializeField] float scale, dragX, dragY;
 
     void Start () {
         // Disable ability inputs if no abilities to work with
@@ -89,7 +90,19 @@ public class PlayerAbilityController : MonoBehaviour {
                 {
                     playerController.enabled = false;
                 }
-                    if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape))
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                dragX = Mathf.Clamp((Input.mousePosition.x / Screen.width) * 2 - 1, -1.0f, 1.0f);
+                dragY = Mathf.Clamp((Input.mousePosition.y / Screen.height) * 2 - 1, -1.0f, 1.0f);
+                
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnMouseDrag();
+                }
+
+                if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape))
                         ActiveMap(false);
                 
             }
@@ -155,6 +168,7 @@ public class PlayerAbilityController : MonoBehaviour {
         inputs.Ability2 = false;
         inputs.Use = false;
         inputs.Map = false;
+        inputs.mapdrag = false;
     }
 
     void ActiveMap(bool state)
@@ -163,5 +177,21 @@ public class PlayerAbilityController : MonoBehaviour {
         map.SetActive(state);
     }
 
+    void DragMap(float dragX, float dragY)
+    {
+        mapTexture.SetFloat("_TiltX", dragX);
+        mapTexture.SetFloat("_TiltY", dragY);
+    }
 
+    void ScaleMap(float scale)
+    {
+        mapTexture.SetFloat("_Scale", scale);
+    }
+
+    private void OnMouseDrag()
+    {
+        DragMap(dragX, dragY);
+        //mapTexture.SetFloat("_TiltX", dragX);
+        //mapTexture.SetFloat("_TiltY", dragY);
+    }
 }

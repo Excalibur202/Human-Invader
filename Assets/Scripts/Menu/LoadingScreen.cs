@@ -52,11 +52,11 @@ public class LoadingScreen : MonoBehaviour
                 
                 break;
             case 'm':
-                sceneLoader = SceneManager.LoadSceneAsync("Menu");
+                sceneLoader = SceneManager.LoadSceneAsync("Luis");
                 
                 break;
             default:
-                sceneLoader = SceneManager.LoadSceneAsync("Menu");
+                sceneLoader = SceneManager.LoadSceneAsync("Luis");
                 break;
         }
 
