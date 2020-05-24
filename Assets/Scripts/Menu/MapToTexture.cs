@@ -62,11 +62,11 @@ public class MapToTexture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!shaderReady && aIVision || !playerTransform)
-            playerTransform = map.aIEnemyTraining.transform;
+    //    if (!playerTransform && !aIVision)
+    //        playerTransform = map.aIEnemyTraining.transform;
         
 
-        if (playerTransform)
+        if (playerTransform || aIVision)
         {
             if (!shaderReady)
             {
@@ -178,7 +178,7 @@ public class MapToTexture : MonoBehaviour
             //Send info to shader
             mapMat.SetTexture("_MainTex", mapTexture);
             mapMat.SetTexture("_SecondaryTex", fogTexture);
-            mapMat.SetVector("_PlayerPos", playerTransform.position);
+            mapMat.SetVector("_PlayerPos", Vector3.zero);
             mapMat.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
 
             //Draw Spawn
@@ -198,43 +198,45 @@ public class MapToTexture : MonoBehaviour
     }
     public void UpdateAIShaderInfo()
     {
-        navMap =  map.aIEnemyTraining.GetComponent<AIEnemy>().mapArea;
-        if(navMap!= null)
+        if(map.aIEnemyTraining)
         {
-            for (int x = 0; x < sizeX; x++)
-                for (int y = 0; y < sizeY; y++)
-                {
-                    switch (navMap[x, y])
+            navMap = map.aIEnemyTraining.GetComponent<AIEnemy>().mapArea;
+            if (navMap != null)
+            {
+                for (int x = 0; x < sizeX; x++)
+                    for (int y = 0; y < sizeY; y++)
                     {
-                        case 'w':
-                            pixelColor = wallColor;
-                            break;
-                        case 'g':
-                            pixelColor = groundColor;
-                            break;
-                        case 'o':
-                            pixelColor = obstacleColor;
-                            break;
-                        case 'p':
-                            pixelColor = Color.black;
-                            break;
-                        case 'a':
-                            pixelColor = Color.red;
-                            break;
-                        case 's':
-                            pixelColor = sectorDoorColor;
-                            break;
+                        switch (navMap[x, y])
+                        {
+                            case 'w':
+                                pixelColor = wallColor;
+                                break;
+                            case 'g':
+                                pixelColor = groundColor;
+                                break;
+                            case 'o':
+                                pixelColor = obstacleColor;
+                                break;
+                            case 'p':
+                                pixelColor = Color.black;
+                                break;
+                            case 'a':
+                                pixelColor = Color.red;
+                                break;
+                            case 's':
+                                pixelColor = sectorDoorColor;
+                                break;
 
-                        default:
-                            pixelColor = backgroundColor;
-                            break;
+                            default:
+                                pixelColor = backgroundColor;
+                                break;
+                        }
+                        SetTextureColor(border, size, x, y, pixelColor, mapTexture);
                     }
-                    SetTextureColor(border, size, x, y, pixelColor, mapTexture);
-                }
-            mapTexture.Apply();
+                mapTexture.Apply();
+            }
+        
         }
-        //Update player pos
-        mapMat.SetVector("_PlayerPos", playerTransform.position);
     }
 
     /*Set texture main color (with border)*/

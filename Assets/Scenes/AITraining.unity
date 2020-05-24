@@ -543,15 +543,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIVisionSizeX: 21
   aIVisionSizeY: 21
-  simulationTime: 5
+  simulationTime: 100
   RestartPopulation: 1
   simulate: 1
   startWeightMutationRate: 10
   startBiasMutationRate: 1
-  startNeuronActivationProb: 0.3
-  weightMutationRate: 1
-  biasMutationRate: 1
-  neuronActivationProb: 1
+  startNeuronActivationProb: 0.2
+  weightMutationRate: 0.5
+  biasMutationRate: 0.5
+  neuronActivationProb: 0.2
   inputVecLength: 441
   outputVecLength: 4
   hidenLayerMaxColumns: 100

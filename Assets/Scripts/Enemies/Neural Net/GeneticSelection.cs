@@ -7,14 +7,16 @@ public class GeneticSelection : MonoBehaviour
 {
     public static GeneticSelection instance;
     MapGenerator map;
-    NeuralNetwork primeNeuralNet = new NeuralNetwork();
     NeuralNetwork[] population;
+    List<NeuralNetwork> topNNetHistory = new List<NeuralNetwork>();
 
     private AIEnemy aIEnemy;
     private BaseEnemy baseAI;
 
-    public int aIVisionSizeX;
-    public int aIVisionSizeY;
+    [HideInInspector]
+    public int aIVisionSizeX = 21;
+    [HideInInspector]
+    public int aIVisionSizeY = 21;
 
     int populationCount = 20; // Can only be 20
     [SerializeField]
@@ -76,15 +78,14 @@ public class GeneticSelection : MonoBehaviour
 
             //Fazer mutaçao inicial
             foreach (NeuralNetwork neuralNet in population)
-            {
                 neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
-            }
+
 
         }
         else
         {
             population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
-            primeNeuralNet = primeNeuralNet.LoadBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
+            topNNetHistory = topNNetHistory.LoadBinary("Assets\\AIData\\NeuralData", "TopGenerationLogs");
         }
         if (MapGenerator.instance)
             map = MapGenerator.instance;
@@ -101,27 +102,28 @@ public class GeneticSelection : MonoBehaviour
             //next neural net?
             if (nextNNet) // Ver se da
             {
-                print("Next neural net");
-
                 if (!(++selectedNeuralNet < population.Length))
                 {//Restart Simulation
-
+                    print("------------------------------------------------------------------------------");
                     print("Restart Simulation");
 
                     print("Flatten Fitness");
                     //Flatten fitness
 
-                    DebugFitnessValues();
                     foreach (NeuralNetwork nNet in population)
                     {
-                        nNet.fitness = MyMath.CalculateAverage(nNet.fitness, nNet.lastFitness);
+                        if (nNet.lastFitness != 0)
+                            nNet.fitness = MyMath.CalculateAverage(nNet.fitness, nNet.lastFitness);
                         nNet.lastFitness = nNet.fitness;
                     }
-                    DebugFitnessValues();
 
-                    print("Sort population by fitness (Max-Min)");
+                    print("Sort population by fitness (Max -> Min)");
                     //Sort fitness Max-Min
                     QuickSortByFitness(population, 0, population.Length - 1);
+
+                    print("Saving Generation Top 5 NNets");
+                    AddToTopNNet(population, 5);
+                    //DebugFitnessValues();
 
                     print("Mutation & Fusion");
                     for (int bestFutnessIndex = 0; bestFutnessIndex < 5; bestFutnessIndex++)
@@ -135,9 +137,14 @@ public class GeneticSelection : MonoBehaviour
                         for (int i = bestFutnessIndex + 1; i < 5; i++)
                             population[bestFutnessIndex + 10] = NeuralNetwork.FuseNeuralNetwork(population[bestFutnessIndex], population[bestFutnessIndex + i]);
                     }
+
+                    print("Reset NNet index");
                     selectedNeuralNet = 0;
+                    print("------------------------------------------------------------------------------");
                 }
 
+                print("Simulating NNet: " + (selectedNeuralNet + 1));
+                population[selectedNeuralNet].fitness = 0;
                 //aIEnemy.nNet = population[selectedNeuralNet];
                 map.RestartSimulation();
                 GetAIMapInfo(selectedNeuralNet);
@@ -164,9 +171,8 @@ public class GeneticSelection : MonoBehaviour
     {
         //save population
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
-        //save best fitness 
-        primeNeuralNet.SaveBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
-
+        //Save top  NNet
+        topNNetHistory.SaveBinary("Assets\\AIData\\NeuralData", "TopGenerationLogs");
     }
 
     /*Calculates the fitness of a Neural Net*/
@@ -197,12 +203,23 @@ public class GeneticSelection : MonoBehaviour
 
     private void DebugFitnessValues()
     {
-        print("-----------------------------------");
-        foreach (NeuralNetwork nNet in population)
-            print(nNet.fitness);
+        print("////////////////////////////////////////////////////////////");
+        for (int i = 0; i < population.Length; i++)
+            print(population[i].fitness);
+        print("////////////////////////////////////////////////////////////");
     }
 
+    private void AddToTopNNet(NeuralNetwork[] population, int nToSave)
+    {
+        //Obter os "nToSave" melhores de cada geraçao
+        for (int i = 0; i < nToSave; i++)
+            topNNetHistory.Add(population[i]);
+        QuickSortByFitness(topNNetHistory, 0, topNNetHistory.Count - 1);
 
+        //Top 100
+        while (topNNetHistory.Count > 50)
+            topNNetHistory.RemoveAt(topNNetHistory.Count);
+    }
     //NotMine ///////////////////////////////////////////////////////////////////////////https://www.w3resource.com/csharp-exercises/searching-and-sorting-algorithm/searching-and-sorting-algorithm-exercise-9.php
     private static void QuickSortByFitness(NeuralNetwork[] arr, int left, int right)
     {
@@ -225,7 +242,6 @@ public class GeneticSelection : MonoBehaviour
         float pivot = arr[left].fitness;
         while (true)
         {
-
             while (arr[left].fitness > pivot)
             {
                 left++;
@@ -251,5 +267,50 @@ public class GeneticSelection : MonoBehaviour
         }
     }
 
+    private static void QuickSortByFitness(List<NeuralNetwork> arr, int left, int right)
+    {
+        if (left < right)
+        {
+            int pivot = Partition(arr, left, right);
+
+            if (pivot > 1)
+            {
+                QuickSortByFitness(arr, left, pivot - 1);
+            }
+            if (pivot + 1 < right)
+            {
+                QuickSortByFitness(arr, pivot + 1, right);
+            }
+        }
+    }
+    private static int Partition(List<NeuralNetwork> arr, int left, int right)
+    {
+        float pivot = arr[left].fitness;
+        while (true)
+        {
+            while (arr[left].fitness > pivot)
+            {
+                left++;
+            }
+
+            while (arr[right].fitness < pivot)
+            {
+                right--;
+            }
+
+            if (left < right)
+            {
+                if (arr[left].fitness == arr[right].fitness) return right;
+
+                NeuralNetwork temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+            }
+            else
+            {
+                return right;
+            }
+        }
+    }
 
 }

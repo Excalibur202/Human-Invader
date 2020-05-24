@@ -178,6 +178,7 @@ public class MapGenerator : MonoBehaviour {
                     if (sectorRoomEntrance) {
                         auxDoor = Instantiate (sectorRoomEntrance, room.prefab.transform.position, room.prefab.transform.rotation);
                         auxDoor.transform.SetParent (room.prefab.transform);
+                        navMesh.ObstaclesToNavMesh(auxDoor.GetComponent<NavMeshObstacle>());
                     }
                 }
 
