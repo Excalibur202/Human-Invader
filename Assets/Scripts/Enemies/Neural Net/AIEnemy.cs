@@ -25,19 +25,15 @@ public class AIEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!map)
-            map = MapGenerator.instance;
+        //if (!map)
+        //    map = MapGenerator.instance;
     }
 
     public void UpdateAI()
     {
-        if (map)
+        if (!map)
+            map = MapGenerator.instance;
+        else
         {
             //Vision
             UpdateNNVision();

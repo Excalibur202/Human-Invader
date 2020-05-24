@@ -97,8 +97,9 @@ MonoBehaviour:
   nNet:
     outputNodes: []
     fitness: 0
+    lastFitness: 0
   characterCrl: {fileID: -7322392025719877335}
-  speed: 1
+  speed: 2
   nNOutput: []
   outputAxis: {x: 0, y: 0}
 --- !u!143 &-7322392025719877335
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689898860055296187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 925c3af5ac49ef448859557a7da62ae1, type: 3}
   m_Name: 

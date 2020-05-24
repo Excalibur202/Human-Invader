@@ -256,12 +256,17 @@ PrefabInstance:
         type: 3}
       propertyPath: baseEnemyAI
       value: 
-      objectReference: {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440,
+      objectReference: {fileID: 8037951575165103886, guid: f87e8b4f931c9ac4e8c346212746b540,
         type: 3}
     - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
         type: 3}
       propertyPath: trainingAI
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: maxRoomsPSector
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2, type: 3}
@@ -306,7 +311,7 @@ MonoBehaviour:
   backgroundColor: {r: 1, g: 1, b: 1, a: 0}
   sectorDoorColor: {r: 0.013794942, g: 0.5849056, b: 0.013794942, a: 0}
   size: 10
-  border: 2
+  border: 1
 --- !u!4 &220633240
 Transform:
   m_ObjectHideFlags: 0
@@ -538,8 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIVisionSizeX: 21
   aIVisionSizeY: 21
-  populationCount: 15
-  simulationTime: 60
+  simulationTime: 5
   RestartPopulation: 1
   simulate: 1
   startWeightMutationRate: 10
@@ -550,8 +554,10 @@ MonoBehaviour:
   neuronActivationProb: 1
   inputVecLength: 441
   outputVecLength: 4
-  hidenLayerMaxColumns: 10
-  hidenLayerMaxRows: 10
+  hidenLayerMaxColumns: 100
+  hidenLayerMaxRows: 100
+  aIReward: 2
+  selectedNeuralNet: -1
 --- !u!4 &1010873229
 Transform:
   m_ObjectHideFlags: 0

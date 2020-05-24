@@ -62,7 +62,7 @@ public class MapToTexture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!shaderReady && aIVision)
+        if (!shaderReady && aIVision || !playerTransform)
             playerTransform = map.aIEnemyTraining.transform;
         
 
@@ -83,88 +83,6 @@ public class MapToTexture : MonoBehaviour
                     UpdateShaderInfo();//Updates player pos in shader
             }  
         }
-    }
-
-
-    public bool InitializeMapAI()
-    {
-        if (map.navMesh != null)
-        {
-            sizeX = GenSelect.aIVisionSizeX;
-            sizeY = GenSelect.aIVisionSizeY;
-
-            //Debug Materials
-            if (debugMapMat) debugMapMat.mainTexture = mapTexture;
-            if (debugFogMat) debugFogMat.mainTexture = fogTexture;
-
-            //FogTexture
-            fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
-            fogTexture.wrapMode = TextureWrapMode.Clamp;
-            SetTextureColor(fogTexture, Color.white);
-            CenterOfTexture(fogTexture, Color.white, sizeX, sizeY, size, border);
-            fogTexture.Apply();
-
-            //MapTexture
-            mapTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
-            mapTexture.wrapMode = TextureWrapMode.Clamp;
-            SetTextureColor(mapTexture, borderColor);
-
-
-            //Send info to shader
-            mapMat.SetTexture("_MainTex", mapTexture);
-            mapMat.SetTexture("_SecondaryTex", fogTexture);
-            mapMat.SetVector("_PlayerPos", playerTransform.position);
-            mapMat.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
-
-            //Draw Spawn
-            DrawSector(-2);
-
-            return true;
-        }
-        return false;
-    }
-
-    public void UpdateAIShaderInfo()
-    {
-
-        navMap =  map.aIEnemyTraining.GetComponent<AIEnemy>().mapArea;
-        if(navMap!= null)
-        {
-            for (int x = 0; x < sizeX; x++)
-                for (int y = 0; y < sizeY; y++)
-                {
-                    switch (navMap[x, y])
-                    {
-                        case 'w':
-                            pixelColor = wallColor;
-                            break;
-                        case 'g':
-                            pixelColor = groundColor;
-                            break;
-                        case 'o':
-                            pixelColor = obstacleColor;
-                            break;
-                        case 'p':
-                            pixelColor = Color.black;
-                            break;
-                        case 'a':
-                            pixelColor = Color.red;
-                            break;
-                        case 's':
-                            pixelColor = sectorDoorColor;
-                            break;
-                        default:
-                            pixelColor = backgroundColor;
-                            break;
-                    }
-                    SetTextureColor(border, size, x, y, pixelColor, mapTexture);
-                }
-            mapTexture.Apply();
-        }
-        
-
-        //Update player pos
-        mapMat.SetVector("_PlayerPos", playerTransform.position);
     }
 
     /*Init*/
@@ -233,6 +151,43 @@ public class MapToTexture : MonoBehaviour
         }
         return false;
     }
+    public bool InitializeMapAI()
+    {
+        if (map.navMesh != null)
+        {
+            sizeX = GenSelect.aIVisionSizeX;
+            sizeY = GenSelect.aIVisionSizeY;
+
+            //Debug Materials
+            if (debugMapMat) debugMapMat.mainTexture = mapTexture;
+            if (debugFogMat) debugFogMat.mainTexture = fogTexture;
+
+            //FogTexture
+            fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
+            fogTexture.wrapMode = TextureWrapMode.Clamp;
+            SetTextureColor(fogTexture, Color.white);
+            CenterOfTexture(fogTexture, Color.white, sizeX, sizeY, size, border);
+            fogTexture.Apply();
+
+            //MapTexture
+            mapTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
+            mapTexture.wrapMode = TextureWrapMode.Clamp;
+            SetTextureColor(mapTexture, borderColor);
+
+
+            //Send info to shader
+            mapMat.SetTexture("_MainTex", mapTexture);
+            mapMat.SetTexture("_SecondaryTex", fogTexture);
+            mapMat.SetVector("_PlayerPos", playerTransform.position);
+            mapMat.SetVector("_FuncInfo", new Vector3(sizeX, sizeY, 0));
+
+            //Draw Spawn
+            DrawSector(-2);
+
+            return true;
+        }
+        return false;
+    }
 
     /*Updates shader info*/
     public void UpdateShaderInfo()
@@ -240,6 +195,46 @@ public class MapToTexture : MonoBehaviour
         //Update player pos
         mapMat.SetVector("_PlayerPos", playerTransform.position);
 
+    }
+    public void UpdateAIShaderInfo()
+    {
+        navMap =  map.aIEnemyTraining.GetComponent<AIEnemy>().mapArea;
+        if(navMap!= null)
+        {
+            for (int x = 0; x < sizeX; x++)
+                for (int y = 0; y < sizeY; y++)
+                {
+                    switch (navMap[x, y])
+                    {
+                        case 'w':
+                            pixelColor = wallColor;
+                            break;
+                        case 'g':
+                            pixelColor = groundColor;
+                            break;
+                        case 'o':
+                            pixelColor = obstacleColor;
+                            break;
+                        case 'p':
+                            pixelColor = Color.black;
+                            break;
+                        case 'a':
+                            pixelColor = Color.red;
+                            break;
+                        case 's':
+                            pixelColor = sectorDoorColor;
+                            break;
+
+                        default:
+                            pixelColor = backgroundColor;
+                            break;
+                    }
+                    SetTextureColor(border, size, x, y, pixelColor, mapTexture);
+                }
+            mapTexture.Apply();
+        }
+        //Update player pos
+        mapMat.SetVector("_PlayerPos", playerTransform.position);
     }
 
     /*Set texture main color (with border)*/
@@ -249,9 +244,7 @@ public class MapToTexture : MonoBehaviour
 
         for (int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
             for (int deltaY = (int)modiefiedPos.y; deltaY < modiefiedPos.y + size; deltaY++)
-            {
                 texture.SetPixel(deltaX, deltaY, pxColor);
-            }
     }
 
     /*Set texture main color (without border)*/

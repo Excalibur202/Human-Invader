@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System;
 
+using Random = UnityEngine.Random;
+
 [Serializable]
 public class NeuralNetwork
 {
     public NeuralNode[,] hidenNodes; // not public 
     public NeuralNode[] outputNodes;
-    public float fitness;
+    public float fitness,lastFitness = 0;
     float[] weightsZero;
+    
 
     public NeuralNetwork()
     { }
@@ -118,12 +121,11 @@ public class NeuralNetwork
     //Mutate NeuralNetwork
     public void MutateNeuralNetwork(float weightMutationRate, float biasMutationRate, float activationProb)
     {
-        var rand = new Random();
         foreach (NeuralNode neuralNode in hidenNodes)
         {
             if (!neuralNode.activated)
             {
-                if ((float)(rand.NextDouble()) <= activationProb)
+                if ((float)(Random.value) <= activationProb)
                     neuralNode.activated = true;
             }
         }
@@ -132,10 +134,10 @@ public class NeuralNetwork
         {
             if (neuralNode.activated)
             {
-                neuralNode.bias += (float)((rand.NextDouble() * 2) - 1) * biasMutationRate;
+                neuralNode.bias += (float)((Random.value * 2) - 1) * biasMutationRate;
 
                 for (int weightIndex = 0; weightIndex < neuralNode.weights.Length; weightIndex++)
-                    neuralNode.weights[weightIndex] += (float)((rand.NextDouble() * 2) - 1) * weightMutationRate;
+                    neuralNode.weights[weightIndex] += (float)((Random.value * 2) - 1) * weightMutationRate;
             }
         }
 
@@ -143,16 +145,16 @@ public class NeuralNetwork
         {
             if (neuralNode.activated)
             {
-                neuralNode.bias += (float)((rand.NextDouble() * 2) - 1) * biasMutationRate;
+                neuralNode.bias += (float)((Random.value * 2) - 1) * biasMutationRate;
 
                 for (int weightIndex = 0; weightIndex < neuralNode.weights.Length; weightIndex++)
-                    neuralNode.weights[weightIndex] += (float)((rand.NextDouble() * 2) - 1) * weightMutationRate;
+                    neuralNode.weights[weightIndex] += (float)((Random.value * 2) - 1) * weightMutationRate;
             }
         }
     }
 
     //Fuse 2 NeuralNetwork
-    public NeuralNetwork FuseNeuralNetwork(NeuralNetwork nNA, NeuralNetwork nNB)
+    public static NeuralNetwork FuseNeuralNetwork(NeuralNetwork nNA, NeuralNetwork nNB)
     {
         NeuralNetwork nNResult;
         if (nNA != null && nNB != null)
@@ -181,8 +183,7 @@ public class NeuralNetwork
         }
         return null;
     }
-
-
+    
 }
 [Serializable]
 public class NeuralNode

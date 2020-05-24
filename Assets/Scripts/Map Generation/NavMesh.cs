@@ -21,24 +21,29 @@ public class NavMesh
         this.mapSizeY = mapSizeY;
     }
 
+    /*Is in map?*/
     public bool InMapRange(int x, int y)
     {
         return ((x >= 0 && x < mapSizeX) && (y >= 0 && y < mapSizeY));
     }
+    /*Is in map?*/
     public bool InMapRange(Vector2 vec)
     {
         return (((int)vec.x >= 0 && (int)vec.x < mapSizeX) && ((int)vec.y >= 0 && (int)vec.y < mapSizeY));
     }
 
+    /*Get map char from position*/
     public char GetPosChar(int x, int y)
     {
         return navMeshMap[x, y];
     }
+    /*Get map char from position*/
     public char GetPosChar(Vector2 vec)
     {
         return navMeshMap[(int)vec.x, (int)vec.y];
     }
 
+    /*Sets a map char of a position*/
     public bool SetPosChar(int x, int y, char value)
     {
         if (InMapRange(x, y))
@@ -48,6 +53,7 @@ public class NavMesh
         }
         return false;
     }
+    /*Sets a map char of a position*/
     public bool SetPosChar(Vector2 vec, char value)
     {
         if (InMapRange(vec))
@@ -58,6 +64,7 @@ public class NavMesh
         return false;
     }
 
+    /*Builds the map walls*/
     public char[,] GetMapBorder(bool changeOriginalMap, bool maintainGroundInfo, char[,] mapChar)
     {
         char[,] wallMap = new char[mapSizeX, mapSizeY];
@@ -92,11 +99,12 @@ public class NavMesh
         return mapChar;
     }
 
-    public char[,] GetArea(int sizeX, int sizeY, Vector3 position)
+    /*Returns a area from the map*/
+    public char[,] GetArea(int sizeX, int sizeY, Vector3 centerOfAreaPos)
     {
         char[,] mapArea = new char[sizeX, sizeY];
 
-        Vector2 rightCorner = new Vector2((int)((int)(sizeX * 0.5f) + (position.x)), (int)((int)(sizeY * 0.5f) + (position.z)));
+        Vector2 rightCorner = new Vector2((int)((int)(sizeX * 0.5f) + (centerOfAreaPos.x)), (int)((int)(sizeY * 0.5f) + (centerOfAreaPos.z)));
 
         int deltaX = ((int)rightCorner.x - sizeX);
         int deltaY = ((int)rightCorner.y - sizeY);
@@ -120,11 +128,10 @@ public class NavMesh
                     mapArea[auxX, auxY] = 'a';
             }
         }
-
-
         return mapArea;
     }
 
+    /*Sets chars in an area*/
     private char[,] SetMapChars(int box2DScaleX, int box2DScaleY, int boxRightCorner2DPosX, int boxRightCorner2DPosY, Vector2 entrance2DForward, char setToChar, char[,] mapChar)
     {
         int deltaX;
@@ -179,11 +186,13 @@ public class NavMesh
         return mapChar;
     }
 
+    /*Returns the dimensions of a 2D map(dimension in X & Y)*/
     public int GetDimentionLength(int dimention)
     {
         return navMeshMap.GetLength(dimention);
     }
 
+    /*Draws a list of rooms into the map*/
     public void RoomsToNavMesh(List<RoomInfo> rooms)
     {
         RoomEntrance roomInfo;
@@ -234,6 +243,7 @@ public class NavMesh
         }
     }
 
+    /*Draws a room in the map*/
     public char[,] RoomToNavMesh(char[,] mapChar, RoomInfo room)
     {
         Vector2 entrance2DForward;
@@ -279,6 +289,7 @@ public class NavMesh
         return mapChar;
     }
 
+    /*Draws a room into a texture*/
     public void RoomToTexture(Texture2D texture, RoomInfo room, int size, int border)
     {
         Vector2 entrance2DForward;
@@ -308,6 +319,7 @@ public class NavMesh
         }
     }
 
+    /*Draws an area into a texture */
     public void SetMapPixel(Texture2D texture, Color inputColor, int box2DScaleX, int box2DScaleY, int boxRightCorner2DPosX, int boxRightCorner2DPosY, Vector2 entrance2DForward, int size, int border)
     {
         int deltaX;
@@ -362,11 +374,14 @@ public class NavMesh
         }
     }
 
+    /*Draws obstacles in map*/
     public void ObstaclesToNavMesh(NavMeshObstacle obstacles)
     {
         for (int i = 0; i < obstacles.obstacleTransform.Length; i++)
             ObstacleToNavMesh(obstacles.obstacleTransform[i], obstacles.obstacleRightCorner[i], obstacles.mapChar[i]);
     }
+
+    /*Draws an obstacle in the map*/
     private void ObstacleToNavMesh(Transform obstacleTransform, Transform obstacleRightCorner, char mapChar)
     {
         Vector2 obstacleForward = new Vector2((int)obstacleTransform.forward.normalized.x, (int)obstacleTransform.forward.normalized.z);

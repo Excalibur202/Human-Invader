@@ -6,16 +6,17 @@ using SaveLoad;
 public class GeneticSelection : MonoBehaviour
 {
     public static GeneticSelection instance;
+    MapGenerator map;
     NeuralNetwork primeNeuralNet = new NeuralNetwork();
     NeuralNetwork[] population;
 
     private AIEnemy aIEnemy;
-    
+    private BaseEnemy baseAI;
+
     public int aIVisionSizeX;
     public int aIVisionSizeY;
 
-    [SerializeField]
-    int populationCount = 0;
+    int populationCount = 20; // Can only be 20
     [SerializeField]
     float simulationTime;
     [SerializeField]
@@ -47,9 +48,12 @@ public class GeneticSelection : MonoBehaviour
     int hidenLayerMaxColumns = 0;
     [SerializeField]
     int hidenLayerMaxRows = 0;
+    [SerializeField]
+    int aIReward = 0;
 
     float timer = 0;
-    int selectedNeuralNet = 0;
+    public int selectedNeuralNet = -1;
+    bool nextNNet = true;
 
     private void Awake()
     {
@@ -60,7 +64,6 @@ public class GeneticSelection : MonoBehaviour
         }
         instance = this;
     }
-
 
     void Start()
     {
@@ -73,22 +76,20 @@ public class GeneticSelection : MonoBehaviour
 
             //Fazer mutaçao inicial
             foreach (NeuralNetwork neuralNet in population)
+            {
                 neuralNet.MutateNeuralNetwork(startWeightMutationRate, startBiasMutationRate, startNeuronActivationProb);
+            }
+
         }
         else
         {
             population = population.LoadBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
             primeNeuralNet = primeNeuralNet.LoadBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
         }
-
-
         if (MapGenerator.instance)
-        {
-            aIEnemy = MapGenerator.instance.aIEnemyTraining.GetComponent<AIEnemy>();
-            aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
-            aIEnemy.nNet = population[0];
-        }
-            
+            map = MapGenerator.instance;
+
+        GetAIMapInfo();
     }
 
     // Update is called once per frame
@@ -97,11 +98,65 @@ public class GeneticSelection : MonoBehaviour
         /*Simulation*/
         if (simulate && aIEnemy && population.Length > 0)//do we want to simulate?
         {
-            timer += Time.deltaTime;//Start timer
-            aIEnemy.nNet = population[0];
+            //next neural net?
+            if (nextNNet) // Ver se da
+            {
+                print("Next neural net");
 
-            aIEnemy.UpdateAI();
+                if (!(++selectedNeuralNet < population.Length))
+                {//Restart Simulation
 
+                    print("Restart Simulation");
+
+                    print("Flatten Fitness");
+                    //Flatten fitness
+
+                    DebugFitnessValues();
+                    foreach (NeuralNetwork nNet in population)
+                    {
+                        nNet.fitness = MyMath.CalculateAverage(nNet.fitness, nNet.lastFitness);
+                        nNet.lastFitness = nNet.fitness;
+                    }
+                    DebugFitnessValues();
+
+                    print("Sort population by fitness (Max-Min)");
+                    //Sort fitness Max-Min
+                    QuickSortByFitness(population, 0, population.Length - 1);
+
+                    print("Mutation & Fusion");
+                    for (int bestFutnessIndex = 0; bestFutnessIndex < 5; bestFutnessIndex++)
+                    {
+                        //Mutation
+                        NeuralNetwork auxNNet = population[bestFutnessIndex].DeepClone();
+                        auxNNet.MutateNeuralNetwork(weightMutationRate, biasMutationRate, neuronActivationProb);
+                        population[bestFutnessIndex + 5] = auxNNet;
+
+                        //Fusion
+                        for (int i = bestFutnessIndex + 1; i < 5; i++)
+                            population[bestFutnessIndex + 10] = NeuralNetwork.FuseNeuralNetwork(population[bestFutnessIndex], population[bestFutnessIndex + i]);
+                    }
+                    selectedNeuralNet = 0;
+                }
+
+                //aIEnemy.nNet = population[selectedNeuralNet];
+                map.RestartSimulation();
+                GetAIMapInfo(selectedNeuralNet);
+                nextNNet = false;
+            }
+
+            //Continuar a dar update a simulacao?
+            if (timer < simulationTime)//Sim
+            {
+                timer += Time.deltaTime;//Start timer
+                aIEnemy.UpdateAI();
+                aIEnemy.nNet.fitness += Fitness(baseAI.canSeePlayer, Mathf.Sqrt(baseAI.playerSqrDistance), aIReward);
+            }
+            else//Nao
+            {
+                //Reset timer & next NNet
+                timer = 0;
+                nextNNet = true;
+            }
         }
     }
 
@@ -109,12 +164,92 @@ public class GeneticSelection : MonoBehaviour
     {
         //save population
         population.SaveBinary("Assets\\AIData\\NeuralData", "NeuralNetworkPopulation");
+        //save best fitness 
         primeNeuralNet.SaveBinary("Assets\\AIData\\NeuralData", "PrimeNeuralNet");
 
     }
 
-    private float Fitness(bool canSee, float deltaTime)
+    /*Calculates the fitness of a Neural Net*/
+    private float Fitness(bool canSee, float distance, float cantSeeReward)
     {
-        return (canSee) ? 0f : deltaTime;
+        float fitness = 0;
+        distance = (distance < 3) ? 0 : distance;
+
+        if (canSee)
+            fitness = distance * Time.deltaTime;
+        else
+            fitness = cantSeeReward * distance * Time.deltaTime;
+
+        return fitness;
     }
+
+    private void GetAIMapInfo(int populatioNNetIndex = 0)
+    {
+
+        aIEnemy = map.aIEnemyTraining.GetComponent<AIEnemy>();
+        aIEnemy.SetVisionArea(aIVisionSizeX, aIVisionSizeY);
+        aIEnemy.nNet = population[populatioNNetIndex];
+
+
+        baseAI = map.enemyAI.GetComponent<BaseEnemy>();
+
+    }
+
+    private void DebugFitnessValues()
+    {
+        print("-----------------------------------");
+        foreach (NeuralNetwork nNet in population)
+            print(nNet.fitness);
+    }
+
+
+    //NotMine ///////////////////////////////////////////////////////////////////////////https://www.w3resource.com/csharp-exercises/searching-and-sorting-algorithm/searching-and-sorting-algorithm-exercise-9.php
+    private static void QuickSortByFitness(NeuralNetwork[] arr, int left, int right)
+    {
+        if (left < right)
+        {
+            int pivot = Partition(arr, left, right);
+
+            if (pivot > 1)
+            {
+                QuickSortByFitness(arr, left, pivot - 1);
+            }
+            if (pivot + 1 < right)
+            {
+                QuickSortByFitness(arr, pivot + 1, right);
+            }
+        }
+    }
+    private static int Partition(NeuralNetwork[] arr, int left, int right)
+    {
+        float pivot = arr[left].fitness;
+        while (true)
+        {
+
+            while (arr[left].fitness > pivot)
+            {
+                left++;
+            }
+
+            while (arr[right].fitness < pivot)
+            {
+                right--;
+            }
+
+            if (left < right)
+            {
+                if (arr[left].fitness == arr[right].fitness) return right;
+
+                NeuralNetwork temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+            }
+            else
+            {
+                return right;
+            }
+        }
+    }
+
+
 }
