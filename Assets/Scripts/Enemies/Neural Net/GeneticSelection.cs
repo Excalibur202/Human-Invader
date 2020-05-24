@@ -163,6 +163,7 @@ public class GeneticSelection : MonoBehaviour
                 //Reset timer & next NNet
                 timer = 0;
                 nextNNet = true;
+                print("Fitness: " + (aIEnemy.nNet.fitness));
             }
         }
     }
