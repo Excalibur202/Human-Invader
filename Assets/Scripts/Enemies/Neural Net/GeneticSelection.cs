@@ -163,6 +163,7 @@ public class GeneticSelection : MonoBehaviour
                         }
                     }
 
+                    //Random NNets
                     for (int i = 20; i < 25; i++)
                     {
                         population[i] = new NeuralNetwork(hiddenLayerMaxColumns, hiddenLayerMaxRows, inputVecLength, outputVecLength);
