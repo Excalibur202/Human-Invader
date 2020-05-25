@@ -565,17 +565,17 @@ MonoBehaviour:
   simulationTime: 20
   RestartPopulation: 0
   simulate: 1
-  startWeightMutationRate: 1
+  startWeightMutationRate: 2
   startBiasMutationRate: 1
-  startNeuronActivationProb: 0.2
+  startNeuronActivationProb: 0.3
   weightMutationRate: 1
   biasMutationRate: 1
-  neuronActivationProb: 0.1
+  neuronActivationProb: 0.2
   inputVecLength: 442
   outputVecLength: 4
   hiddenLayerMaxColumns: 100
   hiddenLayerMaxRows: 100
-  aIReward: 5
+  aIReward: 2
   selectedNeuralNet: -1
 --- !u!4 &1010873229
 Transform:
