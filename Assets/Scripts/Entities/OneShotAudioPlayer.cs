@@ -12,7 +12,7 @@ public class OneShotAudioPlayer : MonoBehaviour {
         audioSource.volume = volume;
 
         if (positionalAudio)
-            audioSource.spatialBlend = 1;
+            audioSource.spatialBlend = 0.5f;
         else
             audioSource.spatialBlend = 0;
 

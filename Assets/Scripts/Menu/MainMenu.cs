@@ -13,14 +13,13 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    //public void StartLoad()
+    //{
+    //    //StartCoroutine(StartLoading());
+    //}
+
     public void StartLoad()
     {
-        StartCoroutine(StartLoading());
-    }
-
-    private IEnumerator StartLoading()
-    {
-        yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene("LoadingScreen");
     }
 
