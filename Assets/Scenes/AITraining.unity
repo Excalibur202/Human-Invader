@@ -268,6 +268,12 @@ PrefabInstance:
       propertyPath: maxRoomsPSector
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1414730309992575901, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2,
+        type: 3}
+      propertyPath: sectorDoor
+      value: 
+      objectReference: {fileID: 6191850434715107527, guid: 149530a604b184840b7ec06a2f302189,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63614f8dcf8b3ee48a49fde72fd5a9d2, type: 3}
 --- !u!1 &220633238
@@ -338,6 +344,7 @@ GameObject:
   - component: {fileID: 486360578}
   - component: {fileID: 486360577}
   - component: {fileID: 486360576}
+  - component: {fileID: 486360580}
   m_Layer: 0
   m_Name: Debug map
   m_TagString: Untagged
@@ -420,6 +427,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &486360580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486360575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89095e9dfa4a9764fb951821e429be01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1003820899
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,20 +562,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIVisionSizeX: 21
   aIVisionSizeY: 21
-  simulationTime: 100
-  RestartPopulation: 1
+  simulationTime: 20
+  RestartPopulation: 0
   simulate: 1
-  startWeightMutationRate: 10
+  startWeightMutationRate: 1
   startBiasMutationRate: 1
   startNeuronActivationProb: 0.2
-  weightMutationRate: 0.5
-  biasMutationRate: 0.5
-  neuronActivationProb: 0.2
-  inputVecLength: 441
+  weightMutationRate: 1
+  biasMutationRate: 1
+  neuronActivationProb: 0.1
+  inputVecLength: 442
   outputVecLength: 4
-  hidenLayerMaxColumns: 100
-  hidenLayerMaxRows: 100
-  aIReward: 2
+  hiddenLayerMaxColumns: 100
+  hiddenLayerMaxRows: 100
+  aIReward: 5
   selectedNeuralNet: -1
 --- !u!4 &1010873229
 Transform:

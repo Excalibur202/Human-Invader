@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AIEnemy : MonoBehaviour
 {
     public NeuralNetwork nNet;
     MapGenerator map;
     public CharacterController characterCrl;
-    public int speed = 1;
+    public float speed = 1;
 
     int sizeX;
     int sizeY;
@@ -29,7 +27,7 @@ public class AIEnemy : MonoBehaviour
         //    map = MapGenerator.instance;
     }
 
-    public void UpdateAI()
+    public void UpdateAI(float enemyCanSeeMe)
     {
         if (!map)
             map = MapGenerator.instance;
@@ -37,6 +35,7 @@ public class AIEnemy : MonoBehaviour
         {
             //Vision
             UpdateNNVision();
+            nNInput[nNInput.Length - 1] = enemyCanSeeMe;
             nNOutput = nNet.Eval(nNInput);
             outputAxis = GetAIAxis(nNOutput);
 
@@ -50,7 +49,7 @@ public class AIEnemy : MonoBehaviour
     {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        nNInput = new float[sizeX * sizeY];
+        nNInput = new float[sizeX * sizeY + 1]; // +1 to add enemyCanSeeMe bool
     }
 
     private void UpdateNNVision()
@@ -110,8 +109,4 @@ public class AIEnemy : MonoBehaviour
         }
         return Vector2.zero;
     }
-
-
-
-
 }

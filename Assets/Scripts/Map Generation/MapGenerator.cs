@@ -673,7 +673,7 @@ public class MapGenerator : MonoBehaviour {
             auxTransform = spawnedRooms[roomIndexes[randRoom]].GetRoomEntrance ().enemySpawners[randSpawner];
 
             //Spawn
-            auxEnemy = Instantiate ((i == 0) ? baseAIEnemyTraining : baseEnemyAI, auxTransform.position, auxTransform.rotation);
+            auxEnemy = Instantiate ((i == 0) ? baseAIEnemyTraining : baseEnemyAI, auxTransform.position + Vector3.up * 1f, auxTransform.rotation);
             spawnedRooms[roomIndexes[randRoom]].enemies.Add (auxEnemy);
 
             if (i == 0)

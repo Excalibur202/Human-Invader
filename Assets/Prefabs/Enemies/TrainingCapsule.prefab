@@ -99,7 +99,7 @@ MonoBehaviour:
     fitness: 0
     lastFitness: 0
   characterCrl: {fileID: -7322392025719877335}
-  speed: 2
+  speed: 5
   nNOutput: []
   outputAxis: {x: 0, y: 0}
 --- !u!143 &-7322392025719877335
@@ -113,7 +113,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 0
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
