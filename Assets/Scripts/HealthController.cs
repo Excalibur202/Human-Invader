@@ -22,7 +22,7 @@ public class HealthController : MonoBehaviour {
     private void Awake () {
         healthPointsMax = healthPoints;
 
-        if (gameObject.tag == "Player") {
+        if (gameObject.tag == "Player" && SceneManager.GetActiveScene().name != "Kikbow") {
             GameObject.Find ("HealthBar").GetComponent<Slider> ().maxValue = healthPointsMax;
             UpdatePlayerHPBar ();
         }

@@ -4859,7 +4859,7 @@ CharacterController:
   m_GameObject: {fileID: 5559695255248275850}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.4
@@ -4909,7 +4909,8 @@ MonoBehaviour:
   muzzleLightDecay: 15
   muzzlePS: {fileID: 386266653}
   useCamera: 1
-  cameraPrefab: {fileID: 0}
+  cameraPrefab: {fileID: 7685564418176449955, guid: ca8934f2eba07754cb47b49c6e11b77f,
+    type: 3}
   cameraHeight: 0.66
   cameraSideOffset: 0.5
   cameraBackOffset: 2
@@ -4938,8 +4939,13 @@ MonoBehaviour:
   abilities: {fileID: 6423527655052596750}
   cam: {fileID: 0}
   connectedTerminal: {fileID: 0}
+  mapTexture: {fileID: 0}
   keycards: 0
   map: {fileID: 0}
+  crosshair: {fileID: 0}
+  scale: 0
+  dragX: 0
+  dragY: 0
 --- !u!114 &6423527655052596750
 MonoBehaviour:
   m_ObjectHideFlags: 0
