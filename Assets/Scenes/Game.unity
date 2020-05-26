@@ -2539,6 +2539,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275852, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: cameraPrefab
