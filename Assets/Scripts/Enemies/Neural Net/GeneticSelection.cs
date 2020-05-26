@@ -120,8 +120,8 @@ public class GeneticSelection : MonoBehaviour
                     //Generation related info
                     print("Current Generation #: " + neuralGeneration);
 
-                    print("Flatten Fitness");
                     //Flatten fitness
+                    print("Flatten Fitness");
                     foreach (NeuralNetwork nNet in population)
                     {
                         if (nNet.lastFitness != 0)

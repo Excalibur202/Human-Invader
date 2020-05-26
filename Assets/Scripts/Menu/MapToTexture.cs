@@ -242,10 +242,10 @@ public class MapToTexture : MonoBehaviour
     /*Set texture main color (with border)*/
     public static void SetTextureColor(int border, int size, int x, int y, Color pxColor, Texture2D texture)
     {
-        Vector2 modiefiedPos = new Vector2(border + (x * size), border + (y * size));
+        Vector2 modifiedPos = new Vector2(border + (x * size), border + (y * size));
 
-        for (int deltaX = (int)modiefiedPos.x; deltaX < modiefiedPos.x + size; deltaX++)
-            for (int deltaY = (int)modiefiedPos.y; deltaY < modiefiedPos.y + size; deltaY++)
+        for (int deltaX = (int)modifiedPos.x; deltaX < modifiedPos.x + size; deltaX++)
+            for (int deltaY = (int)modifiedPos.y; deltaY < modifiedPos.y + size; deltaY++)
                 texture.SetPixel(deltaX, deltaY, pxColor);
     }
 
