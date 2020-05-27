@@ -8,7 +8,7 @@ internal class AbilityInputs {
     internal bool mapdrag = false;
 }
 
-public class PlayerAbilityController : MonoBehaviour {
+public class PlayerSpecialInputsController : MonoBehaviour {
     [SerializeField] PlayerController playerController;
     [SerializeField] PlayerAbilityCaster abilities;
     [SerializeField] Camera cam;

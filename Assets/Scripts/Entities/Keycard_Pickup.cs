@@ -6,7 +6,7 @@ public class Keycard_Pickup : MonoBehaviour {
 
     void OnTriggerEnter (Collider other) {
         if (other.tag == "Player") {
-            Util.GetPlayer ().GetComponent<PlayerAbilityController> ().keycards++;
+            Util.GetPlayer ().GetComponent<PlayerSpecialInputsController> ().keycards++;
             Util.PlaySound (pickupSound);
             Destroy (gameObject);
         }

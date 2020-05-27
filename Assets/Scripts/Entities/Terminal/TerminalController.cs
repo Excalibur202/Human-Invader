@@ -179,11 +179,11 @@ public class TerminalController : MonoBehaviour
                     }
                     else
                     {
-                        if (Util.GetPlayer().GetComponent<PlayerAbilityController>().keycards > 0)
+                        if (Util.GetPlayer().GetComponent<PlayerSpecialInputsController>().keycards > 0)
                         {
                             if (transform.GetComponentInParent<DoorCrl>().UnlockDoor())
                             {
-                                Util.GetPlayer().GetComponent<PlayerAbilityController>().keycards--;
+                                Util.GetPlayer().GetComponent<PlayerSpecialInputsController>().keycards--;
                                 AddStringToLog("SUCCESS! The door is now open.");
                             }
                         }
