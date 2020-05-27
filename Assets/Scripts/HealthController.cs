@@ -22,7 +22,7 @@ public class HealthController : MonoBehaviour {
     private void Awake () {
         healthPointsMax = healthPoints;
 
-        if (gameObject.tag == "Player" && SceneManager.GetActiveScene().name != "Kikbow") {
+        if (gameObject.tag == "Player" && SceneManager.GetActiveScene ().name != "Kikbow") {
             GameObject.Find ("HealthBar").GetComponent<Slider> ().maxValue = healthPointsMax;
             UpdatePlayerHPBar ();
         }
@@ -52,7 +52,8 @@ public class HealthController : MonoBehaviour {
     private void Die () {
         dead = true;
         die.Invoke ();
-        StartCoroutine (WaitToDie ());
+        if (transform.tag == "Player")
+            StartCoroutine (WaitToDie ());
     }
 
     public void ResetHP () {
