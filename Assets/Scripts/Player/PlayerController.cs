@@ -148,8 +148,6 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         #endregion
 
-        
-
         #region Keyboard Camera Relative Direction
             cameraForward = cameraTransform.transform.forward;
         cameraRight = cameraTransform.transform.right;
@@ -164,8 +162,15 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawLine(transform.position, transform.position + keyboardInput, Color.blue, Time.deltaTime);
 
+        #region Aiming?
+        if (Input.GetMouseButton(1) && characterController.isGrounded)
+            aiming = true;
+        else
+            aiming = false;
+        #endregion
+
         #region Sprinting?
-        if (Input.GetKey(KeyCode.LeftShift) && verticalInput > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && verticalInput > 0 && !aiming)
             sprinting = true;
         else
             sprinting = false;
@@ -175,14 +180,10 @@ public class PlayerController : MonoBehaviour
         if (keyboardInput != Vector3.zero)
             characterDir = Vector3.Lerp(characterDir, keyboardInput,Time.deltaTime*5f);
 
-        if (Input.GetMouseButton(1) && characterController.isGrounded)
-            aiming = true;
-        else
-            aiming = false;
-
+        #region Shooting?
         if (Input.GetMouseButton(0) && aiming && characterController.isGrounded)
             Shoot();
-
+        #endregion
         //if (aiming)
         //    characterDir = new Vector3(cameraTransform.forward.x, cameraTransform.forward.y, cameraTransform.forward.z);
 
@@ -201,13 +202,12 @@ public class PlayerController : MonoBehaviour
         currentSpeed = Mathf.Clamp(currentSpeed, 0, (sprinting) ? sprintSpeed : maxJogSpeed);
         #endregion
 
-        
-        //Stop from controlling motion while on air
+        #region Grounded?
         if (characterController.isGrounded)
             characterMotion = characterDir * currentSpeed * Time.deltaTime;
         else
             characterMotion = lastCharacterMotion;
-
+        #endregion
 
         #region Gravity & Jump
 
@@ -232,20 +232,19 @@ public class PlayerController : MonoBehaviour
         gravityMotion = Vector3.up * gravityVelocity * Time.deltaTime;
 
         #endregion
-        //Apply final movement
 
+        #region Movement & Rotation
         if (aiming)
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(new Vector3(cameraTransform.forward.x, cameraTransform.forward.y * 0, cameraTransform.forward.z), Vector3.up), Time.deltaTime * rotationSpeed);
 
         else if (currentSpeed > 0 )
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime*rotationSpeed);
 
-        
-
         characterController.Move(characterMotion + gravityMotion);
         lastCharacterMotion = characterMotion;
 
-       // if (keyboardInput != Vector3.zero)
+        #endregion
+
         direction =  Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * rotationSpeed);
         
         if (animator)
