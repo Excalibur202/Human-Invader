@@ -323,7 +323,9 @@ public class PlayerController : MonoBehaviour
         Vector3 cdir = (-(cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset));
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude,LayerMask.GetMask("Obstacle")))
+
+        //PQ MEXERAM NISTO? -.-
+        if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude/*,LayerMask.GetMask("Obstacle")*/))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
 
 
@@ -446,7 +448,7 @@ public class PlayerController : MonoBehaviour
 
 
         currentFov = Mathf.Lerp(currentFov,rawFov,Time.deltaTime*10);
-        //camComp.fieldOfView = currentFov;
+        camComp.fieldOfView = currentFov;
     }
 
     private void CacheShots()
