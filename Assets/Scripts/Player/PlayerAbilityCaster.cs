@@ -4,20 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAbilityCaster : MonoBehaviour {
-    public List<Vector3> points;
     [SerializeField] Camera cam;
+
+    // Serialized variables
     [SerializeField] Transform mineOrigin;
     [SerializeField] GameObject minePrefab;
     [SerializeField] GameObject mineHologramPrefab;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] float mineSpeed = 20;
-    RaycastHit mineRaycastHit;
+    [SerializeField] float mineMaxCooldown = 1;
+
+    List<Vector3> points;
     GameObject mineHologram;
-    bool usingAbility = false;
+    RaycastHit mineRaycastHit;
+    float mineCooldown = 0;
+    bool usingAbility;
 
     void Start () {
         if (!cam)
             cam = (Camera) GameObject.FindObjectOfType (typeof (Camera));
+        if (!minePrefab) {
+            print ("Error! No mine prefab.");
+            return;
+        }
+    }
+
+    void Update () {
+        if (mineCooldown > 0) {
+            mineCooldown -= Time.deltaTime;
+            if (mineCooldown < 0)
+                mineCooldown = 0;
+        }
     }
 
     internal void UseAbility (int abilityKey) {
@@ -27,10 +44,8 @@ public class PlayerAbilityCaster : MonoBehaviour {
             print ("Using ability number " + abilityKey);
             switch (abilityKey) {
                 case 1:
-                    StartCoroutine (SoldierMine ());
-                    break;
-                case 2:
-                    StartCoroutine (SoldierRadar ());
+                    if (mineCooldown == 0)
+                        StartCoroutine (SoldierMine ());
                     break;
                 default:
                     usingAbility = false;
@@ -42,6 +57,10 @@ public class PlayerAbilityCaster : MonoBehaviour {
     private IEnumerator SoldierMine () {
         if (!mineHologram && mineHologramPrefab)
             mineHologram = Instantiate (mineHologramPrefab);
+        else {
+            print ("Error, no mine hologram prefab!");
+            StopCoroutine (SoldierMine ());
+        }
 
         RaycastHit rayHit;
         Vector3 throwDirection = cam.transform.forward;
@@ -71,7 +90,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
         mineHologram.SetActive (false);
         usingAbility = false;
 
-        yield return null;
+        mineCooldown = mineMaxCooldown;
     }
 
     private IEnumerator SoldierRadar () { throw new NotImplementedException (); }
