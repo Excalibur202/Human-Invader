@@ -15,9 +15,8 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField] protected Behavior currentBehavior;
     [SerializeField] protected float ground_Y;
     [SerializeField] protected float aboveGround_Y;
-    [SerializeField] protected float moveSpeed;
+    [SerializeField] public float moveSpeed;
     [SerializeField] protected float aggroRange;
-    [SerializeField] protected float health;
 
     protected CharacterController charCtrl;
     protected GameObject player;
