@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAbilityCaster : MonoBehaviour {
     [SerializeField] Camera cam;
@@ -11,6 +12,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
     [SerializeField] GameObject minePrefab;
     [SerializeField] GameObject mineHologramPrefab;
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] Image mineIcon;
     [SerializeField] float mineSpeed = 20;
     [SerializeField] float mineMaxCooldown = 1;
 
@@ -27,13 +29,18 @@ public class PlayerAbilityCaster : MonoBehaviour {
             print ("Error! No mine prefab.");
             return;
         }
+
+        mineIcon.fillAmount = 1;
     }
 
     void Update () {
         if (mineCooldown > 0) {
             mineCooldown -= Time.deltaTime;
+
             if (mineCooldown < 0)
                 mineCooldown = 0;
+
+            mineIcon.fillAmount = 1 - (mineCooldown / mineMaxCooldown);
         }
     }
 
@@ -45,7 +52,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
             switch (abilityKey) {
                 case 1:
                     if (mineCooldown == 0)
-                        StartCoroutine(SoldierMine());
+                        StartCoroutine (SoldierMine ());
                     else
                         usingAbility = false;
                     break;
@@ -91,7 +98,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
 
         mineHologram.SetActive (false);
         usingAbility = false;
-        
+
         mineCooldown = mineMaxCooldown;
     }
 

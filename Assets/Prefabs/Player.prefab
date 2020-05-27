@@ -4958,7 +4958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f60a29eef6bc542a78691dcf2d9c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: []
   cam: {fileID: 0}
   mineOrigin: {fileID: 5559695255248275855}
   minePrefab: {fileID: 4480565736346246234, guid: 897dd6ac7df4b2f48a938e7f71a357ae,
@@ -4967,6 +4966,7 @@ MonoBehaviour:
     type: 3}
   lineRenderer: {fileID: 2005505378}
   mineSpeed: 20
+  mineMaxCooldown: 1
 --- !u!114 &6423527655052596748
 MonoBehaviour:
   m_ObjectHideFlags: 0
