@@ -45,7 +45,9 @@ public class PlayerAbilityCaster : MonoBehaviour {
             switch (abilityKey) {
                 case 1:
                     if (mineCooldown == 0)
-                        StartCoroutine (SoldierMine ());
+                        StartCoroutine(SoldierMine());
+                    else
+                        usingAbility = false;
                     break;
                 default:
                     usingAbility = false;
@@ -89,7 +91,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
 
         mineHologram.SetActive (false);
         usingAbility = false;
-
+        
         mineCooldown = mineMaxCooldown;
     }
 
