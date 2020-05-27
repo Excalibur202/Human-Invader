@@ -20,15 +20,16 @@ public class BaseEnemy : MonoBehaviour {
 
     protected CharacterController charCtrl;
     protected GameObject player;
-    protected float defaultMoveSpeed;
     public bool hasKeycard;
 
     // Movement and navigation
-    public bool canSeePlayer;
-    protected Vector3 playerLastSightedAt;
-    public float playerSqrDistance;
     protected List<Vector2> recentPos = new List<Vector2> ();
     protected List<Vector2> waypoints = new List<Vector2> ();
+    protected Vector3 playerLastSightedAt;
+    public float defaultMoveSpeed;
+    public bool canSeePlayer;
+    public float playerSqrDistance;
+    public bool isSlowed;
 
     // Strafing behavior
     protected bool strafing;
@@ -444,7 +445,7 @@ public class BaseEnemy : MonoBehaviour {
     public void Reset () {
         if (waypoints.Count > 0)
             transform.position = Util.V2toV3 (waypoints[0], ground_Y + aboveGround_Y);
-        
+
         waypoints = new List<Vector2> ();
         recentPos = new List<Vector2> ();
         waypoints.Add (Util.V3toV2 (transform.position));
@@ -464,8 +465,13 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     IEnumerator TemporarySlowdownEffect (float slowdownMultiplier, float duration) {
-        moveSpeed = defaultMoveSpeed * slowdownMultiplier;
-        yield return new WaitForSeconds (duration);
+        isSlowed = true;
+        while (duration > 0) {
+            moveSpeed = defaultMoveSpeed * slowdownMultiplier;
+            duration -= 0.1f;
+            yield return new WaitForSeconds (0.1f);
+        }
         moveSpeed = defaultMoveSpeed;
+        isSlowed = false;
     }
 }

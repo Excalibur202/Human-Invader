@@ -304,11 +304,13 @@ MonoBehaviour:
   currentBehavior: 0
   ground_Y: 0
   aboveGround_Y: 1
-  moveSpeed: 4
+  moveSpeed: 4.5
   aggroRange: 15
   hasKeycard: 0
+  defaultMoveSpeed: 0
   canSeePlayer: 0
   playerSqrDistance: 0
+  isSlowed: 0
   stick: {fileID: 2134649695}
 --- !u!114 &1023328002065548908
 MonoBehaviour:

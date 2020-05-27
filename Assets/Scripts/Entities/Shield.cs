@@ -22,9 +22,15 @@ public class Shield : MonoBehaviour {
 
     public void OnDie () {
         GameObject shieldGuy = transform.parent.gameObject;
-        shieldGuy.GetComponent<BaseEnemy> ().moveSpeed *= 3;
-        shieldGuy.GetComponent<HealthController> ().healthPointsMax *= 2;
-        shieldGuy.GetComponent<HealthController> ().healthPoints *= 2;
+        var shieldHC = shieldGuy.GetComponent<HealthController> ();
+        var shieldBE = shieldGuy.GetComponent<BaseEnemy> ();
+
+        shieldBE.defaultMoveSpeed *= 3;
+        if (!shieldBE.isSlowed)
+            shieldBE.moveSpeed = shieldBE.defaultMoveSpeed;
+
+        shieldHC.healthPointsMax *= 2;
+        shieldHC.healthPoints *= 2;
         Destroy (transform.gameObject);
     }
 }
