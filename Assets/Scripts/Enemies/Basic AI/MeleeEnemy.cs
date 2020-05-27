@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using PlayerStates;
 using UnityEngine;
 
-public class Melee : BaseEnemy {
+public class MeleeEnemy : BaseEnemy {
 	enum AggroAction {
 		None,
 		MeleeAttack,
@@ -11,7 +11,7 @@ public class Melee : BaseEnemy {
 	AggroAction aggroAction = AggroAction.None;
 
 	// Serialized Options
-	[SerializeField] float ability1CooldownMax;
+	//[SerializeField] float ability1CooldownMax;
 	[SerializeField] GameObject stick;
 
 	// General attack variables
