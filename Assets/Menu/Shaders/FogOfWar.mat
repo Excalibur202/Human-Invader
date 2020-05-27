@@ -103,5 +103,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FuncInfo: {r: 400, g: 400, b: 0, a: 0}
     - _MapScale: {r: 200, g: 200, b: 0, a: 0}
-    - _PlayerPos: {r: 24.668945, g: 1.1200998, b: 302.73776, a: 0}
+    - _PlayerPos: {r: 151.49533, g: 1.0700998, b: 289.00043, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
