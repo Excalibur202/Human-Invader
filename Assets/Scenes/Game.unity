@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8b20d9e98d9a92548b4ddd22922639d2,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -387,16 +388,15 @@ MonoBehaviour:
   mapSizeY: 400
   nSectors: 5
   minRoomsPSector: 10
-  maxRoomsPSector: 30
+  maxRoomsPSector: 15
   basicRooms:
-  - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
-  - {fileID: 8767123182385438691, guid: fd710fcb68efee047b9cf6166febe706, type: 3}
-  - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
+  - {fileID: 191895738257130222, guid: c1f36373f3120f14b82d672c466527e8, type: 3}
+  - {fileID: 7539364398083314641, guid: 7a73eef89a1349a44ab4016a7e974799, type: 3}
   - {fileID: 1237267025913822573, guid: 4e453ee13b51b16439c72344e9991755, type: 3}
   spawnRooms:
-  - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
+  - {fileID: 191895738257130222, guid: c1f36373f3120f14b82d672c466527e8, type: 3}
   cmdRooms:
-  - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
+  - {fileID: 191895738257130222, guid: c1f36373f3120f14b82d672c466527e8, type: 3}
   cmdRoomsProb: 01000000
   closedDoors:
   - {fileID: 1365970185731006, guid: ab6c3f8fd297542b98b0b08deabb440f, type: 3}
@@ -406,7 +406,8 @@ MonoBehaviour:
   maxEnemies: 20
   enemies:
   - {fileID: 1023328002065548906, guid: fab32636d2fc5eb4496e65d15d29c440, type: 3}
-  enemyProbs: 01000000
+  - {fileID: 5721931598886401968, guid: b18f232a82707764ead0402cebbe0549, type: 3}
+  enemyProbs: 0100000001000000
   trainingAI: 0
   baseAIEnemyTraining: {fileID: 0}
   baseEnemyAI: {fileID: 1433383478920132339, guid: 4d8169836680a9d4e96063638246ee13,
@@ -1715,7 +1716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1283621868
 Light:
   m_ObjectHideFlags: 0
@@ -2213,7 +2214,7 @@ PrefabInstance:
     - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: healthPoints
-      value: 15
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -2563,7 +2564,7 @@ PrefabInstance:
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: damage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -2574,6 +2575,11 @@ PrefabInstance:
         type: 3}
       propertyPath: cachedBulletCounts
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275855, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -2703,7 +2709,12 @@ PrefabInstance:
     - target: {fileID: 6423527655052596748, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: renderDistance
-      value: 40
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423527655052596750, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6423527655052596751, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -2720,6 +2731,11 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 1769116607}
+    - target: {fileID: 6423527655052596751, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6489544736704474251, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: m_Layer
@@ -3304,7 +3320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1926928365}
   - component: {fileID: 1926928364}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ground Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3332,7 +3348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926928363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
