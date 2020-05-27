@@ -284,7 +284,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1
+  m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentBehavior: 0
-  ground_Y: 0
+  ground_Y: 0.25
   aboveGround_Y: 1.2
   moveSpeed: 2.5
   aggroRange: 15
@@ -312,6 +312,7 @@ MonoBehaviour:
   canSeePlayer: 0
   playerSqrDistance: 0
   tongue: {fileID: 4709627336053573135}
+  shield: {fileID: 0}
 --- !u!114 &5721931598886401974
 MonoBehaviour:
   m_ObjectHideFlags: 0
