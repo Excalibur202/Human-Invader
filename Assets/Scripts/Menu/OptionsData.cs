@@ -8,7 +8,8 @@ using System.Linq;
 public class OptionsData 
 {
     public float masterVolume, gameVolume, soundVolume, voiceVolume;
-    public Dictionary<string, KeyCode> keysbinds { get; set; }
+
+    public Dictionary<string, KeyCode> keysbinds = new Dictionary<string, KeyCode>();
 
     public OptionsData()
     {

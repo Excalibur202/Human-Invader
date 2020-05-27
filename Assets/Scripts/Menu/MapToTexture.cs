@@ -6,7 +6,7 @@ public class MapToTexture : MonoBehaviour
 {
     public static MapToTexture instance;
     bool shaderReady = false;
-
+    
     public bool aIVision = false;
 
     //Player Transform
@@ -95,15 +95,11 @@ public class MapToTexture : MonoBehaviour
             sizeX = navMap.GetLength(0);
             sizeY = navMap.GetLength(1);
 
-            //Debug Materials
-            if (debugMapMat) debugMapMat.mainTexture = mapTexture;
-            if (debugFogMat) debugFogMat.mainTexture = fogTexture;
-
             //FogTexture
             fogTexture = new Texture2D((border * 2) + (sizeX * size), (border * 2) + (sizeY * size));
             fogTexture.wrapMode = TextureWrapMode.Clamp;
             SetTextureColor(fogTexture, Color.white);
-            CenterOfTexture(fogTexture, Color.black, sizeX, sizeY, size, border);
+            CenterOfTexture(fogTexture, Color.white, sizeX, sizeY, size, border);
             fogTexture.Apply();
 
             //MapTexture
@@ -137,6 +133,10 @@ public class MapToTexture : MonoBehaviour
                     SetTextureColor(border, size, x, y, pixelColor, mapTexture);
                 }
             mapTexture.Apply();
+
+            //Debug Materials
+            if (debugMapMat) debugMapMat.mainTexture = mapTexture;
+            if (debugFogMat) debugFogMat.mainTexture = fogTexture;
 
             //Send info to shader
             mapMat.SetTexture("_MainTex", mapTexture);

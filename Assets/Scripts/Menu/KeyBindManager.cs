@@ -22,8 +22,9 @@ public class KeyBindManager : MonoBehaviour
         }
     }
 
+    OptionsManager optionsManager;
+
     //public Dictionary<string, KeyCode> keysbinds { get; set; }
-    OptionsData optionsData;
 
     public Text forward, back, left, right, jump, attack, aim, ability1, ability2, map;
 
@@ -35,23 +36,26 @@ public class KeyBindManager : MonoBehaviour
 
     private void Start()
     {
-        LoadOptionsKeys();
+        optionsManager = OptionsManager.instance;
     }
 
     void Update()
     {
-            
+       
     }
 
     void OnGUI()
     {
+        if (OptionsManager.instance.data != null)
+            GetKeyFromOptions();
+
         if(currentKey != null)
         {
             Event e = Event.current;
 
             if(e.isKey)
             {
-                optionsData.keysbinds[currentKey.name] = e.keyCode;
+                optionsManager.data.keysbinds[currentKey.name] = e.keyCode;
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = e.keyCode.ToString();
                 currentKey = null;
             }
@@ -65,38 +69,38 @@ public class KeyBindManager : MonoBehaviour
 
     public void GetKeyFromOptions()
     {
-        forward.text = optionsData.keysbinds["Forward"].ToString();
-        back.text = optionsData.keysbinds["Back"].ToString();
-        left.text = optionsData.keysbinds["Left"].ToString();
-        right.text = optionsData.keysbinds["Right"].ToString();
-        jump.text = optionsData.keysbinds["Jump"].ToString();
-        attack.text = optionsData.keysbinds["Attack"].ToString();
-        aim.text = optionsData.keysbinds["Aim"].ToString();
-        ability1.text = optionsData.keysbinds["Ability1"].ToString();
-        ability2.text = optionsData.keysbinds["Ability2"].ToString();
-        map.text = optionsData.keysbinds["Map"].ToString();
+        forward.text = optionsManager.data.keysbinds["Forward"].ToString();
+        back.text = optionsManager.data.keysbinds["Back"].ToString();
+        left.text = optionsManager.data.keysbinds["Left"].ToString();
+        right.text = optionsManager.data.keysbinds["Right"].ToString();
+        jump.text = optionsManager.data.keysbinds["Jump"].ToString();
+        attack.text = optionsManager.data.keysbinds["Attack"].ToString();
+        aim.text = optionsManager.data.keysbinds["Aim"].ToString();
+        ability1.text = optionsManager.data.keysbinds["Ability1"].ToString();
+        ability2.text = optionsManager.data.keysbinds["Ability2"].ToString();
+        map.text = optionsManager.data.keysbinds["Map"].ToString();
     }
 
-    public void SetKeyFromOptions()
-    {
-        OnGUI();
-    }
+    //public void SetKeyFromOptions()
+    //{
+    //    OnGUI();
+    //}
 
-    private void LoadOptionsKeys()
-    {
-        optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
-        if (optionsData == null)
-            optionsData = new OptionsData();
+    //private void LoadOptionsKeys()
+    //{
+    //    optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
+    //    if (optionsData == null)
+    //        optionsData = new OptionsData();
 
-        GetKeyFromOptions();
-    }
+    //    GetKeyFromOptions();
+    //}
 
-    public void SaveOptionsKeys()
-    {
-        SetKeyFromOptions();
+    //public void SaveOptionsKeys()
+    //{
+    //    SetKeyFromOptions();
 
-        optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
-    }
+    //    optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
+    //}
 
     //public void BindKey(string key, KeyCode keyBind)
     //{

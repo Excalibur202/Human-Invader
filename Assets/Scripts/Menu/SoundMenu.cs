@@ -9,8 +9,7 @@ using SaveLoad;
 
 public class SoundMenu : MonoBehaviour
 {
-    OptionsData optionsData;
-    public bool testSave = false;
+
     [Header("Game")]
     public Slider gameVolume;
     public InputField gameValue;
@@ -30,18 +29,15 @@ public class SoundMenu : MonoBehaviour
 
     void Start()
     {
-        LoadOptionsData();
+       
     }
 
     void Update()
     {
-        ValuesChange(masterVolume.value,gameVolume.value,soundVolume.value,voiceVolume.value);
+        if(OptionsManager.instance.data != null)
+            GetValuesFromOptionsData();
 
-        if(testSave)
-        {
-            SaveOptionsData();
-            testSave = false;
-        }
+        ValuesChange(masterVolume.value,gameVolume.value,soundVolume.value,voiceVolume.value);
     }
 
     public void ValuesChange(float masterCount, float gameCount, float soundCount, float voiceCount)
@@ -61,11 +57,13 @@ public class SoundMenu : MonoBehaviour
         else
             AudioListener.volume = 1f;
 
-        
+        SetValuesFromOptionsData();
     }
 
     private void GetValuesFromOptionsData()
     {
+        OptionsData optionsData = OptionsManager.instance.data;
+
         masterVolume.value = optionsData.masterVolume;
         gameVolume.value = optionsData.gameVolume;
         soundVolume.value = optionsData.soundVolume;
@@ -74,28 +72,30 @@ public class SoundMenu : MonoBehaviour
 
     private void SetValuesFromOptionsData()
     {
+        OptionsData optionsData = OptionsManager.instance.data;
+
         optionsData.masterVolume = masterVolume.value;
         optionsData.gameVolume = gameVolume.value;
         optionsData.soundVolume = soundVolume.value;
         optionsData.voiceVolume = voiceVolume.value;
     }
 
-    private void LoadOptionsData()
-    {
-        optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
-        if (optionsData == null)
-            optionsData = new OptionsData();
+    //private void LoadOptionsData()
+    //{
+    //    optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
+    //    if (optionsData == null)
+    //        optionsData = new OptionsData();
 
-        GetValuesFromOptionsData();
+    //    GetValuesFromOptionsData();
         
-    }
+    //}
 
-    public void SaveOptionsData()
-    {
-        SetValuesFromOptionsData();
+    //public void SaveOptionsData()
+    //{
+    //    SetValuesFromOptionsData();
 
-        optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
-    }
+    //    optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
+    //}
 
     //public void SetVolume(float sliderValue)
     //{
