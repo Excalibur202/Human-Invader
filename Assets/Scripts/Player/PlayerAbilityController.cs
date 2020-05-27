@@ -98,10 +98,10 @@ public class PlayerAbilityController : MonoBehaviour {
                 dragX = Mathf.Clamp((Input.mousePosition.x / Screen.width) * 2 - 1, -1.0f, 1.0f);
                 dragY = Mathf.Clamp((Input.mousePosition.y / Screen.height) * 2 - 1, -1.0f, 1.0f);
                 
-                if (Input.GetMouseButtonDown(0))
-                {
+                //if (Input.GetMouseButtonDown(0))
+                //{
                     OnMouseDrag();
-                }
+                //}
 
                 if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape))
                 {

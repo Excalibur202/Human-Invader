@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SaveLoad;
 
 public class KeyBindManager : MonoBehaviour
 {
@@ -21,8 +22,9 @@ public class KeyBindManager : MonoBehaviour
         }
     }
 
-    public Dictionary<string, KeyCode> keysbinds { get; set; }
-    
+    //public Dictionary<string, KeyCode> keysbinds { get; set; }
+    OptionsData optionsData;
+
     public Text forward, back, left, right, jump, attack, aim, ability1, ability2, map;
 
     private KeyCode keyCode;
@@ -33,32 +35,12 @@ public class KeyBindManager : MonoBehaviour
 
     private void Start()
     {
+        LoadOptionsKeys();
+    }
 
-        keysbinds = new Dictionary<string, KeyCode>();
-        
-
-        BindKey("Forward", KeyCode.W);
-        BindKey("Back", KeyCode.S);
-        BindKey("Left", KeyCode.A);
-        BindKey("Right", KeyCode.D);
-        BindKey("Jump", KeyCode.Space);
-        BindKey("Attack", KeyCode.Mouse0);
-        BindKey("Aim", KeyCode.Mouse1);
-        BindKey("Ability1", KeyCode.F);
-        BindKey("Ability2", KeyCode.Q);
-        BindKey("Map", KeyCode.M);
-        BindKey("Pause", KeyCode.Escape);
-
-        forward.text = keysbinds["Forward"].ToString();
-        back.text = keysbinds["Back"].ToString();
-        left.text = keysbinds["Left"].ToString();
-        right.text = keysbinds["Right"].ToString();
-        jump.text = keysbinds["Jump"].ToString();
-        attack.text = keysbinds["Attack"].ToString();
-        aim.text = keysbinds["Aim"].ToString();
-        ability1.text = keysbinds["Ability1"].ToString();
-        ability2.text = keysbinds["Ability2"].ToString();
-        map.text = keysbinds["Map"].ToString();
+    void Update()
+    {
+            
     }
 
     void OnGUI()
@@ -69,7 +51,7 @@ public class KeyBindManager : MonoBehaviour
 
             if(e.isKey)
             {
-                keysbinds[currentKey.name] = e.keyCode;
+                optionsData.keysbinds[currentKey.name] = e.keyCode;
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = e.keyCode.ToString();
                 currentKey = null;
             }
@@ -81,22 +63,57 @@ public class KeyBindManager : MonoBehaviour
         currentKey = clicked;
     }
 
-    public void BindKey(string key, KeyCode keyBind)
+    public void GetKeyFromOptions()
     {
-        Dictionary<string, KeyCode> currentdictionary = keysbinds;
-
-        if(!currentdictionary.ContainsValue(keyBind))
-        {
-            currentdictionary.Add(key, keyBind);
-        }
-        else if(currentdictionary.ContainsValue(keyBind))
-        {
-            string mykey = currentdictionary.FirstOrDefault(x => x.Value == keyBind).Key;
-
-            currentdictionary[mykey] = KeyCode.None;
-        }
-
-        currentdictionary[key] = keyBind;
-        bindName = string.Empty;
+        forward.text = optionsData.keysbinds["Forward"].ToString();
+        back.text = optionsData.keysbinds["Back"].ToString();
+        left.text = optionsData.keysbinds["Left"].ToString();
+        right.text = optionsData.keysbinds["Right"].ToString();
+        jump.text = optionsData.keysbinds["Jump"].ToString();
+        attack.text = optionsData.keysbinds["Attack"].ToString();
+        aim.text = optionsData.keysbinds["Aim"].ToString();
+        ability1.text = optionsData.keysbinds["Ability1"].ToString();
+        ability2.text = optionsData.keysbinds["Ability2"].ToString();
+        map.text = optionsData.keysbinds["Map"].ToString();
     }
+
+    public void SetKeyFromOptions()
+    {
+        OnGUI();
+    }
+
+    private void LoadOptionsKeys()
+    {
+        optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
+        if (optionsData == null)
+            optionsData = new OptionsData();
+
+        GetKeyFromOptions();
+    }
+
+    public void SaveOptionsKeys()
+    {
+        SetKeyFromOptions();
+
+        optionsData.SaveBinary("Assets\\SettingsData", "SettingsData");
+    }
+
+    //public void BindKey(string key, KeyCode keyBind)
+    //{
+    //    Dictionary<string, KeyCode> currentdictionary = keysbinds;
+
+    //    if(!currentdictionary.ContainsValue(keyBind))
+    //    {
+    //        currentdictionary.Add(key, keyBind);
+    //    }
+    //    else if(currentdictionary.ContainsValue(keyBind))
+    //    {
+    //        string mykey = currentdictionary.FirstOrDefault(x => x.Value == keyBind).Key;
+
+    //        currentdictionary[mykey] = KeyCode.None;
+    //    }
+
+    //    currentdictionary[key] = keyBind;
+    //    bindName = string.Empty;
+    //}
 }
