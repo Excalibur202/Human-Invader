@@ -443,8 +443,9 @@ public class BaseEnemy : MonoBehaviour {
 
     // Should be called after re-enabling an initiated but disabled enemy
     public void Reset () {
-        transform.position = Util.V2toV3 (waypoints[0], ground_Y + aboveGround_Y);
-
+        if (waypoints.Count > 0)
+            transform.position = Util.V2toV3 (waypoints[0], ground_Y + aboveGround_Y);
+        
         waypoints = new List<Vector2> ();
         recentPos = new List<Vector2> ();
         waypoints.Add (Util.V3toV2 (transform.position));
