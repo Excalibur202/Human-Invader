@@ -149,14 +149,14 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Keyboard Camera Relative Direction
-            cameraForward = cameraTransform.transform.forward;
+        cameraForward = cameraTransform.transform.forward;
         cameraRight = cameraTransform.transform.right;
-        
+
         cameraForward.y = 0;
         cameraRight.y = 0;
         cameraRight.Normalize();
         cameraForward.Normalize();
-        
+
         keyboardInput = (cameraForward * verticalInput + cameraRight * horizontalInput).normalized;
         #endregion
 
@@ -178,18 +178,16 @@ public class PlayerController : MonoBehaviour
 
 
         if (keyboardInput != Vector3.zero)
-            characterDir = Vector3.Lerp(characterDir, keyboardInput,Time.deltaTime*5f);
+            characterDir = Vector3.Lerp(characterDir, keyboardInput, Time.deltaTime * 5f);
 
         #region Shooting?
         if (Input.GetMouseButton(0) && aiming && characterController.isGrounded)
             Shoot();
         #endregion
-        //if (aiming)
-        //    characterDir = new Vector3(cameraTransform.forward.x, cameraTransform.forward.y, cameraTransform.forward.z);
 
 
         Debug.DrawLine(transform.position, transform.position + characterDir, Color.yellow, Time.deltaTime);
-        
+
 
         //Debug.Log(direction);
 
@@ -237,16 +235,16 @@ public class PlayerController : MonoBehaviour
         if (aiming)
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(new Vector3(cameraTransform.forward.x, cameraTransform.forward.y * 0, cameraTransform.forward.z), Vector3.up), Time.deltaTime * rotationSpeed);
 
-        else if (currentSpeed > 0 )
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime*rotationSpeed);
+        else if (currentSpeed > 0)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(characterDir), Time.deltaTime * rotationSpeed);
 
         characterController.Move(characterMotion + gravityMotion);
         lastCharacterMotion = characterMotion;
 
         #endregion
 
-        direction =  Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * rotationSpeed);
-        
+        direction = Mathf.Lerp(direction, Vector3.SignedAngle(transform.forward, characterDir.normalized, Vector3.up), Time.deltaTime * rotationSpeed);
+
         if (animator)
         {
 
@@ -262,21 +260,20 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Speed", 0f);
 
 
-            if (characterController.isGrounded)
-                animator.SetBool("InAir", false);
-            else
+            if (!characterController.isGrounded)
                 animator.SetBool("InAir", true);
+            else
+                animator.SetBool("InAir", false);
+
+
+
+
         }
 
-
         UpdateShooting();
-        
-
-      // Cursor.lockState = CursorLockMode.Locked;
-
     }
 
-    
+
 
     public void LateUpdate()
     {
@@ -301,7 +298,7 @@ public class PlayerController : MonoBehaviour
         rawAnimationYaw = Vector3.SignedAngle(transform.forward, cameraForward, Vector3.up); //cameraYaw - characterYaw;
 
         animationPitch = Mathf.Lerp(animationPitch, rawAnimationPitch, Time.deltaTime * animationOffsetSpeed);
-        animationYaw = Mathf.Lerp( animationYaw, rawAnimationYaw, Time.deltaTime * animationOffsetSpeed);
+        animationYaw = Mathf.Lerp(animationYaw, rawAnimationYaw, Time.deltaTime * animationOffsetSpeed);
 
         animator.SetFloat("Pitch", animationPitch);
         animator.SetFloat("Yaw", animationYaw);
@@ -312,19 +309,19 @@ public class PlayerController : MonoBehaviour
     private void UpdateCameraMovement()
     {
         cameraTransform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
-        
+
         Vector3 direction = ((cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset)).normalized;
 
 
-        Vector3 targetPosition = transform.position - (cameraTransform.forward * cameraBackOffset) + (Vector3.up*cameraHeight) + (cameraTransform.right*cameraSideOffset);
+        Vector3 targetPosition = transform.position - (cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset);
         Debug.DrawLine(transform.position, targetPosition, Color.red, Time.deltaTime);
-       
+
         Vector3 cdir = (-(cameraTransform.forward * cameraBackOffset) + (Vector3.up * cameraHeight) + (cameraTransform.right * cameraSideOffset));
         RaycastHit hit;
 
 
         //PQ MEXERAM NISTO? -.-
-        if(Physics.Raycast(transform.position,cdir.normalized,out hit, cdir.magnitude/*,LayerMask.GetMask("Obstacle")*/))
+        if (Physics.Raycast(transform.position, cdir.normalized, out hit, cdir.magnitude/*,LayerMask.GetMask("Obstacle")*/))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
 
 
@@ -333,7 +330,7 @@ public class PlayerController : MonoBehaviour
 
         cameraTransform.position = targetPosition;
 
-        Debug.DrawLine(transform.position, targetPosition,Color.green,Time.deltaTime);
+        Debug.DrawLine(transform.position, targetPosition, Color.green, Time.deltaTime);
     }
 
     public void UpdateShooting()
@@ -354,17 +351,17 @@ public class PlayerController : MonoBehaviour
     private Vector3 barrelShootingDirection = Vector3.zero;
     private Vector3 lastHitPoint = Vector3.zero;
     private RaycastHit cameraShootHit;
-    private RaycastHit [] playerShootHits;
+    private RaycastHit[] playerShootHits;
     private HealthController hc;
     private float currentDamage;
-    
+
 
     private void Shoot()
     {
         if (Time.time <= nextFire)
             return;
 
-        if(!gunBarrel)
+        if (!gunBarrel)
         {
             Debug.Log("Gun barrel transform missing. Please provide it.");
             return;
@@ -373,19 +370,19 @@ public class PlayerController : MonoBehaviour
         currentDamage = damage;
 
         rawShootingPoint = cameraTransform.position + (cameraTransform.forward * 1000f);
+        
+        int layerMask = LayerMask.GetMask("Enemy", "Obstacle");
 
-        int layerMask = 1 << 11;
-        layerMask = ~layerMask;
 
-
-        if (Physics.Raycast(cameraTransform.position,cameraTransform.forward,out cameraShootHit, 1000f,layerMask)){
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out cameraShootHit, 1000f, layerMask))
+        {
             rawShootingPoint = cameraShootHit.point;
         }
 
-        Debug.DrawLine(cameraTransform.position, rawShootingPoint,Color.red,1f);
+        Debug.DrawLine(cameraTransform.position, rawShootingPoint, Color.red, 1f);
 
         barrelShootingDirection = (rawShootingPoint - gunBarrel.position).normalized;
-        barrelShootingDirection = (Quaternion.AngleAxis(UnityEngine.Random.Range(-bloomAmmount, bloomAmmount)*currentBloom, UnityEngine.Random.onUnitSphere) * barrelShootingDirection);
+        barrelShootingDirection = (Quaternion.AngleAxis(UnityEngine.Random.Range(-bloomAmmount, bloomAmmount) * currentBloom, UnityEngine.Random.onUnitSphere) * barrelShootingDirection);
 
         currentBloom += bloomAmmount;
 
@@ -394,34 +391,50 @@ public class PlayerController : MonoBehaviour
         if (muzzlePS)
         {
             muzzlePS.gameObject.transform.rotation = Quaternion.LookRotation(cameraTransform.forward, Vector3.up);
-            muzzlePS.Emit(UnityEngine.Random.Range(5,9));
+            muzzlePS.Emit(UnityEngine.Random.Range(5, 9));
         }
-            
-
-
-        playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f,layerMask);
 
         lastHitPoint = gunBarrel.position + (barrelShootingDirection * 1000f);
-
         currentMuzzle = muzzleLightIntensity;
 
-        for (int i = 0; i < playerShootHits.Length; i++)
+        RaycastHit hit;
+        if (Physics.Raycast(gunBarrel.position, barrelShootingDirection, out hit, 1000f, layerMask))
         {
-            hc = playerShootHits[i].collider.gameObject.GetComponent<HealthController>() as HealthController;
-            lastHitPoint = playerShootHits[i].point;
+            hc = hit.collider.gameObject.GetComponent<HealthController>() as HealthController;
+            lastHitPoint = hit.point;
 
-            Debug.Log(playerShootHits[i].collider.gameObject.name);
+            Debug.Log("Hit: " + hit.collider.gameObject.name);
 
             if (hc != null)
             {
                 hc.Damage(currentDamage);
                 currentDamage -= 10f;
-
-                if (currentDamage <= 0)
-                    break;
             }
-            else break;
         }
+
+        /* playerShootHits = Physics.RaycastAll(gunBarrel.position, barrelShootingDirection, 1000f,layerMask);
+
+         lastHitPoint = gunBarrel.position + (barrelShootingDirection * 1000f);
+
+         currentMuzzle = muzzleLightIntensity;
+
+         for (int i = 0; i < playerShootHits.Length; i++)
+         {
+             hc = playerShootHits[i].collider.gameObject.GetComponent<HealthController>() as HealthController;
+             lastHitPoint = playerShootHits[i].point;
+
+             Debug.Log(playerShootHits[i].collider.gameObject.name);
+
+             if (hc != null)
+             {
+                 hc.Damage(currentDamage);
+                 currentDamage -= 10f;
+
+                 if (currentDamage <= 0)
+                     break;
+             }
+             else break;
+         }*/
 
         Debug.DrawLine(gunBarrel.position, lastHitPoint, Color.green, 1f);
 
@@ -445,10 +458,10 @@ public class PlayerController : MonoBehaviour
         else
             rawFov -= fovSwitchSpeed * Time.deltaTime;
 
-        rawFov = Mathf.Clamp(rawFov, aimFov, defaultFov );
+        rawFov = Mathf.Clamp(rawFov, aimFov, defaultFov);
 
 
-        currentFov = Mathf.Lerp(currentFov,rawFov,Time.deltaTime*10);
+        currentFov = Mathf.Lerp(currentFov, rawFov, Time.deltaTime * 10);
         camComp.fieldOfView = currentFov;
     }
 
@@ -456,7 +469,7 @@ public class PlayerController : MonoBehaviour
     {
         shotsCache = new Queue<ShotTrail>();
 
-        for(int i = 0; i < cachedBulletCounts; i++)
+        for (int i = 0; i < cachedBulletCounts; i++)
         {
             GameObject go = Instantiate(shotTrailPrefab);
             shotsCache.Enqueue(go.GetComponent<ShotTrail>());

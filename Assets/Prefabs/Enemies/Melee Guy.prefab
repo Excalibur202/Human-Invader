@@ -201,7 +201,6 @@ GameObject:
   - component: {fileID: 1023328002065548905}
   - component: {fileID: 1023328002065548909}
   - component: {fileID: 1023328002065548908}
-  - component: {fileID: 3082688006968156934}
   m_Layer: 12
   m_Name: Melee Guy
   m_TagString: Untagged
@@ -356,19 +355,5 @@ MonoBehaviour:
   invulnerable: 0
   oneHitKill: 0
   dieDebug: 0
-  healthPoints: 10
+  healthPoints: 150
   healthPointsMax: 0
---- !u!136 &3082688006968156934
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023328002065548906}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

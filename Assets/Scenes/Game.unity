@@ -392,6 +392,7 @@ MonoBehaviour:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   - {fileID: 8767123182385438691, guid: fd710fcb68efee047b9cf6166febe706, type: 3}
   - {fileID: 7539364398083314641, guid: b2a45aba454a9af4fa5f0ab640dc1e71, type: 3}
+  - {fileID: 1237267025913822573, guid: 4e453ee13b51b16439c72344e9991755, type: 3}
   spawnRooms:
   - {fileID: 191895738257130222, guid: 5ee4bed9326d53d4492abaf590de28e8, type: 3}
   cmdRooms:
@@ -2558,6 +2559,21 @@ PrefabInstance:
         type: 3}
       propertyPath: aimFov
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: shotsPerSec
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: cachedBulletCounts
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275855, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
