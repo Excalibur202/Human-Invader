@@ -93,8 +93,8 @@ Material:
     - _Test2: -2.1
     - _TiltPlayerX: 0.22
     - _TiltPlayerY: 0
-    - _TiltX: -0.115530305
-    - _TiltY: 0.23794213
+    - _TiltX: 0
+    - _TiltY: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
@@ -103,5 +103,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FuncInfo: {r: 400, g: 400, b: 0, a: 0}
     - _MapScale: {r: 200, g: 200, b: 0, a: 0}
-    - _PlayerPos: {r: 85.476776, g: 1.1000999, b: 336.77032, a: 0}
+    - _PlayerPos: {r: 301.427, g: 1.0900997, b: 103.24211, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

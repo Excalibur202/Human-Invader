@@ -410,6 +410,8 @@ public class PlayerController : MonoBehaviour
             hc = playerShootHits[i].collider.gameObject.GetComponent<HealthController>() as HealthController;
             lastHitPoint = playerShootHits[i].point;
 
+            Debug.Log(playerShootHits[i].collider.gameObject.name);
+
             if (hc != null)
             {
                 hc.Damage(currentDamage);
