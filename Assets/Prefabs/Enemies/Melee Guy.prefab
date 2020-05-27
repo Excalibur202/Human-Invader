@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 1027758876587873727}
   - component: {fileID: 5213590056685089262}
   - component: {fileID: 3550131029960055142}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,13 +304,11 @@ MonoBehaviour:
   currentBehavior: 0
   ground_Y: 0
   aboveGround_Y: 1
-  moveSpeed: 3
-  aggroRange: 10
-  health: 100
+  moveSpeed: 4
+  aggroRange: 15
   hasKeycard: 0
   canSeePlayer: 0
   playerSqrDistance: 0
-  ability1CooldownMax: 6
   stick: {fileID: 2134649695}
 --- !u!114 &1023328002065548908
 MonoBehaviour:
@@ -355,5 +353,5 @@ MonoBehaviour:
   invulnerable: 0
   oneHitKill: 0
   dieDebug: 0
-  healthPoints: 150
+  healthPoints: 200
   healthPointsMax: 0
