@@ -39,10 +39,17 @@
         _ColorSix("Color Six", Color) = (1,1,1,1)
         _GlossinessSix("Smoothness Six", Range(0,1)) = 0.5
         _MetallicSix("Metallic Six", Range(0,1)) = 0.0
+
+        _EdgeColor("XRay Edge Color", Color) = (0,0,0,0)
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags
+        {
+            "Queue" = "Geometry-1"
+            "RenderType" = "Opaque"
+            "XRay" = "ColoredOutline"
+        }
         LOD 200
 
         CGPROGRAM
