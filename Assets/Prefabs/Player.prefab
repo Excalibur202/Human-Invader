@@ -4882,10 +4882,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7410873777636448177}
   characterController: {fileID: 5559695255248275852}
-  maxJogSpeed: 4.5
-  jogAcceleration: 7.5
-  sprintSpeed: 7
-  sprintAcceletarion: 4.5
+  maxJogSpeed: 4
+  jogAcceleration: 6
+  sprintSpeed: 8
+  sprintAcceletarion: 5
   deacceleration: 10
   currentSpeed: 0
   sprinting: 0
@@ -4940,9 +4940,16 @@ MonoBehaviour:
   cam: {fileID: 0}
   connectedTerminal: {fileID: 0}
   mapTexture: {fileID: 0}
+  keycardCount: {fileID: 0}
+  keyCardIcon: {fileID: 0}
   keycards: 0
   map: {fileID: 0}
   crosshair: {fileID: 0}
+  pause: {fileID: 0}
+  HUD: {fileID: 0}
+  mapScaleSpeed: 0
+  maxZoom: 0
+  minZoom: 0
   scale: 0
   dragX: 0
   dragY: 0
@@ -4965,6 +4972,7 @@ MonoBehaviour:
   mineHologramPrefab: {fileID: 8349359112509805072, guid: ea0b37feca9bf2f4abd063a303b56ab9,
     type: 3}
   lineRenderer: {fileID: 2005505378}
+  mineIcon: {fileID: 0}
   mineSpeed: 20
   mineMaxCooldown: 1
 --- !u!114 &6423527655052596748
@@ -5001,7 +5009,7 @@ MonoBehaviour:
   invulnerable: 0
   oneHitKill: 0
   dieDebug: 0
-  healthPoints: 100
+  healthPoints: 300
   healthPointsMax: 0
 --- !u!120 &2005505378
 LineRenderer:

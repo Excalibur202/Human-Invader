@@ -29,6 +29,7 @@ public class BaseEnemy : MonoBehaviour {
     public float defaultMoveSpeed;
     public bool canSeePlayer;
     public float playerSqrDistance;
+    public float playerAngleFromForward;
     public bool isSlowed;
 
     // Strafing behavior
@@ -70,6 +71,7 @@ public class BaseEnemy : MonoBehaviour {
         }
 
         playerSqrDistance = Util.SqrDistance (transform.position, player.transform.position);
+        playerAngleFromForward = Vector2.Angle(Util.V3toV2(transform.forward), Util.V3toV2(player.transform.position - transform.position));
 
         // AI is only able to see the player at double the aggro range
         if (playerSqrDistance <= Util.Square (aggroRange * 2)) {

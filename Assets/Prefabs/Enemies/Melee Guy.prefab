@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531aa5b9e405e5e4396e5f9840c82c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 15
   col: {fileID: 2134649697}
 --- !u!1 &626040701919902255
 GameObject:
@@ -310,6 +310,7 @@ MonoBehaviour:
   defaultMoveSpeed: 0
   canSeePlayer: 0
   playerSqrDistance: 0
+  playerAngleFromForward: 0
   isSlowed: 0
   stick: {fileID: 2134649695}
 --- !u!114 &1023328002065548908

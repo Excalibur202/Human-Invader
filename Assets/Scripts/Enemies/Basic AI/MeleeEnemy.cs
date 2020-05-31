@@ -3,114 +3,111 @@ using System.Collections.Generic;
 using PlayerStates;
 using UnityEngine;
 
-public class MeleeEnemy : BaseEnemy {
-	enum AggroAction {
-		None,
-		MeleeAttack,
-	}
-	AggroAction aggroAction = AggroAction.None;
+public class MeleeEnemy : BaseEnemy
+{
+    enum AggroAction
+    {
+        None,
+        MeleeAttack,
+    }
+    AggroAction aggroAction = AggroAction.None;
 
-	// Serialized Options
-	//[SerializeField] float ability1CooldownMax;
-	[SerializeField] GameObject stick;
+    // Serialized Options
+    [SerializeField] GameObject stick;
 
-	// General attack variables
-	Vector2 attackDirection;
-	float attackStopwatch;
-	int attackStage;
+    // General attack variables
+    int attackStage = -1;
 
-	// Unique variables
-	float ability1Cooldown;
-	Vector3 stickDefaultPosition;
-	Quaternion stickDefaultRotation;
+    // AI Variables
+    Dictionary<int, Action> aiActions = new Dictionary<int, Action>();
 
-	// AI Variables
-	Dictionary<int, Action> aiActions = new Dictionary<int, Action> ();
+    // Start is called before the first frame update
+    void Start()
+    {
+        base.Start();
 
-	// Start is called before the first frame update
-	void Start () {
-		base.Start ();
+        Action chaseAttack = () =>
+        {
+            strafing = false;
+        };
 
-		stickDefaultPosition = stick.transform.localPosition;
-		stickDefaultRotation = stick.transform.localRotation;
+        Action strafeAttack = () =>
+        {
+            strafing = true;
+        };
 
-		Action chaseAttack = () => {
-			strafing = false;
-		};
+        aiActions.Add((int)PlayerAction.Nothing, chaseAttack);
+        aiActions.Add((int)PlayerAction.Attack, strafeAttack);
+        aiActions.Add((int)PlayerAction.UsingAbility1, chaseAttack);
+        aiActions.Add((int)PlayerAction.UsingAbility2, chaseAttack);
+    }
 
-		Action strafeAttack = () => {
-			strafing = true;
-		};
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateTimers();
 
-		aiActions.Add ((int) PlayerAction.Nothing, chaseAttack);
-		aiActions.Add ((int) PlayerAction.Attack, strafeAttack);
-		aiActions.Add ((int) PlayerAction.UsingAbility1, chaseAttack);
-		aiActions.Add ((int) PlayerAction.UsingAbility2, chaseAttack);
-	}
+        UpdateAI();
+        MeleeAttack();
+    }
 
-	// Update is called once per frame
-	void Update () {
-		UpdateTimers ();
 
-		switch (aggroAction) {
-			case AggroAction.None:
-				UpdateAI ();
-				break;
+    void UpdateAI()
+    {
+        // Run basic chase and pathfinding AI from base class
+        base.Update();
 
-			case AggroAction.MeleeAttack:
-				MeleeAttack ();
-				break;
-		}
-	}
+        switch (currentBehavior)
+        {
+            case Behavior.aggro:
+                AggroAI();
+                break;
+        }
+    }
 
-	void UpdateAI () {
-		// Run basic chase and pathfinding AI from base class
-		base.Update ();
+    void AggroAI()
+    {
+        EvalLDT(aiActions);
 
-		switch (currentBehavior) {
-			case Behavior.aggro:
-				AggroAI ();
-				break;
-		}
-	}
+        if (attackStage == -1 && canSeePlayer)
+        {
+            if (playerAngleFromForward < 5 && playerSqrDistance < Util.Square(2f))
+            {
+                aggroAction = AggroAction.MeleeAttack;
+                attackStage = 0;
+            }
+        }
+    }
 
-	void AggroAI () {
-		EvalLDT (aiActions);
+    void MeleeAttack()
+    {
+        switch (attackStage)
+        {
+            case 0:
+                stick.transform.localPosition += new Vector3(0, 0, 5 * Time.deltaTime);
 
-		if (canSeePlayer) {
-			if (playerSqrDistance < Util.Square (2f)) {
-				aggroAction = AggroAction.MeleeAttack;
-				attackStage = 0;
-			}
-		}
-	}
+                if (stick.transform.localPosition.z >= 2)
+                    attackStage = 1;
+                break;
 
-	void MeleeAttack () {
-		switch (attackStage) {
-			case 0:
-				stick.transform.localPosition += new Vector3 (0, 0, 12 * Time.deltaTime);
+            case 1:
 
-				if (stick.transform.localPosition.z >= 2)
-					attackStage = 1;
-				break;
+                stick.transform.localPosition -= new Vector3(0, 0, 5 * Time.deltaTime);
 
-			case 1:
+                if (stick.transform.localPosition.z <= 0)
+                    attackStage = 2;
+                break;
 
-				stick.transform.localPosition -= new Vector3 (0, 0, 12 * Time.deltaTime);
+            case 2:
+                stick.transform.localPosition = Vector3.zero;
+                stick.GetComponent<Hurtbox>().Reset();
 
-				if (stick.transform.localPosition.z <= 0)
-					attackStage = 2;
-				break;
+                aggroAction = AggroAction.None;
+                attackStage = -1;
+                break;
+        }
+    }
 
-			case 2:
-				stick.transform.localPosition = Vector3.zero;
-				stick.GetComponent<Hurtbox> ().Reset ();
-
-				aggroAction = AggroAction.None;
-				break;
-		}
-	}
-
-	// Timers that should be updated using Time.deltaTime every Update() go here
-	void UpdateTimers () { }
+    // Timers that should be updated using Time.deltaTime every Update() go here
+    void UpdateTimers() { }
 }

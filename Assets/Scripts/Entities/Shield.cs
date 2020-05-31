@@ -2,26 +2,33 @@
 
 public class Shield : MonoBehaviour {
     [SerializeField] HealthController healthController;
-    [SerializeField] MeshRenderer meshRenderer;
-    Material material;
+    [SerializeField] MeshRenderer shieldRenderer;
+    [SerializeField] MeshRenderer faceRenderer;
+    [SerializeField] Material madFace;
+
+    Material happyFace;
     Color baseColor;
 
     void Start () {
-        if (!meshRenderer || !healthController)
+        if (!shieldRenderer || !healthController)
             OnDie ();
         else {
-            material = meshRenderer.material;
-            baseColor = material.color;
+            happyFace = shieldRenderer.material;
+            baseColor = happyFace.color;
         }
     }
 
     public void OnDamage () {
         float healthPercentage = healthController.healthPoints / healthController.healthPointsMax;
-        material.color = baseColor * healthPercentage + Color.red * (1 - healthPercentage);
+        happyFace.color = baseColor * healthPercentage + Color.red * (1 - healthPercentage);
     }
 
     public void OnDie () {
         GameObject shieldGuy = transform.parent.gameObject;
+
+        if (faceRenderer)
+            faceRenderer.material = madFace;
+
         var shieldHC = shieldGuy.GetComponent<HealthController> ();
         var shieldBE = shieldGuy.GetComponent<BaseEnemy> ();
 

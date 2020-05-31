@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531aa5b9e405e5e4396e5f9840c82c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 15
+  damage: 20
   col: {fileID: 4709627336053573120}
 --- !u!136 &4709627336053573120
 CapsuleCollider:
@@ -167,7 +167,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63026fd6b2daa314dbecf48db48d44cc, type: 2}
+  - {fileID: 2100000, guid: f10a3119f38f7594fb3f44233c32d4c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -252,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8157563403274074192, guid: cffb09a17d08c8648ba9851f781d8601, type: 3}
+  - {fileID: 2100000, guid: a84d4d8c29a0c9e46b8ca6c88cc6cb2f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -309,8 +309,11 @@ MonoBehaviour:
   moveSpeed: 2.5
   aggroRange: 15
   hasKeycard: 0
+  defaultMoveSpeed: 0
   canSeePlayer: 0
   playerSqrDistance: 0
+  playerAngleFromForward: 0
+  isSlowed: 0
   tongue: {fileID: 4709627336053573135}
   shield: {fileID: 0}
 --- !u!114 &5721931598886401974
@@ -356,7 +359,7 @@ MonoBehaviour:
   invulnerable: 0
   oneHitKill: 0
   dieDebug: 0
-  healthPoints: 100
+  healthPoints: 250
   healthPointsMax: 0
 --- !u!1 &6093255974998648769
 GameObject:
@@ -498,7 +501,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthController: {fileID: 6093255974998648768}
-  meshRenderer: {fileID: 5526846973354709789}
+  shieldRenderer: {fileID: 5526846973354709789}
+  faceRenderer: {fileID: 8079295281842841788}
+  madFace: {fileID: 2100000, guid: 565de0f8391b1774dbcdffd814bc3ec2, type: 2}
 --- !u!65 &6093255974998648770
 BoxCollider:
   m_ObjectHideFlags: 0
