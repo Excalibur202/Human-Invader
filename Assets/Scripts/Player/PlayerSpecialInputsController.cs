@@ -17,6 +17,8 @@ public class PlayerSpecialInputsController : MonoBehaviour
     [SerializeField] TerminalController connectedTerminal;
     [SerializeField] Material mapTexture;
 
+    public UnityEngine.UI.Text keycardCount;
+    public GameObject keyCardIcon;
     public int keycards;
     public GameObject map;
     public GameObject crosshair;
@@ -32,6 +34,7 @@ public class PlayerSpecialInputsController : MonoBehaviour
 
     void Start()
     {
+        keycards = 0;
         // Disable ability inputs if no abilities to work with
         if (!abilities)
             enabled = false;
@@ -47,6 +50,7 @@ public class PlayerSpecialInputsController : MonoBehaviour
             playerController.enabled = true;
 
             UpdateSpecialInputs();
+            KeyCardCount();
 
             if (inputs.InputtedSomething)
             {
@@ -270,6 +274,19 @@ public class PlayerSpecialInputsController : MonoBehaviour
     void ScaleMap(float scale)
     {
         mapTexture.SetFloat("_Scale", scale);
+    }
+
+    void KeyCardCount()
+    {
+        if(keycards <= 0)
+        {
+            keyCardIcon.SetActive(false);
+        }
+        else
+        {
+            keyCardIcon.SetActive(true);
+            keycardCount.text = "x" + keycards;
+        }
     }
 
     private void OnMouseDrag()
