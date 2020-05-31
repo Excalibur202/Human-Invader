@@ -9829,7 +9829,8 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1047975754597477063, guid: 2c492cd29f2e88d4c83c5a4f8a6e1df5,
+        type: 3}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: jumpVelocity

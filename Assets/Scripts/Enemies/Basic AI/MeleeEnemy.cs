@@ -78,7 +78,7 @@ public class MeleeEnemy : BaseEnemy {
 		EvalLDT (aiActions);
 
 		if (canSeePlayer) {
-			if (playerSqrDistance < Util.Square (2f)) {
+			if (playerSqrDistance < Util.Square (1f)) {
 				aggroAction = AggroAction.MeleeAttack;
 				attackStage = 0;
 			}
@@ -88,7 +88,7 @@ public class MeleeEnemy : BaseEnemy {
 	void MeleeAttack () {
 		switch (attackStage) {
 			case 0:
-				stick.transform.localPosition += new Vector3 (0, 0, 4 * Time.deltaTime);
+				stick.transform.localPosition += new Vector3 (0, 0, 12 * Time.deltaTime);
 
 				if (stick.transform.localPosition.z >= 2)
 					attackStage = 1;
@@ -96,7 +96,7 @@ public class MeleeEnemy : BaseEnemy {
 
 			case 1:
 
-				stick.transform.localPosition -= new Vector3 (0, 0, 4 * Time.deltaTime);
+				stick.transform.localPosition -= new Vector3 (0, 0, 12 * Time.deltaTime);
 
 				if (stick.transform.localPosition.z <= 0)
 					attackStage = 2;

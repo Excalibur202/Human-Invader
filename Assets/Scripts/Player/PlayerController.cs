@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEditor;
 //using System.Diagnostics;
 using UnityEngine;
@@ -123,6 +124,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject go = Instantiate(cameraPrefab);
             cameraTransform = go.transform;
+            camComp = go.GetComponent<Camera>() as Camera;
         }
 
         fireRate = 1f / shotsPerSec;

@@ -27,7 +27,15 @@ Shader "Triplebrick/Base_Normal_Replace"
 
 	SubShader
 	{
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
+		Tags{ "RenderType" = "Opaque" } //"Queue" = "Geometry+0" }
+		Stencil
+		{
+			Ref 1
+			Comp Always
+			Pass Replace
+			ZFail Keep
+		}
+
 		Cull Back
 		CGPROGRAM
 		#pragma target 3.0
