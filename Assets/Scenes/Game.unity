@@ -9079,7 +9079,6 @@ GameObject:
   - component: {fileID: 1385562344}
   - component: {fileID: 1385562347}
   - component: {fileID: 1385562346}
-  - component: {fileID: 1385562345}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -9107,25 +9106,6 @@ RectTransform:
   m_AnchoredPosition: {x: 123, y: 3}
   m_SizeDelta: {x: 447.71, y: 267.98}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1385562345
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385562343}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 64378dec438730442846ad4d72e44e28, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1385562346
 MonoBehaviour:
   m_ObjectHideFlags: 0
