@@ -55,8 +55,7 @@ public class BaseEnemy : MonoBehaviour {
 
         transform.position = Util.V3setY (transform.position, ground_Y + aboveGround_Y);
 
-        // Waypoint pathing system
-        // Adds spawn location as the "home base", the first travel waypoint
+        // Initialize pathfinding system
         waypoints.Add (Util.V3toV2 (transform.position));
         recentPos.Add (Util.V3toV2 (transform.position));
         StartCoroutine (PositionLibrarian ());
@@ -137,7 +136,7 @@ public class BaseEnemy : MonoBehaviour {
 
         // If haven't arrived at the home base yet
         else if (Util.SqrDistance (waypoints[0], Util.V3toV2 (transform.position)) > Util.Square (1f)) {
-            MoveTowards (Util.V2toV3 (waypoints[0], transform.position.y), 10);
+            MoveTowards (Util.V2toV3 (waypoints[0], transform.position.y), 5);
         }
 
         // On reaching the home base
@@ -172,10 +171,10 @@ public class BaseEnemy : MonoBehaviour {
                 if (limitDistance <= 0) {
                     movementVector += transform.forward;
                 } else {
-                    if (distanceFromTarget < limitDistance * 0.9f)
+                    if (distanceFromTarget < Util.Square(limitDistance) * 0.9f)
                         movementVector -= transform.forward;
 
-                    else if (distanceFromTarget > limitDistance * 1.1f)
+                    else if (distanceFromTarget > Util.Square(limitDistance) * 1.1f)
                         movementVector += transform.forward;
                 }
             }

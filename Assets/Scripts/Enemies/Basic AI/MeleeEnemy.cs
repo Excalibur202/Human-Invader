@@ -78,7 +78,7 @@ public class MeleeEnemy : BaseEnemy {
 		EvalLDT (aiActions);
 
 		if (canSeePlayer) {
-			if (playerSqrDistance < Util.Square (1.5f)) {
+			if (playerSqrDistance < Util.Square (2f)) {
 				aggroAction = AggroAction.MeleeAttack;
 				attackStage = 0;
 			}
