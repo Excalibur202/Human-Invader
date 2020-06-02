@@ -317,7 +317,8 @@ MonoBehaviour:
   triggerSphere: {fileID: 1939775491}
   triggerLaser: {fileID: 527617046}
   audioSource: {fileID: 638919437145137409}
-  beepSound: {fileID: 8300000, guid: 4b5b886d9dfc777469abda505bb607ab, type: 3}
+  landingSound: {fileID: 8300000, guid: 7b38b0670a2ac184ca2fcf652249a19a, type: 3}
+  beepSound: {fileID: 8300000, guid: b3a6ee4582344ae4f9e71a88b545a393, type: 3}
   explosionSound: {fileID: 8300000, guid: fdce7e8ead572c3489f6e4a7adf9e4d4, type: 3}
   damage: 100
   explosionRadius: 5

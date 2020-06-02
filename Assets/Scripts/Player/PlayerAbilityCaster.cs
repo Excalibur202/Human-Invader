@@ -15,6 +15,7 @@ public class PlayerAbilityCaster : MonoBehaviour {
     [SerializeField] Image mineIcon;
     [SerializeField] float mineSpeed = 20;
     [SerializeField] float mineMaxCooldown = 1;
+    [SerializeField] AudioClip mineThrow;
 
     List<Vector3> points;
     GameObject mineHologram;

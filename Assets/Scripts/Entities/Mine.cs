@@ -12,6 +12,7 @@ public class Mine : MonoBehaviour {
     [SerializeField] GameObject triggerSphere;
     [SerializeField] GameObject triggerLaser;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip landingSound;
     [SerializeField] AudioClip beepSound;
     [SerializeField] AudioClip explosionSound;
     [SerializeField] float damage = 30;
@@ -46,6 +47,7 @@ public class Mine : MonoBehaviour {
                 if (distance < 1f) {
                     lifetime = 0;
                     mineState = MineState.Landed;
+                    audioSource.PlayOneShot(landingSound);
 
                     // Set to intended position and try to connect it to collided object if possible
                     transform.position = finalPosition;
