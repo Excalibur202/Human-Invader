@@ -178,13 +178,13 @@ public class PlayerSpecialInputsController : MonoBehaviour
         ClearInputs();
 
         // Ability 1
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(OptionsManager.instance.data.keysbinds["Ability1"]))
         {
             inputs.Ability1 = true;
             inputs.InputtedSomething = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(OptionsManager.instance.data.keysbinds["Map"]))
         {
             inputs.Map = true;
             inputs.InputtedSomething = true;
@@ -203,7 +203,7 @@ public class PlayerSpecialInputsController : MonoBehaviour
         // } 
 
         // Use key
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(OptionsManager.instance.data.keysbinds["Ability2"]))
         {
             inputs.Use = true;
             inputs.InputtedSomething = true;
