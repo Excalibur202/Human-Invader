@@ -14,6 +14,7 @@ public class MeleeEnemy : BaseEnemy
 
     // Serialized Options
     [SerializeField] GameObject stick;
+    Vector3 defaultStickPos;
 
     // General attack variables
     int attackStage = -1;
@@ -25,6 +26,8 @@ public class MeleeEnemy : BaseEnemy
     void Start()
     {
         base.Start();
+
+        defaultStickPos = stick.transform.localPosition;
 
         Action chaseAttack = () =>
         {
@@ -99,7 +102,7 @@ public class MeleeEnemy : BaseEnemy
                 break;
 
             case 2:
-                stick.transform.localPosition = Vector3.zero;
+                stick.transform.localPosition = defaultStickPos;
                 stick.GetComponent<Hurtbox>().Reset();
 
                 aggroAction = AggroAction.None;

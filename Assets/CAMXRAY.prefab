@@ -78,12 +78,6 @@ Camera:
   m_StereoSeparation: 0.022
 --- !u!81 &1047975752906692135
 AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1047975752906692152}
-  m_Enabled: 1
 --- !u!114 &1047975752906692134
 MonoBehaviour:
   m_ObjectHideFlags: 0
