@@ -2,16 +2,13 @@
 {
 	Properties
 	{
-		/*_PlayerPos("Player Position", Vector) = (0,0,0)*/
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_SecondaryTex("Second Albedo", 2D) = "black" {}
-		_TiltX("offset X", Range(-2,2)) = 0
-		_TiltY("offset Y", Range(-2,2)) = 0
+		_OffsetX("offset X", Range(-2,2)) = 0
+		_OffsetY("offset Y", Range(-2,2)) = 0
 		_Scale("Scale", Range(-1,2)) = 1
 		_PlayerTexture("Player Texture", 2D) = "white" {}
-		_ConsoleTexture("Console Texture", 2D) = "white" {}
 		_PlayerPos("Player", Vector) = (0,0,0)
-		_ConsolePos("Console", Vector) = (0,0,0)
 		_ScalePlayer("Scale Player", Range(-1,100)) = 0
 
 		_FuncInfo("Function Information", Vector) = (0,0,0)
@@ -45,23 +42,15 @@
 				sampler2D _MainTex;
 				sampler2D _SecondaryTex;
 				sampler2D _PlayerTexture;
-				sampler2D _ConsoleTexture;
 				float4 _MainTex_ST;
 				float4 _SecondaryTex_ST;
 				float4 _PlayerTexture_ST;
-				float4 _ConsoleTexture_ST;
-				half _TiltX;
-				half _TiltY;
+				half _OffsetX;
+				half _OffsetY;
 				half _Scale;
-				half _TiltPlayerX;
-				half _TiltPlayerY;
 				half _ScalePlayer;
 
-
-
 				float3 _PlayerPos;
-				float3 _ConsolePos;
-
 				float3 _FuncInfo;
 
 
@@ -88,8 +77,8 @@
 				fixed4 frag(v2f i) : SV_Target
 				{
 					//Map uv
-					float2 uv = float2(((i.uv.x + _TiltX)), ((i.uv.y + _TiltY)));
-					uv = (uv*(1 + _Scale)) - (_Scale * float2(texPosNormalization(_TiltX), texPosNormalization(_TiltY)));
+					float2 uv = float2(((i.uv.x + _OffsetX)), ((i.uv.y + _OffsetY)));
+					uv = (uv*(1 + _Scale)) - (_Scale * float2(texPosNormalization(_OffsetX), texPosNormalization(_OffsetY)));
 
 					//Player uv
 					float2 playerTexPos = worldToTex(_PlayerPos.x, _PlayerPos.z);

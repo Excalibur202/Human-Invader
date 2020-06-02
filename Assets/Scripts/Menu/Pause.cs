@@ -13,7 +13,7 @@ public class Pause : MonoBehaviour
     private IEnumerator StartLoading()
     {
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("LoadingScreen");
+        SceneManager.LoadScene("Luis");
     }
 
     public void GoDie(){

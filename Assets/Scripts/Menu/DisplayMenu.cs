@@ -11,6 +11,7 @@ public class DisplayMenu : MonoBehaviour
     private int currentResolutionIndex = 0;
     private List<string> options = new List<string>();
     private string option;
+    public Toggle fullscreenToggle;
 
     void Start()
     {
@@ -31,11 +32,23 @@ public class DisplayMenu : MonoBehaviour
         dropResolution.value = currentResolutionIndex;
         dropResolution.RefreshShownValue();
     }
+    private void Update()
+    {
+        SetWindowMode();
+    }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width,resolution.height,Screen.fullScreen);
+    }
+
+    public void SetWindowMode()
+    {
+        if(fullscreenToggle.isOn)
+            Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+        else
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
     }
 }
     /*
