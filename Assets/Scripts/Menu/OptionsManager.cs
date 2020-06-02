@@ -21,6 +21,8 @@ public class OptionsManager : MonoBehaviour
     void Start()
     {
         data = data.LoadBinary("Assets\\SettingsData", "SettingsData");
+        if (data.keysbinds == null)
+            data = new OptionsData();
     }
 
     public void SaveOptions()
