@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6878311370591826182}
   - component: {fileID: 6878311370591826181}
   - component: {fileID: 6878311370591826180}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: OneShotAudioPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

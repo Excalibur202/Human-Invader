@@ -9,6 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] AudioClip shootSound;
+    [SerializeField] AudioClip ambientSound;
     public Animator animator;
     //Player movement
     [Header("Movement")]
@@ -136,7 +138,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Util.PlaySound(ambientSound, transform.position, 1, true);
     }
 
     // Update is called once per frame
@@ -322,8 +324,8 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
 
 
-        //PQ MEXERAM NISTO? -.-
-        if (Physics.Raycast(transform.position, cdir.normalized, out hit, cdir.magnitude/*,LayerMask.GetMask("Obstacle")*/))
+        //PQ MEXERAM NISTO? -.- because i was fuckin right thats why
+        if (Physics.Raycast(transform.position, cdir.normalized, out hit, cdir.magnitude, LayerMask.GetMask("Obstacle")))
             targetPosition = transform.position + (cdir.normalized * (hit.distance - cameraHitOffset));
 
 
@@ -445,6 +447,7 @@ public class PlayerController : MonoBehaviour
         nextFire = Time.time + fireRate;
 
         animator.SetTrigger("Shoot");
+        Util.PlaySound(shootSound);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
