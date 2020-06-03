@@ -18,6 +18,7 @@ public class PlayerSpecialInputsController : MonoBehaviour
     [SerializeField] Material mapTexture;
 
     public UnityEngine.UI.Text keycardCount;
+    public UnityEngine.UI.Button exitButton;
     public GameObject keyCardIcon;
     public int keycards;
     public GameObject map;
@@ -150,8 +151,6 @@ public class PlayerSpecialInputsController : MonoBehaviour
             }
             else if (inputs.Pause)
             {
-
-
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     PauseGame();

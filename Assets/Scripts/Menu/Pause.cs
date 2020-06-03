@@ -7,16 +7,18 @@ public class Pause : MonoBehaviour
 {
     public void StartLoad()
     {
-        StartCoroutine(StartLoading());
+        SceneManager.LoadScene("Luis");
+    }
+
+    public void ExitPause()
+    {
+        Time.timeScale = 1;
     }
 
     private IEnumerator StartLoading()
     {
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("Luis");
+        yield return new WaitForSeconds(0.5f);
+        
     }
 
-    public void GoDie(){
-        SceneManager.LoadScene("Luis");
-    }
 }

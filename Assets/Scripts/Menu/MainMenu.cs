@@ -7,8 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public Animator mainMenu;
+    public Animator titleMenu;
+
     void Start()
     {
+        mainMenu.enabled = true;
+        titleMenu.enabled = true;
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

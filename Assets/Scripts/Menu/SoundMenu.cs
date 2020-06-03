@@ -34,7 +34,7 @@ public class SoundMenu : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
