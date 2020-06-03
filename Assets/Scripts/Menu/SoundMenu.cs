@@ -27,9 +27,13 @@ public class SoundMenu : MonoBehaviour
     [Header("Disable Sound")]
     public Toggle disable;
 
+    public AudioSource audioSource;
+    public AudioClip[] clipToPlay;
+    private int randomClip;
+
     void Start()
     {
-       
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -38,6 +42,8 @@ public class SoundMenu : MonoBehaviour
             GetValuesFromOptionsData();
 
         ValuesChange(masterVolume.value,gameVolume.value,soundVolume.value,voiceVolume.value);
+
+        
     }
 
     public void ValuesChange(float masterCount, float gameCount, float soundCount, float voiceCount)
@@ -80,6 +86,13 @@ public class SoundMenu : MonoBehaviour
         optionsData.voiceVolume = voiceVolume.value;
     }
 
+    public void PlaySound()
+    {
+        randomClip = Random.Range(0, clipToPlay.Length);
+        audioSource.PlayOneShot(clipToPlay[randomClip], audioSource.volume);
+        Debug.Log("Sound should play here");
+    }
+
     //private void LoadOptionsData()
     //{
     //    optionsData = optionsData.LoadBinary("Assets\\SettingsData", "SettingsData");
@@ -87,7 +100,7 @@ public class SoundMenu : MonoBehaviour
     //        optionsData = new OptionsData();
 
     //    GetValuesFromOptionsData();
-        
+
     //}
 
     //public void SaveOptionsData()

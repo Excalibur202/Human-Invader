@@ -82,7 +82,7 @@ Material:
     - _OffsetX: 0
     - _OffsetY: 0
     - _Parallax: 0.02
-    - _Scale: -0.26
+    - _Scale: 0
     - _ScalePlayer: 100
     - _ScalePlayerX: 2
     - _ScalePlayerY: 2
@@ -105,5 +105,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FuncInfo: {r: 400, g: 400, b: 0, a: 0}
     - _MapScale: {r: 200, g: 200, b: 0, a: 0}
-    - _PlayerPos: {r: 78.839096, g: 1.1500998, b: 242.72969, a: 0}
+    - _PlayerPos: {r: 150.68297, g: 1.1500999, b: 244.96313, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
