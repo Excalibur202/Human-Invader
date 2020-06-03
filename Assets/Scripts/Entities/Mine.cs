@@ -82,7 +82,7 @@ public class Mine : MonoBehaviour {
 
                 // Continue trigger sphere fade-in animation if hasnt completed yet
                 if (currentRange < 1) {
-                    currentRange += 1f * Time.fixedDeltaTime;
+                    currentRange += 2f * Time.fixedDeltaTime;
 
                     // On completing the sphere animation
                     if (currentRange >= 1) {
@@ -92,7 +92,7 @@ public class Mine : MonoBehaviour {
                     triggerSphereMat.SetFloat ("_Range", currentRange);
 
                 } else if (currentWidth > 0.03f) {
-                    currentWidth -= 1f * Time.fixedDeltaTime;
+                    currentWidth -= 2f * Time.fixedDeltaTime;
 
                     // On completing the edge animation
                     if (currentWidth <= 0.03f) {
@@ -102,7 +102,7 @@ public class Mine : MonoBehaviour {
                     }
                     triggerSphereMat.SetFloat ("_EdgeWidth", currentWidth);
 
-                } else if (triggerLaser.transform.localScale.y < 3) {
+                } else if (triggerLaser.transform.localScale.y < 6) {
                     triggerLaser.transform.localScale += new Vector3 (0, 5 * Time.fixedDeltaTime, 0);
                     triggerLaser.transform.localPosition += new Vector3 (0, 5 * Time.fixedDeltaTime, 0);
 

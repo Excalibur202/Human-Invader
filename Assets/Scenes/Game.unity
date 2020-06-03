@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -9473,7 +9473,7 @@ PrefabInstance:
     - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: healthPoints
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3121701648084263070, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -9809,7 +9809,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraPrefab
       value: 
-      objectReference: {fileID: 1047975754597477063, guid: 2c492cd29f2e88d4c83c5a4f8a6e1df5,
+      objectReference: {fileID: 7685564418176449955, guid: ca8934f2eba07754cb47b49c6e11b77f,
         type: 3}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -9824,12 +9824,12 @@ PrefabInstance:
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: damage
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: shotsPerSec
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
@@ -9841,6 +9841,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: d9b7ed813de91b94cb091fa39b6cdb80, type: 3}
+    - target: {fileID: 5559695255248275853, guid: c0f11071db0fc164bacacd64bd7429dc,
+        type: 3}
+      propertyPath: ambientSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b87aca85a77dce440af9983483186679, type: 3}
     - target: {fileID: 5559695255248275855, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9969,7 +9979,7 @@ PrefabInstance:
     - target: {fileID: 6423527655052596748, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}
       propertyPath: renderDistance
-      value: 20
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6423527655052596750, guid: c0f11071db0fc164bacacd64bd7429dc,
         type: 3}

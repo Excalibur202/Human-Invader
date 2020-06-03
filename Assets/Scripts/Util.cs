@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class Util {
 
@@ -52,16 +53,21 @@ public static class Util {
     public static GameObject GetPlayer () { return GameObject.FindGameObjectWithTag ("Player"); }
 
     // Play a sound in 2D
-    public static void PlaySound (AudioClip audioClip, float volume = 1) {
-        GameObject.Instantiate (Resources.Load ("OneShotAudioPlayer") as GameObject).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume);
+    public static void PlaySound (AudioClip audioClip, float volume = 1, bool looping = false) {
+        GameObject.Instantiate (Resources.Load("OneShotAudioPlayer") as GameObject).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume, false, looping);
     }
     // Play a sound in 3D from a position
-    public static void PlaySound (AudioClip audioClip, Vector3 position, float volume = 1 ) {
-        GameObject.Instantiate (Resources.Load ("OneShotAudioPlayer") as GameObject, position, Quaternion.identity).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume, true);
+    public static void PlaySound (AudioClip audioClip, Vector3 position, float volume = 1, bool looping = false) {
+        GameObject.Instantiate (Resources.Load("OneShotAudioPlayer") as GameObject, position, Quaternion.identity).GetComponent<OneShotAudioPlayer> ().Play (audioClip, volume, true, looping);
     }
 
     // Random float value between min and max inclusive
     public static float RndRange(float min, float max){
         return UnityEngine.Random.Range(min, max);
+    }
+
+    internal static void PlaySound(object shootSound)
+    {
+        throw new NotImplementedException();
     }
 }
