@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("LoadingScreen");
     }
 
-    void QuitButton()
+    public void QuitButton()
     {
         Application.Quit();
     }

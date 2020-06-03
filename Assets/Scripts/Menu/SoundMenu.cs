@@ -29,6 +29,7 @@ public class SoundMenu : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioClip[] clipToPlay;
+    public AudioClip pressSound;
     private int randomClip;
 
     void Start()
@@ -91,6 +92,11 @@ public class SoundMenu : MonoBehaviour
         randomClip = Random.Range(0, clipToPlay.Length);
         audioSource.PlayOneShot(clipToPlay[randomClip], audioSource.volume);
         Debug.Log("Sound should play here");
+    }
+
+    public void ClickPlaySound()
+    {
+        audioSource.PlayOneShot(pressSound, audioSource.volume);
     }
 
     //private void LoadOptionsData()
