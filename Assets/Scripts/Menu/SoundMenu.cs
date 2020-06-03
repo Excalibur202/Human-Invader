@@ -27,15 +27,9 @@ public class SoundMenu : MonoBehaviour
     [Header("Disable Sound")]
     public Toggle disable;
 
-    public AudioSource audioSource;
     public AudioClip[] clipToPlay;
     public AudioClip pressSound;
     private int randomClip;
-
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     void Update()
     {
@@ -90,13 +84,14 @@ public class SoundMenu : MonoBehaviour
     public void PlaySound()
     {
         randomClip = Random.Range(0, clipToPlay.Length);
-        audioSource.PlayOneShot(clipToPlay[randomClip], audioSource.volume);
+        //audioSource.PlayOneShot(clipToPlay[randomClip], audioSource.volume);
+        Util.PlaySound(clipToPlay[randomClip]);
         Debug.Log("Sound should play here");
     }
 
     public void ClickPlaySound()
     {
-        audioSource.PlayOneShot(pressSound, audioSource.volume);
+        Util.PlaySound(pressSound);
     }
 
     //private void LoadOptionsData()
